@@ -1,0 +1,209 @@
+[
+    {
+        "code": "commoner",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "farmer",
+        "traits": [],
+        "gear": [
+            {
+                "type": "item",
+                "code": "game:basket"
+            },
+            {
+                "type": "item",
+                "code": "game:basket"
+            },
+            {
+                "type": "item",
+                "code": "game:basket"
+            },
+            {
+                "type": "item",
+                "code": "game:basket"
+            },
+            {
+                "type": "item",
+                "code": "game:clothes-foot-wool-lined-knee-high-boots"
+            },
+            {
+                "type": "item",
+                "code": "game:knife-iron"
+            },
+            {
+                "type": "item",
+                "code": "game:scythe-iron"
+            },
+            {
+                "type": "item",
+                "code": "game:hoe-iron"
+            },
+            {
+                "type": "item",
+                "code": "game:seeds-sunflower"
+            },
+            {
+                "type": "item",
+                "code": "game:seeds-spelt"
+            },
+            {
+                "type": "item",
+                "code": "game:seeds-rice"
+            },
+            {
+                "type": "item",
+                "code": "game:seeds-rye"
+            },
+            {
+                "type": "item",
+                "code": "game:seeds-amaranth"
+            },
+            {
+                "type": "block",
+                "code": "game:wateringcan-burned"
+            }
+        ]
+    },
+    {
+        "code": "lord",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "trader",
+        "traits": [],
+        "gear": [
+        ]
+    },
+    {
+        "code": "cityofficial",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "cargoworker",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "physician",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "barkeep",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "guardcaptain",
+        "traits": [],
+        "gear": [
+            {
+                "type": "item",
+                "code": "game:longblade-iron"
+            }
+        ]
+    },
+    {
+        "code": "cityguard",
+        "traits": [],
+        "gear": [
+            {
+                "type": "item",
+                "code": "game:longblade-iron"
+            }
+        ]
+    },
+    {
+        "code": "ranger",
+        "traits": [],
+        "gear": [
+           
+        ]
+    },
+    {
+        "code": "sorcerer",
+        "traits": [],
+        "gear": [
+           
+        ]
+    },
+    {
+        "code": "priest",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "baker",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "smith",
+        "traits": [],
+        "gear": [
+           
+        ]
+    },
+    {
+        "code": "mason",
+        "traits": [],
+        "gear": [
+
+        ]
+    },
+    {
+        "code": "miner",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "lumberjack",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "tinkerer",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "alchemist",
+        "traits": [],
+        "gear": [
+            
+        ]
+    },
+    {
+        "code": "tailor",
+        "traits": [],
+        "gear": [
+           
+        ]
+    }
+]

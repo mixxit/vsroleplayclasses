@@ -1,0 +1,11 @@
+{
+  "type": "code",
+  "modid": "vsroleplayclasses",
+  "name": "vsroleplayclasses",
+  "author": "mixxit",
+  "description": "Vintage Story Mod to new roleplaying classes",
+  "version": "1.5.10-rc.1",
+  "dependency": {
+    "game": ""
+  }
+}
