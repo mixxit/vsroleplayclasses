@@ -5,23 +5,35 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-peasent-head-scarf"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-peasent-kaftan"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-peasent-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-tattered-peasent-gown"
+            },
+            {
+                "type": "item",
+                "code": "clothes-foot-peasent-slippers"
             },
             {
                 "type": "item",
                 "code": "clothes-hand-commoner-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-peasant-strap"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-commoner-coat"
             }
         ]
     },
@@ -111,23 +123,35 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-merchant-hat"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-merchant-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-lowerbody-merchant-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-foot-merchant-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-neck-merchant-amulet"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-merchant-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-arm-merchant-bracelet"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-spice-merchants-coatc"
             }
         ]
     },
@@ -137,23 +161,39 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-noble-fillet"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-noble-fur-collar"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-noble-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-noble-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-foot-noble-shoes"
+            },
+            {
+                "type": "item",
+                "code": "clothes-hand-noble-riding-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-neck-noble-necklace"
+            },
+            {
+                "type": "item",
+                "code": "clothes-emblem-squire-emblem"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-noble-sash"
             }
         ]
     },
@@ -163,23 +203,23 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-lackey-hat"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-lackey-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-lowerbody-lackey-breeches"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-foot-lackey-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-hand-lackey-gloves"
             }
         ]
     },
@@ -189,23 +229,27 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-upperbody-homespun-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-lowerbody-chateau-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-foot-merchant-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-hand-prince-gloves"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-face-tailor-mask"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-merchant-belt"
             }
         ]
     },
@@ -215,23 +259,23 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-upperbody-temptress-velvet-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-lowerbody-fine-trousers"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-foot-temptress-velvet-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-hand-laced-handsome-gloves"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-waist-blackguard-belt"
             }
         ]
     },
@@ -241,35 +285,55 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-squire-hood"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-squire-tunic"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-squire-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-squire-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-foot-squire-boots"
             },
             {
                 "type": "item",
-                "code": "armor-head-plate-iron"
+                "code": "clothes-hand-prince-gloves"
             },
             {
                 "type": "item",
-                "code": "armor-body-plate-iron"
+                "code": "clothes-neck-walnut-amulet"
             },
             {
                 "type": "item",
-                "code": "armor-legs-plate-iron"
+                "code": "clothes-emblem-squire-emblem"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-squire-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-arm-squire-bracers"
+            },
+            {
+                "type": "item",
+                "code": "armor-head-plate-silver"
+            },
+            {
+                "type": "item",
+                "code": "armor-body-plate-silver"
+            },
+            {
+                "type": "item",
+                "code": "armor-legs-plate-silver"
             }
         ]
     },
@@ -279,11 +343,11 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-shoulder-forlorn-sash"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-commoner-shirt"
             },
             {
                 "type": "item",
@@ -296,6 +360,10 @@
             {
                 "type": "item",
                 "code": "clothes-hand-commoner-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-squire-belt"
             },
             {
                 "type": "item",
@@ -317,23 +385,63 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-hunter-cape"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-hunter-poncho"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-hunter-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-hunter-leggings"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-foot-hunter-boots"
+            },
+            {
+                "type": "item",
+                "code": "clothes-hand-hunter-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-neck-pinecone-amulet"
+            },
+            {
+                "type": "item",
+                "code": "clothes-emblem-blackguard-pin"
+            },
+            {
+                "type": "item",
+                "code": "clothes-face-hunter-mask"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-blackguard-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-arm-leather-bracers"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-hunter-coat"
+            },
+            {
+                "type": "item",
+                "code": "armor-head-antique-blackguard-broken"
+            },
+            {
+                "type": "item",
+                "code": "armor-body-antique-blackguard-damaged"
+            },
+            {
+                "type": "item",
+                "code": "armor-legs-antique-blackguard-damaged"
             }
         ]
     },
@@ -343,23 +451,47 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-fortune-tellers-scarf"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-minstrel-coat"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-pearl-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-malefactor-trousers"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-foot-noble-shoes"
+            },
+            {
+                "type": "item",
+                "code": "clothes-hand-noble-riding-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-neck-cypress-seed-amulet"
+            },
+            {
+                "type": "item",
+                "code": "clothes-emblem-brass-ruby-brooch"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-fancy-royal-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-arm-bronze-bracelet"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-cerise-embroidered-reindeer-herder-coat"
             }
         ]
     },
@@ -369,23 +501,35 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-shoulder-artisans-scarf"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-shepherd-tunic"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-lowerbody-shepherd-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-foot-shepherd-sandals"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-neck-redwood-amulet"
+            },
+            {
+                "type": "item",
+                "code": "clothes-emblem-messenger-pin"
+            },
+            {
+                "type": "item",
+                "code": "clothes-arm-rosary"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-cobalt-mantle"
             }
         ]
     },
@@ -395,11 +539,11 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-shoulder-blacksmith-apron"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-tailor-blouse"
             },
             {
                 "type": "item",
@@ -407,11 +551,15 @@
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-foot-great-steppe-boots"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-hand-noble-riding-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-sturdy-belt"
             }
         ]
     },
@@ -421,23 +569,35 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-snow-goggles"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-blacksmith-apron"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-homespun-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-workmans-gown"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-foot-worn-leather-boots"
+            },
+            {
+                "type": "item",
+                "code": "clothes-hand-heavy-leather-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-heavy-tool-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-hunter-coat"
             }
         ]
     },
@@ -447,23 +607,31 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-upperbody-scarlet-ornate-linen-tunic"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-lowerbody-malefactor-trousers"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-foot-high-leather-boots"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-neck-merchant-amulet"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-emblem-silver-pin"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-heavy-tool-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-arm-merchant-bracelet"
             }
         ]
     },
@@ -473,23 +641,27 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-jailors-hat"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-clockmaker-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-lowerbody-malefactor-trousers"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-foot-blackguard-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-hand-heavy-leather-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-face-leather-reinforced-mask"
             }
         ]
     },
@@ -499,23 +671,23 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-upperbody-clockmaker-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-lowerbody-merchant-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-foot-high-leather-boots"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-hand-fur-gloves"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-waist-heavy-belt"
             }
         ]
     },
@@ -525,23 +697,31 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-shoulder-clockmaker-apron"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-upperbody-clockmaker-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-lowerbody-clockmaker-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-foot-clockmaker-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-hand-clockmaker-wristguard"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-clockmaker-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-clockmaker-tunic"
             }
         ]
     },
@@ -551,23 +731,35 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-head-snow-goggles"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-shoulder-aristocrat-mantle"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-upperbody-merchant-shirt"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-lowerbody-merchant-pants"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-foot-great-steppe-boots"
+            },
+            {
+                "type": "item",
+                "code": "clothes-hand-prince-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-linen-rope"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-great-steppe-mantle"
             }
         ]
     },
@@ -577,23 +769,27 @@
         "gear": [
             {
                 "type": "item",
-                "code": "clothes-upperbody-commoner-shirt"
+                "code": "clothes-upperbody-tailor-blouse"
             },
             {
                 "type": "item",
-                "code": "clothes-upperbodyover-commoner-coat"
+                "code": "clothes-lowerbody-tailor-trousers"
             },
             {
                 "type": "item",
-                "code": "clothes-lowerbody-commoner-trousers"
+                "code": "clothes-foot-tailor-shoes"
             },
             {
                 "type": "item",
-                "code": "clothes-foot-commoner-boots"
+                "code": "clothes-hand-tailor-gloves"
             },
             {
                 "type": "item",
-                "code": "clothes-hand-commoner-gloves"
+                "code": "clothes-waist-tailor-belt"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbodyover-tailor-jacket"
             }
         ]
     }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 
@@ -42,6 +43,49 @@ namespace vsroleplayclasses.src
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             // Check every 8 seconds
             api.World.RegisterGameTickListener(OnGameTick, 8000);
+            api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
+        }
+
+        private void CmdInventoryCodes(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            player.SendMessage(groupId, "Wearables:", EnumChatType.OwnMessage);
+            foreach (var slot in player.InventoryManager.GetOwnInventory(GlobalConstants.characterInvClassName))
+            {
+                if (slot.Empty) 
+                    continue;
+
+                ItemStack stack = slot.Itemstack;
+                if (stack == null)
+                    continue;
+
+                player.SendMessage(groupId, stack.Collectible.Code.ToString(), EnumChatType.OwnMessage);
+            }
+
+            player.SendMessage(groupId, "Backpack:", EnumChatType.OwnMessage);
+            foreach (var slot in player.InventoryManager.GetOwnInventory(GlobalConstants.backpackInvClassName))
+            {
+                if (slot.Empty)
+                    continue;
+
+                ItemStack stack = slot.Itemstack;
+                if (stack == null)
+                    continue;
+
+                player.SendMessage(groupId, stack.Collectible.Code.ToString(), EnumChatType.OwnMessage);
+            }
+
+            player.SendMessage(groupId, "Hotbar:", EnumChatType.OwnMessage);
+            foreach (var slot in player.InventoryManager.GetOwnInventory(GlobalConstants.hotBarInvClassName))
+            {
+                if (slot.Empty)
+                    continue;
+
+                ItemStack stack = slot.Itemstack;
+                if (stack == null)
+                    continue;
+
+                player.SendMessage(groupId, stack.Collectible.Code.ToString(), EnumChatType.OwnMessage);
+            }
         }
 
         internal CharacterClass GetCharacterClassesItems(string className)
