@@ -44,6 +44,7 @@ namespace vsroleplayclasses.src
             // Check every 8 seconds
             api.World.RegisterGameTickListener(OnGameTick, 8000);
             api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
+            base.StartServerSide(api);
         }
 
         private void CmdInventoryCodes(IServerPlayer player, int groupId, CmdArgs args)

@@ -12,6 +12,13 @@
         "gear": [
             {
                 "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 73631
+                }
+            },
+            {
+                "type": "item",
                 "code": "game:basket"
             },
             {
@@ -85,7 +92,13 @@
         "code": "cityofficial",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 61308
+                }
+            }
         ]
     },
     {
@@ -99,14 +112,26 @@
         "code": "physician",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 39655
+                }
+            }
         ]
     },
     {
         "code": "barkeep",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 28641
+                }
+            }
         ]
     },
     {
@@ -116,6 +141,13 @@
             {
                 "type": "item",
                 "code": "game:longblade-iron"
+            },
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 73443
+                }
             }
         ]
     },
@@ -154,56 +186,104 @@
         "code": "baker",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 73853
+                }
+            }
         ]
     },
     {
         "code": "smith",
         "traits": [],
         "gear": [
-           
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 42481
+                }
+            }
         ]
     },
     {
         "code": "mason",
         "traits": [],
         "gear": [
-
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 56816
+                }
+            }
         ]
     },
     {
         "code": "miner",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 56816
+                }
+            }
         ]
     },
     {
         "code": "lumberjack",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 70575
+                }
+            }
         ]
     },
     {
         "code": "tinkerer",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 64672
+                }
+            }
         ]
     },
     {
         "code": "alchemist",
         "traits": [],
         "gear": [
-            
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 42621
+                }
+            }
         ]
     },
     {
         "code": "tailor",
         "traits": [],
         "gear": [
-           
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 83801
+                }
+            }
         ]
     }
 ]
