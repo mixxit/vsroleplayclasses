@@ -18,11 +18,24 @@ namespace vsroleplayclasses.src
 
         public override void StartPre(ICoreAPI api)
         {
-            VSRoleplayClassesModConfigFile.Current = api.LoadOrCreateConfig<VSRoleplayClassesModConfigFile>(typeof(VSRoleplayClassesMod).Name+".json");
-            
-
+            VSRoleplayClassesModConfigFile.Current = api.LoadOrCreateConfig<VSRoleplayClassesModConfigFile>(typeof(VSRoleplayClassesMod).Name + ".json");
             api.World.Config.SetBool("loadGearNonDress", VSRoleplayClassesModConfigFile.Current.LoadGearNonDress);
-
+            // todo - implement watcher for this value and always set it back if /player allowcharselonce is done by admin
+            // if they have set their characterClass
+            /*
+             * this.GetPlayerUid(player, groupId, str1, (Vintagestory.API.Common.Action<string>) (playeruid =>
+                {
+                  IWorldPlayerData worldPlayerData = this.server.GetWorldPlayerData(playeruid);
+                  if (SerializerUtil.Deserialize<bool>(worldPlayerData.GetModdata("createCharacter"), false))
+                  {
+                    worldPlayerData.SetModdata("createCharacter", SerializerUtil.Serialize<bool>(false));
+                    this.Success(player, groupId, Lang.Get("Ok, player can now run .charsel (or rejoin the world) to change skin and character class once"));
+                  }
+                  else
+                    this.Error(player, groupId, Lang.Get("Player can already run .charsel (or rejoin the world) to change skin and character class"));
+                }));
+            */
+            api.World.Config.SetBool("disableClassChange", VSRoleplayClassesModConfigFile.Current.DisableClassChange);
             base.StartPre(api);
         }
 
@@ -44,7 +57,32 @@ namespace vsroleplayclasses.src
             // Check every 8 seconds
             api.World.RegisterGameTickListener(OnGameTick, 8000);
             api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
+            api.RegisterCommand("setclassstart", "sets your current position as a class start point", "", CmdSetClassStart, null);
             base.StartServerSide(api);
+        }
+
+        private void CmdSetClassStart(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            if (args.Length < 1)
+            {
+                player.SendMessage(groupId, $"Missing argument (classcode)", EnumChatType.CommandError);
+                return;
+            }
+
+            CharacterSystem characterSystem = player.Entity.World.Api.ModLoader.GetModSystem<CharacterSystem>();
+
+            if (!IsValidClassCode(characterSystem.characterClasses, args[0]))
+            {
+                player.SendMessage(groupId, $"Invalid Classcode", EnumChatType.CommandError);
+                return;
+            }
+
+            player.SendMessage(groupId, $"Class code set", EnumChatType.CommandSuccess);
+        }
+
+        private bool IsValidClassCode(List<CharacterClass> classes, string classCode)
+        {
+            return classes.Select(e => e.Code).Contains(classCode);
         }
 
         private void CmdInventoryCodes(IServerPlayer player, int groupId, CmdArgs args)
@@ -52,7 +90,7 @@ namespace vsroleplayclasses.src
             player.SendMessage(groupId, "Wearables:", EnumChatType.OwnMessage);
             foreach (var slot in player.InventoryManager.GetOwnInventory(GlobalConstants.characterInvClassName))
             {
-                if (slot.Empty) 
+                if (slot.Empty)
                     continue;
 
                 ItemStack stack = slot.Itemstack;
@@ -133,5 +171,6 @@ namespace vsroleplayclasses.src
     {
         public static VSRoleplayClassesModConfigFile Current { get; set; }
         public bool LoadGearNonDress = true;
+        public bool DisableClassChange = true;
     }
 }
