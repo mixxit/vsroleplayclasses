@@ -40,5 +40,7 @@
     "characterclass-alchemist": "Alchemist",
     "characterdesc-alchemist": "<font color=\"#99c9f9\"><i>It is in the substances of all things that we found the foundations of something new.</i></font><br><br>The alchemist is responsible for transmuting raw materials into powders, potions and dynamite. These powders have the power to heal or change the state of mind of those that would seek to",
     "characterclass-tailor": "Tailor",
-    "characterdesc-tailor": "<font color=\"#99c9f9\"><i>The right item of clothing can turn the eye of lords and leave your enemies bitter.</i></font><br><br>The tailor is responsible for creating medical supplies such as bandages, clothing, bags and when the winter comes, heavy coats and gloves."
+    "characterdesc-tailor": "<font color=\"#99c9f9\"><i>The right item of clothing can turn the eye of lords and leave your enemies bitter.</i></font><br><br>The tailor is responsible for creating medical supplies such as bandages, clothing, bags and when the winter comes, heavy coats and gloves.",
+    "characterclass-potter": "Potter",
+    "characterdesc-potter": "<font color=\"#99c9f9\"><i>If not for fashion, then for utility.</i></font><br><br>Whether it is the molds for iron goods, storage vessels for keeping the food supply fresh or even fancy pottery to furnish the lords home - the potter and their magic hands are always there to craft exquisite items."
 }

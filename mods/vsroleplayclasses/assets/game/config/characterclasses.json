@@ -792,5 +792,35 @@
                 "code": "clothes-upperbodyover-tailor-jacket"
             }
         ]
+    },
+    {
+        "code": "potter",
+        "traits": [],
+        "gear": [
+            {
+                "type": "item",
+                "code": "clothes-shoulder-blacksmith-apron"
+            },
+            {
+                "type": "item",
+                "code": "clothes-upperbody-tailor-blouse"
+            },
+            {
+                "type": "item",
+                "code": "clothes-lowerbody-commoner-trousers"
+            },
+            {
+                "type": "item",
+                "code": "clothes-foot-great-steppe-boots"
+            },
+            {
+                "type": "item",
+                "code": "clothes-hand-noble-riding-gloves"
+            },
+            {
+                "type": "item",
+                "code": "clothes-waist-sturdy-belt"
+            }
+        ]
     }
 ]

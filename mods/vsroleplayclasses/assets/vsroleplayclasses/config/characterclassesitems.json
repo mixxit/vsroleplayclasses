@@ -3,7 +3,7 @@
         "code": "commoner",
         "traits": [],
         "gear": [
-            
+
         ]
     },
     {
@@ -79,7 +79,7 @@
         "code": "lord",
         "traits": [],
         "gear": [
-            
+
         ]
     },
     {
@@ -105,7 +105,7 @@
         "code": "cargoworker",
         "traits": [],
         "gear": [
-            
+
         ]
     },
     {
@@ -165,21 +165,21 @@
         "code": "ranger",
         "traits": [],
         "gear": [
-           
+
         ]
     },
     {
         "code": "sorcerer",
         "traits": [],
         "gear": [
-           
+
         ]
     },
     {
         "code": "priest",
         "traits": [],
         "gear": [
-            
+
         ]
     },
     {
@@ -282,6 +282,19 @@
                 "code": "padlockkey:padlockkey",
                 "attributes": {
                     "keySerial": 83801
+                }
+            }
+        ]
+    },
+    {
+        "code": "potter",
+        "traits": [],
+        "gear": [
+            {
+                "type": "item",
+                "code": "padlockkey:padlockkey",
+                "attributes": {
+                    "keySerial": 72977
                 }
             }
         ]
