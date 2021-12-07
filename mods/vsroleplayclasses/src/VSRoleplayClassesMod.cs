@@ -35,7 +35,6 @@ namespace vsroleplayclasses.src
                     this.Error(player, groupId, Lang.Get("Player can already run .charsel (or rejoin the world) to change skin and character class"));
                 }));
             */
-            api.World.Config.SetBool("disableClassChange", VSRoleplayClassesModConfigFile.Current.DisableClassChange);
             base.StartPre(api);
         }
 
@@ -57,27 +56,7 @@ namespace vsroleplayclasses.src
             // Check every 8 seconds
             api.World.RegisterGameTickListener(OnGameTick, 8000);
             api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
-            api.RegisterCommand("setclassstart", "sets your current position as a class start point", "", CmdSetClassStart, null);
             base.StartServerSide(api);
-        }
-
-        private void CmdSetClassStart(IServerPlayer player, int groupId, CmdArgs args)
-        {
-            if (args.Length < 1)
-            {
-                player.SendMessage(groupId, $"Missing argument (classcode)", EnumChatType.CommandError);
-                return;
-            }
-
-            CharacterSystem characterSystem = player.Entity.World.Api.ModLoader.GetModSystem<CharacterSystem>();
-
-            if (!IsValidClassCode(characterSystem.characterClasses, args[0]))
-            {
-                player.SendMessage(groupId, $"Invalid Classcode", EnumChatType.CommandError);
-                return;
-            }
-
-            player.SendMessage(groupId, $"Class code set", EnumChatType.CommandSuccess);
         }
 
         private bool IsValidClassCode(List<CharacterClass> classes, string classCode)
