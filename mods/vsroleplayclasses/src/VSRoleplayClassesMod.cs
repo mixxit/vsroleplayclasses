@@ -20,21 +20,6 @@ namespace vsroleplayclasses.src
         {
             VSRoleplayClassesModConfigFile.Current = api.LoadOrCreateConfig<VSRoleplayClassesModConfigFile>(typeof(VSRoleplayClassesMod).Name + ".json");
             api.World.Config.SetBool("loadGearNonDress", VSRoleplayClassesModConfigFile.Current.LoadGearNonDress);
-            // todo - implement watcher for this value and always set it back if /player allowcharselonce is done by admin
-            // if they have set their characterClass
-            /*
-             * this.GetPlayerUid(player, groupId, str1, (Vintagestory.API.Common.Action<string>) (playeruid =>
-                {
-                  IWorldPlayerData worldPlayerData = this.server.GetWorldPlayerData(playeruid);
-                  if (SerializerUtil.Deserialize<bool>(worldPlayerData.GetModdata("createCharacter"), false))
-                  {
-                    worldPlayerData.SetModdata("createCharacter", SerializerUtil.Serialize<bool>(false));
-                    this.Success(player, groupId, Lang.Get("Ok, player can now run .charsel (or rejoin the world) to change skin and character class once"));
-                  }
-                  else
-                    this.Error(player, groupId, Lang.Get("Player can already run .charsel (or rejoin the world) to change skin and character class"));
-                }));
-            */
             base.StartPre(api);
         }
 
