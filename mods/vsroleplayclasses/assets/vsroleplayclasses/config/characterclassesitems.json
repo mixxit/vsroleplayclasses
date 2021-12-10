@@ -12,7 +12,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 73631
                 }
@@ -94,7 +94,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 61308
                 }
@@ -114,7 +114,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 39655
                 }
@@ -127,7 +127,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 28641
                 }
@@ -144,7 +144,7 @@
             },
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 73443
                 }
@@ -188,7 +188,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 73853
                 }
@@ -201,7 +201,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 42481
                 }
@@ -214,7 +214,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 56816
                 }
@@ -227,7 +227,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 56816
                 }
@@ -240,7 +240,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 70575
                 }
@@ -253,7 +253,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 64672
                 }
@@ -266,7 +266,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 42621
                 }
@@ -279,7 +279,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 83801
                 }
@@ -292,7 +292,7 @@
         "gear": [
             {
                 "type": "item",
-                "code": "padlockkey:padlockkey",
+                "code": "vskeysforlocks:padlockkey",
                 "attributes": {
                     "keySerial": 72977
                 }
