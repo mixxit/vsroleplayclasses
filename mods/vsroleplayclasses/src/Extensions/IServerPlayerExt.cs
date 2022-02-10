@@ -12,19 +12,6 @@ namespace projectrarahat.src.Extensions
 {
     public static class IServerPlayerExt
     {
-        public static bool IsGrantedInitialItems(this IServerPlayer player)
-        {
-            if (!player.Entity.Attributes.HasAttribute("grantedInitialItems"))
-                return false;
-
-            return player.Entity.Attributes.GetBool("grantedInitialItems", false);
-        }
-
-        public static void SetGrantedInitialItems(this IServerPlayer player, bool granted)
-        {
-            player.Entity.Attributes.SetBool("grantedInitialItems", granted);
-        }
-
         public static void GrantInitialClassItems(this IServerPlayer player)
         {
             if (player.GetSelectedClassCode() == null)
@@ -47,14 +34,10 @@ namespace projectrarahat.src.Extensions
                 if (itemstack == null)
                     continue;
 
-                if (itemstack.IsClothing())
-                    continue;
-
                 gear.Add(jsonItemStack);
             }
 
             player.DeliverItems(gear);
-            player.SetGrantedInitialItems(true);
         }
 
         public static void DeliverItems(this IServerPlayer player, List<JsonItemStack> gear)

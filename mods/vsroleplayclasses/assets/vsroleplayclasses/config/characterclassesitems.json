@@ -148,6 +148,18 @@
                 "attributes": {
                     "keySerial": 73443
                 }
+            },
+            {
+                "type": "item",
+                "code": "game:armor-head-plate-silver"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-body-plate-silver"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-legs-plate-silver"
             }
         ]
     },
@@ -158,6 +170,18 @@
             {
                 "type": "item",
                 "code": "game:longblade-iron"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-head-plate-iron"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-body-plate-iron"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-legs-plate-iron"
             }
         ]
     },
@@ -165,7 +189,218 @@
         "code": "ranger",
         "traits": [],
         "gear": [
-
+            {
+                "type": "item",
+                "code": "game:armor-head-antique-blackguard-broken"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-body-antique-blackguard-damaged"
+            },
+            {
+                "type": "item",
+                "code": "game:armor-legs-antique-blackguard-damaged"
+            },
+            {
+                "type": "item",
+                "code": "game:bow-recurve"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            },
+            {
+                "type": "item",
+                "code": "game:arrow-flint"
+            }
         ]
     },
     {

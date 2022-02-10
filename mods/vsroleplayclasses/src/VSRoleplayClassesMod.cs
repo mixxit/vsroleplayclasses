@@ -19,7 +19,6 @@ namespace vsroleplayclasses.src
         public override void StartPre(ICoreAPI api)
         {
             VSRoleplayClassesModConfigFile.Current = api.LoadOrCreateConfig<VSRoleplayClassesModConfigFile>(typeof(VSRoleplayClassesMod).Name + ".json");
-            api.World.Config.SetBool("loadGearNonDress", VSRoleplayClassesModConfigFile.Current.LoadGearNonDress);
             base.StartPre(api);
         }
 
@@ -36,7 +35,7 @@ namespace vsroleplayclasses.src
                 characterClassesItems = asset.ToObject<List<CharacterClass>>();
             }
 
-            api.Event.SaveGameLoaded += new Vintagestory.API.Common.Action(this.OnSaveGameLoaded);
+            api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             // Check every 8 seconds
             api.World.RegisterGameTickListener(OnGameTick, 8000);
@@ -114,9 +113,6 @@ namespace vsroleplayclasses.src
 
         private void OnPlayerClassChanged(IServerPlayer player)
         {
-            if (player.IsGrantedInitialItems())
-                return;
-
             player.GrantInitialClassItems();
         }
 
@@ -134,7 +130,5 @@ namespace vsroleplayclasses.src
     public class VSRoleplayClassesModConfigFile
     {
         public static VSRoleplayClassesModConfigFile Current { get; set; }
-        public bool LoadGearNonDress = true;
-        public bool DisableClassChange = true;
     }
 }

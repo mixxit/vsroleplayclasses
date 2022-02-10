@@ -322,18 +322,6 @@
             {
                 "type": "item",
                 "code": "clothes-arm-squire-bracers"
-            },
-            {
-                "type": "item",
-                "code": "armor-head-plate-silver"
-            },
-            {
-                "type": "item",
-                "code": "armor-body-plate-silver"
-            },
-            {
-                "type": "item",
-                "code": "armor-legs-plate-silver"
             }
         ]
     },
@@ -364,18 +352,6 @@
             {
                 "type": "item",
                 "code": "clothes-waist-squire-belt"
-            },
-            {
-                "type": "item",
-                "code": "armor-head-plate-iron"
-            },
-            {
-                "type": "item",
-                "code": "armor-body-plate-iron"
-            },
-            {
-                "type": "item",
-                "code": "armor-legs-plate-iron"
             }
         ]
     },
@@ -430,18 +406,6 @@
             {
                 "type": "item",
                 "code": "clothes-upperbodyover-hunter-coat"
-            },
-            {
-                "type": "item",
-                "code": "armor-head-antique-blackguard-broken"
-            },
-            {
-                "type": "item",
-                "code": "armor-body-antique-blackguard-damaged"
-            },
-            {
-                "type": "item",
-                "code": "armor-legs-antique-blackguard-damaged"
             }
         ]
     },
