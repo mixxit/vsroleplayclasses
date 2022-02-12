@@ -65,7 +65,13 @@
   <ItemGroup>
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />
+    <Content Include="assets\vsroleplayclasses\textures\item\spellbook.png" />
     <Content Include="modinfo.json" />
+    <Content Include="assets\game\patches\entity-add-experience-behavior.json" />
+    <Compile Include="src\Behaviors\EntityBehaviorExperience.cs" />
+    <Compile Include="src\Extensions\EntityExt.cs" />
+    <Compile Include="src\EnumAdventuringClass.cs" />
+    <Compile Include="src\Systems\SystemExperience.cs" />
     <Compile Include="src\VSRoleplayClassesMod.cs" />
     <Compile Include="src\Extensions\IServerPlayerExt.cs" />
     <Compile Include="src\Extensions\ItemStackExt.cs" />
@@ -73,6 +79,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\vsroleplayclasses\config\characterclassesitems.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\vsroleplayclasses\lang\" />
+    <Folder Include="assets\vsroleplayclasses\patches\" />
+    <Folder Include="assets\vsroleplayclasses\recipes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\vsroleplayclasses\itemtypes\spellbook.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,0 +1,38 @@
+﻿[
+    {
+        "op": "add",
+        "path": "/client/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/humanoid/player.json",
+        "side": "Client"
+    },
+    {
+        "op": "add",
+        "path": "/server/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/humanoid/player.json",
+        "side": "Server"
+    },
+    {
+        "op": "add",
+        "path": "/client/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/land/chicken-rooster.json",
+        "side": "Client"
+    },
+    {
+        "op": "add",
+        "path": "/server/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/land/chicken-rooster.json",
+        "side": "Server"
+    }
+]

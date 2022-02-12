@@ -1,0 +1,13 @@
+{
+	"code": "spellbook",
+	"class": "spellbook",
+	"texture": { "base": "item/spellbook" },
+	"attributes": {
+		"rackable": false
+	},
+	"maxstacksize": 1,
+	"creativeinventory": {
+		"general": [ "*" ],
+		"items": [ "*" ]
+	}
+}
