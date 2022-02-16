@@ -17,6 +17,11 @@ namespace vsroleplayclasses.src
     {
         List<CharacterClass> characterClassesItems;
 
+        public override void Start(ICoreAPI api)
+        {
+            base.Start(api);
+        }
+
         public override void StartPre(ICoreAPI api)
         {
             VSRoleplayClassesModConfigFile.Current = api.LoadOrCreateConfig<VSRoleplayClassesModConfigFile>(typeof(VSRoleplayClassesMod).Name + ".json");
@@ -41,7 +46,69 @@ namespace vsroleplayclasses.src
             // Check every 8 seconds
             api.World.RegisterGameTickListener(OnGameTick, 8000);
             api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
+            api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
+            api.RegisterCommand("getscrollability", "gets ability code", "", GetScrollAbility, "root");
             base.StartServerSide(api);
+        }
+
+        private void GetScrollAbility(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            if (player.Entity.RightHandItemSlot != null && player.Entity.RightHandItemSlot.Itemstack != null && player.Entity.RightHandItemSlot.Itemstack.Attributes != null)
+            {
+                player.SendMessage(groupId, $"Right Hand: ", EnumChatType.CommandSuccess);
+                foreach (var att in player.Entity.RightHandItemSlot.Itemstack.Attributes)
+                {
+                    player.SendMessage(groupId, $"{att.Key} {att.Value}: ", EnumChatType.CommandSuccess);
+
+                }
+            }
+
+            if (player.Entity.LeftHandItemSlot != null && player.Entity.LeftHandItemSlot.Itemstack != null && player.Entity.LeftHandItemSlot.Itemstack.Attributes != null)
+            {
+                player.SendMessage(groupId, $"Left Hand: ", EnumChatType.CommandSuccess);
+                foreach (var att in player.Entity.LeftHandItemSlot.Itemstack.Attributes)
+                {
+                    player.SendMessage(groupId, $"{att.Key} {att.Value}: ", EnumChatType.CommandSuccess);
+                }
+            }
+
+        }
+
+        private void CmdForceScrollAbility(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            if (args.Length < 1)
+            {
+                player.SendMessage(groupId, $"Missing argument (abilityid)", EnumChatType.CommandError);
+                return;
+            }
+
+            try
+            {
+                long serial = Convert.ToInt64(args[0]);
+
+                TryForceAbilityScrollInSlot(player.Entity.RightHandItemSlot, serial);
+                TryForceAbilityScrollInSlot(player.Entity.LeftHandItemSlot, serial);
+
+                player.SendMessage(groupId, $"Attempt to force scribe ability completed, please check ability scroll", EnumChatType.CommandSuccess);
+            }
+            catch (Exception)
+            {
+                player.SendMessage(groupId, $"Invalid argument (abilityid)", EnumChatType.CommandError);
+                return;
+            }
+        }
+
+        private void TryForceAbilityScrollInSlot(ItemSlot itemSlot, long serial)
+        {
+            if (itemSlot.Itemstack == null || itemSlot.Itemstack.Item == null || (itemSlot.Itemstack.Item as AbilityScrollItem) == null)
+                return;
+
+            // already fixed
+            if ((itemSlot.Itemstack.Item as AbilityScrollItem).IsAbilityScribed(itemSlot.Itemstack))
+                return;
+
+            (itemSlot.Itemstack.Item as AbilityScrollItem).SetScribedAbility(itemSlot.Itemstack, serial);
+            itemSlot.MarkDirty();
         }
 
         private bool IsValidClassCode(List<CharacterClass> classes, string classCode)

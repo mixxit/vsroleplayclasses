@@ -1,7 +1,7 @@
 {
-	"code": "spellbook",
-	"class": "spellbook",
-	"texture": { "base": "item/spellbook" },
+	"code": "abilityscroll",
+	"class": "abilityscroll",
+	"texture": { "base": "item/abilityscroll" },
 	"attributes": {
 		"rackable": false
 	},

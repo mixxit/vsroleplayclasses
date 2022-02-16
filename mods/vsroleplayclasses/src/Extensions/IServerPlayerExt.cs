@@ -62,6 +62,16 @@ namespace projectrarahat.src.Extensions
             player.Entity.WatchedAttributes.SetDouble(experienceType.ToString().ToLower() + "xp", xp);
         }
 
+        public static double GetMana(this IServerPlayer player)
+        {
+            return player.Entity.WatchedAttributes.GetDouble("mana", 0);
+        }
+
+        public static void SetMana(this IServerPlayer player, double mana)
+        {
+            player.Entity.WatchedAttributes.SetDouble("mana", mana);
+        }
+
         public static void GrantExperience(this IServerPlayer player, EnumAdventuringClass experienceType, double xp)
         {
             if (experienceType == EnumAdventuringClass.None)

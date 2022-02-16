@@ -1,0 +1,13 @@
+{
+	"code": "abilitybook",
+	"class": "abilitybook",
+	"texture": { "base": "item/abilitybook" },
+	"attributes": {
+		"rackable": false
+	},
+	"maxstacksize": 1,
+	"creativeinventory": {
+		"general": [ "*" ],
+		"items": [ "*" ]
+	}
+}

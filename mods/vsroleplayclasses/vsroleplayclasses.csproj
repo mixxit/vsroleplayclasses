@@ -65,12 +65,20 @@
   <ItemGroup>
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />
-    <Content Include="assets\vsroleplayclasses\textures\item\spellbook.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\abilitybook.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\runeofpower.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\abilityscroll.png" />
     <Content Include="modinfo.json" />
     <Content Include="assets\game\patches\entity-add-experience-behavior.json" />
+    <Compile Include="src\RuneOfPowerItem.cs" />
+    <Compile Include="src\LinguaMagica.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorExperience.cs" />
     <Compile Include="src\Extensions\EntityExt.cs" />
     <Compile Include="src\EnumAdventuringClass.cs" />
+    <Compile Include="src\Ability.cs" />
+    <Compile Include="src\AbilityScrollItem.cs" />
+    <Compile Include="src\AbilityBookItem.cs" />
+    <Compile Include="src\Systems\SystemAbilities.cs" />
     <Compile Include="src\Systems\SystemExperience.cs" />
     <Compile Include="src\VSRoleplayClassesMod.cs" />
     <Compile Include="src\Extensions\IServerPlayerExt.cs" />
@@ -86,7 +94,9 @@
     <Folder Include="assets\vsroleplayclasses\recipes\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\vsroleplayclasses\itemtypes\spellbook.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\runeofpower.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\abilityscroll.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\abilitybook.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

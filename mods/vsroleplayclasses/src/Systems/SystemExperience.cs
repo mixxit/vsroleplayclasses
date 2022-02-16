@@ -20,7 +20,6 @@ namespace vsroleplayclasses.src.Systems
 
         public override void StartServerSide(ICoreServerAPI api)
         {
-            api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             api.RegisterCommand("xp", "lists information about experience", "", CmdXp, null);
             api.RegisterEntityBehaviorClass("EntityBehaviorExperience", typeof(EntityBehaviorExperience));
@@ -49,11 +48,6 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerClassChanged(IServerPlayer player)
         {
             player.ResetExperience();
-        }
-
-        private void OnSaveGameLoaded()
-        {
-
         }
 
         private void OnGameTick(float tick)

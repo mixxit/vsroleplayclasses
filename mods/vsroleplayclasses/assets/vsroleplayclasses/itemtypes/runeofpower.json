@@ -1,0 +1,13 @@
+{
+	"code": "runeofpower",
+	"class": "runeofpower",
+	"texture": { "base": "item/runeofpower" },
+	"attributes": {
+		"rackable": false
+	},
+	"maxstacksize": 1,
+	"creativeinventory": {
+		"general": [ "*" ],
+		"items": [ "*" ]
+	}
+}
