@@ -109,7 +109,7 @@ namespace vsroleplayclasses.src
         public static string Dreams = "Zal";
         public static string Tranquility = "";
         public static string Vapor = "";
-        public static string Obscuration = "Kela";
+        public static string Obscuration = "Maya";
         public static string Deceit = "Map";
         public static string Shadow = "Set";
         public static string Rust = "";
