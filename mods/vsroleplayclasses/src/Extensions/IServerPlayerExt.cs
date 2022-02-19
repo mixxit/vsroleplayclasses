@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using vsroleplayclasses.src;
@@ -94,9 +95,21 @@ namespace projectrarahat.src.Extensions
             return charClass;
         }
 
-        public static void CastSpell(this IServerPlayer player)
+        public static void CastSpell(this IServerPlayer player, int memorisedSpellSlot)
         {
+            if (GetCurrentAbility() != null)
+                GetCurrentAbility().Cast(player.GetTarget());
+        }
 
+        private static Entity GetTarget(this IServerPlayer player)
+        {
+            // Default to self
+            return player.Entity;
+        }
+
+        private static Ability GetCurrentAbility()
+        {
+            return null;
         }
 
         public static void GrantInitialClassItems(this IServerPlayer player)
