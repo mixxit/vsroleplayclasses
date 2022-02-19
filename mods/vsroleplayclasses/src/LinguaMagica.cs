@@ -130,7 +130,7 @@ namespace vsroleplayclasses.src
         public static MagicaPower Map = MagicaPower.Deceit;
         public static MagicaPower Set = MagicaPower.Shadow;
         public static MagicaPower Ros = MagicaPower.Rust;
-        public static MagicaPower Maya = MagicaPower.Transformation;
+        public static MagicaPower Ex = MagicaPower.Transformation;
         public static MagicaPower Xen = MagicaPower.Translocation;
         public static MagicaPower Gen = MagicaPower.Innovation;
 
