@@ -94,6 +94,11 @@ namespace projectrarahat.src.Extensions
             return charClass;
         }
 
+        public static void CastSpell(this IServerPlayer player)
+        {
+
+        }
+
         public static void GrantInitialClassItems(this IServerPlayer player)
         {
             var charClass = player.GetCharClassOrDefault();
