@@ -9,6 +9,8 @@ namespace vsroleplayclasses.src
 {
     public static class LinguaMagica
     {
+        public static MagicaPower Nul = MagicaPower.None;
+
         public static MagicaPower Init = MagicaPower.InitiatePower; // Power Level 0
         public static MagicaPower Adus = MagicaPower.AdeptPower; // Power Level 1
         public static MagicaPower Mas = MagicaPower.MasterPower; // Power Level 2
@@ -25,7 +27,6 @@ namespace vsroleplayclasses.src
         public static MagicaPower Prima = MagicaPower.PrimordialPower;  // Power Level 13
         public static MagicaPower Omni = MagicaPower.UltimatePower;  // Power Level 15
 
-        public static MagicaPower Nul = MagicaPower.None;
         public static MagicaPower El = MagicaPower.Time;
         public static MagicaPower Poly = MagicaPower.Prismatic;
         public static MagicaPower Duo = MagicaPower.Balance;
