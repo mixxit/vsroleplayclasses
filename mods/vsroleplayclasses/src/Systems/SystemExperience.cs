@@ -8,6 +8,7 @@ using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Extensions;
 
 namespace vsroleplayclasses.src.Systems
 {
@@ -38,11 +39,40 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerNowPlaying(IServerPlayer player)
         {
             RegisterPlayerClassChangedListener(player);
+            RegisterPlayerExperienceChangedListener(player);
+            RegisterPlayerLevelChangedListener(player);
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)
         {
             player.Entity.WatchedAttributes.RegisterModifiedListener("characterClass", (System.Action)(() => OnPlayerClassChanged(player)));
+        }
+
+        private void RegisterPlayerLevelChangedListener(IServerPlayer player)
+        {
+            player.Entity.WatchedAttributes.RegisterModifiedListener("level", (System.Action)(() => OnPlayerLevelChanged(player)));
+        }
+
+        private void RegisterPlayerExperienceChangedListener(IServerPlayer player)
+        {
+            foreach (EnumAdventuringClass experienceType in Enum.GetValues(typeof(EnumAdventuringClass)))
+            {
+                if (experienceType == EnumAdventuringClass.None)
+                    continue;
+
+                player.Entity.WatchedAttributes.RegisterModifiedListener(experienceType.ToString().ToLower()+"xp", (System.Action)(() => OnPlayerExperienceChanged(player, experienceType)));
+            }
+        }
+
+        private void OnPlayerExperienceChanged(IServerPlayer player, EnumAdventuringClass experienceType)
+        {
+            player.SendMessage(GlobalConstants.InfoLogChatGroup, "* You have gained "+ experienceType.ToString().ToLower() + " experience!", EnumChatType.OwnMessage);
+            player.TryUpdateLevel();
+        }
+
+        private void OnPlayerLevelChanged(IServerPlayer player)
+        {
+            player.SendMessage(GlobalConstants.InfoLogChatGroup, "* You have reached level " + player.GetLevel() + "!", EnumChatType.OwnMessage);
         }
 
         private void OnPlayerClassChanged(IServerPlayer player)

@@ -33,13 +33,21 @@ namespace vsroleplayclasses.src.Extensions
             ((IServerPlayer)((EntityPlayer)me).Player).GrantExperience(experienceType, experienceAmount);
         }
 
-        public static double GetExperienceWorth(this Entity me)
+        public static int GetLevel(this Entity me)
         {
-            // Only award to players
-            if ((me is EntityPlayer))
+            if (me is EntityPlayer && ((EntityPlayer)me).Player is IServerPlayer)
+                return ((IServerPlayer)((EntityPlayer)me).Player).GetLevel();
+
+            return 1;
+        }
+
+        public static double GetExperienceWorth(this Entity killed, IServerPlayer killer)
+        {
+            // Only award when killing npcs
+            if ((killed is EntityPlayer))
                 return 0D;
 
-            return 1D;
+            return (EntityUtils.GetExperienceRewardAverageForLevel(killed.GetLevel(), killer.GetLevel()));
         }
     }
 }

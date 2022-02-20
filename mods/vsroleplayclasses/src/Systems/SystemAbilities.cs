@@ -41,13 +41,7 @@ namespace vsroleplayclasses.src.Systems
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
             api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
-            api.RegisterCommand("mana", "shows your current mana value", "", CmdMana, null);
             base.StartServerSide(api);
-        }
-
-        private void CmdMana(IServerPlayer player, int groupId, CmdArgs args)
-        {
-            player.SendMessage(groupId, "Mana: " + player.GetMana(), EnumChatType.OwnMessage);
         }
 
         private void CmdAbilities(IServerPlayer player, int groupId, CmdArgs args)
