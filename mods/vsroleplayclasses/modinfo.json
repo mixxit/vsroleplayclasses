@@ -1,11 +1,15 @@
 {
-  "type": "code",
-  "modid": "vsroleplayclasses",
-  "name": "vsroleplayclasses",
-  "author": "mixxit",
-  "description": "Vintage Story Mod to add new roleplaying classes",
-  "version": "1.16.3-rc.4",
-  "dependency": {
-    "game": ""
-  }
+    "type": "code",
+    "modid": "vsroleplayclasses",
+    "name": "vsroleplayclasses",
+    "author": "mixxit",
+    "description": "Vintage Story Mod to add new roleplaying classes",
+    "requiredOnClient": "true",
+    "requiredOnServer": "true",
+    "version": "1.16.3-rc.6",
+    "dependency": {
+        "game": "1.16.3",
+        "survival": "1.16.3",
+        "vsroleplayraces": "1.16.3-rc.7"
+    }
 }

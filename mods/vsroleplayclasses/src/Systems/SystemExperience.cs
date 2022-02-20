@@ -66,13 +66,16 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnPlayerExperienceChanged(IServerPlayer player, EnumAdventuringClass experienceType)
         {
-            player.SendMessage(GlobalConstants.InfoLogChatGroup, "* You have gained "+ experienceType.ToString().ToLower() + " experience!", EnumChatType.OwnMessage);
+            if (player.GetExperience(experienceType) > 0)
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, "* You have gained "+ experienceType.ToString().ToLower() + " experience!", EnumChatType.OwnMessage);
+            
             player.TryUpdateLevel();
         }
 
         private void OnPlayerLevelChanged(IServerPlayer player)
         {
-            player.SendMessage(GlobalConstants.InfoLogChatGroup, "* You have reached level " + player.GetLevel() + "!", EnumChatType.OwnMessage);
+            if (player.GetLevel() > 1)
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, "* You have reached level " + player.GetLevel() + "!", EnumChatType.OwnMessage);
         }
 
         private void OnPlayerClassChanged(IServerPlayer player)
