@@ -1,0 +1,20 @@
+{
+    "code": "inkportion",
+    "ingredients": [
+        {
+            "type": "item",
+            "code": "inkportion",
+            "quantity": 1
+        },
+        {
+            "type": "item",
+            "code": "inkwellempty",
+            "litres": 1
+        }
+    ],
+    "output": {
+        "type": "item",
+        "code": "inkwell",
+        "litres": 1
+    }
+}

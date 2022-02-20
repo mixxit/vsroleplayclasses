@@ -5,7 +5,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Util;
 
-namespace vsroleplayclasses.src
+namespace vsroleplayclasses.src.Items
 {
     public class AbilityScrollItem : Item
     {
@@ -68,6 +68,5 @@ namespace vsroleplayclasses.src
             }
             return -1;
         }
-
     }
 }

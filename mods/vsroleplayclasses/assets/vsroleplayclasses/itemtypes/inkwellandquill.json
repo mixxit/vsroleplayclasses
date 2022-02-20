@@ -1,0 +1,13 @@
+{
+	"code": "inkwellandquill",
+	"class": "inkwellandquill",
+	"texture": { "base": "item/inkwellandquill" },
+	"attributes": {
+		"rackable": false
+	},
+	"maxstacksize": 64,
+	"creativeinventory": {
+		"general": [ "*" ],
+		"items": [ "*" ]
+	}
+}

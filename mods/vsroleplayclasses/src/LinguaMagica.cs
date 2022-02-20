@@ -26,7 +26,6 @@ namespace vsroleplayclasses.src
         public static MagicaPower Ra = MagicaPower.FoundationalPower;  // Power Level 12
         public static MagicaPower Prima = MagicaPower.PrimordialPower;  // Power Level 13
         public static MagicaPower Omni = MagicaPower.UltimatePower;  // Power Level 15
-
         public static MagicaPower El = MagicaPower.Time;
         public static MagicaPower Poly = MagicaPower.Prismatic;
         public static MagicaPower Duo = MagicaPower.Balance;
@@ -148,5 +147,20 @@ namespace vsroleplayclasses.src
 
             return result;
         }
+
+        internal static Dictionary<MagicaPower,string> ToDictionary()
+        {
+            var result = new Dictionary<MagicaPower, string>();
+            foreach (var info in typeof(LinguaMagica).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy))
+                result.Add((MagicaPower)info.GetValue(null), info.Name);
+
+            return result;
+        }
+
+        internal static string FromPower(MagicaPower rune)
+        {
+            return ToDictionary()[rune];
+        }
+
     }
 }

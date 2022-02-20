@@ -1,7 +1,7 @@
 {
-	"code": "runeofpower",
-	"class": "runeofpower",
-	"texture": { "base": "item/runeofpower" },
+	"code": "crushedpower",
+	"class": "crushedpower",
+	"texture": { "base": "item/crushedpower" },
 	"attributes": {
 		"rackable": false
 	},

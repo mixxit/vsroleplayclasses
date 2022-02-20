@@ -1,0 +1,13 @@
+{
+	"code": "inkwell",
+	"class": "inkwell",
+	"texture": { "base": "item/inkwell" },
+	"attributes": {
+		"rackable": false
+	},
+	"maxstacksize": 64,
+	"creativeinventory": {
+		"general": [ "*" ],
+		"items": [ "*" ]
+	}
+}

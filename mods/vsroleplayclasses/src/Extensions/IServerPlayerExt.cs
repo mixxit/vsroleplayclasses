@@ -11,7 +11,7 @@ using Vintagestory.GameContent;
 using vsroleplayclasses.src;
 using vsroleplayclasses.src.Extensions;
 
-namespace projectrarahat.src.Extensions
+namespace vsroleplayclasses.src.Extensions
 {
     public static class IServerPlayerExt
     {

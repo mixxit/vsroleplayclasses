@@ -1,0 +1,21 @@
+{
+    "code": "inkportion",
+    "sealHours": 1,
+    "ingredients": [
+        {
+            "type": "item",
+            "code": "game:fruit-blueberry",
+            "quantity": 2
+        },
+        {
+            "type": "item",
+            "code": "alumhoneyportion",
+            "litres": 1
+        }
+    ],
+    "output": {
+        "type": "item",
+        "code": "inkportion",
+        "litres": 1
+    }
+}

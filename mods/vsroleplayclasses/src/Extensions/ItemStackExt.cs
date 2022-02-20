@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vintagestory.API.Common;
 
-namespace projectrarahat.src.Extensions
+namespace vsroleplayclasses.src.Extensions
 {
     public static class ItemStackExt
     {

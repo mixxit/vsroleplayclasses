@@ -1,9 +1,6 @@
-﻿using projectrarahat.src.Extensions;
+﻿using vsroleplayclasses.src.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 
@@ -11,9 +8,6 @@ namespace vsroleplayclasses.src.Systems
 {
     public class SystemStatistics : ModSystem
     {
-        List<Ability> abilityList;
-        ICoreServerAPI serverApi;
-
         public override void Start(ICoreAPI api)
         {
             base.Start(api);
@@ -27,7 +21,6 @@ namespace vsroleplayclasses.src.Systems
 
         public override void StartServerSide(ICoreServerAPI api)
         {
-            serverApi = api;
             api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);

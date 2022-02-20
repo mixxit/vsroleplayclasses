@@ -13,7 +13,6 @@ namespace vsroleplayclasses.src
         public string Name { get; set; }
         public string CreatorUid { get; set; }
         public List<MagicaPower> WordsOfMagic { get; set; }
-
         internal void Cast(Entity target)
         {
 

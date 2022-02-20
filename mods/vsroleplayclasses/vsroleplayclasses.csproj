@@ -63,10 +63,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Items\InkwellEmptyItem.cs" />
+    <Compile Include="src\Items\RunicInkwellAndQuillItem.cs" />
+    <Compile Include="src\Items\InkwellAndQuillItem.cs" />
+    <Compile Include="src\Items\InkwellItem.cs" />
+    <Compile Include="src\Items\CrushedPowerItem.cs" />
     <Compile Include="src\WorldLimits.cs" />
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />
+    <Content Include="assets\vsroleplayclasses\textures\block\liquid\alumhoney.png" />
+    <Content Include="assets\vsroleplayclasses\textures\block\liquid\inkportion.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\inkwellempty.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\runicinkwellandquill.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\inkwellandquill.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\inkwell.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\abilitybook.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\crushedpower.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\runeofpower.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\abilityscroll.png" />
     <Content Include="modinfo.json" />
@@ -78,14 +90,14 @@
     <Compile Include="src\Systems\SystemMana.cs" />
     <Compile Include="src\Systems\SystemStatistics.cs" />
     <Compile Include="src\Time.cs" />
-    <Compile Include="src\RuneOfPowerItem.cs" />
+    <Compile Include="src\Items\RuneOfPowerItem.cs" />
     <Compile Include="src\LinguaMagica.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorExperience.cs" />
     <Compile Include="src\Extensions\EntityExt.cs" />
     <Compile Include="src\EnumAdventuringClass.cs" />
     <Compile Include="src\Ability.cs" />
-    <Compile Include="src\AbilityScrollItem.cs" />
-    <Compile Include="src\AbilityBookItem.cs" />
+    <Compile Include="src\Items\AbilityScrollItem.cs" />
+    <Compile Include="src\Items\AbilityBookItem.cs" />
     <Compile Include="src\Systems\SystemAbilities.cs" />
     <Compile Include="src\Systems\SystemExperience.cs" />
     <Compile Include="src\VSRoleplayClassesMod.cs" />
@@ -99,12 +111,22 @@
   <ItemGroup>
     <Folder Include="assets\vsroleplayclasses\lang\" />
     <Folder Include="assets\vsroleplayclasses\patches\" />
-    <Folder Include="assets\vsroleplayclasses\recipes\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\vsroleplayclasses\itemtypes\inkwellempty.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\liquid\alumhoney.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\liquid\inkportion.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\runicinkwellandquill.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquill.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\inkwell.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\crushedpower.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\runeofpower.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\abilityscroll.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\abilitybook.json" />
+    <None Include="assets\vsroleplayclasses\recipes\barrel\alumhoney.json" />
+    <None Include="assets\vsroleplayclasses\recipes\barrel\inkwell.json" />
+    <None Include="assets\vsroleplayclasses\recipes\barrel\inkportion.json" />
+    <None Include="assets\vsroleplayclasses\recipes\clayforming\inkwellempty.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,0 +1,39 @@
+{
+    "code": "inkportion",
+    "class": "ItemLiquidPortion",
+    "matterState": "liquid",
+    "attributes": {
+        "handbook": {
+            "ignoreCreativeInvStacks": true
+        },
+        "waterTightContainerProps": {
+            "containable": true,
+            "itemsPerLitre": 10,
+            "texture": { "base": "block/liquid/inkportion" },
+            "whenFilled": {
+                "stack": {
+                    "type": "item",
+                    "code": "inkportion"
+                }
+            },
+            "allowSpill": true,
+            "whenSpilled": {
+                "action": "DropContents",
+                "stack": {
+                    "type": "item",
+                    "code": "inkportion"
+                }
+            },
+            "handbook": {
+                "exclude": true
+            }
+        }
+    },
+    "texture": { "base": "block/liquid/inkportion" },
+    "creativeinventory": {
+        "general": [ "*" ],
+        "items": [ "*" ]
+    },
+    "maxstacksize": 16,
+    "materialDensity": 1000
+}

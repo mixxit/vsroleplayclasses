@@ -1,0 +1,39 @@
+{
+    "code": "alumhoneyportion",
+    "class": "ItemLiquidPortion",
+    "matterState": "liquid",
+    "attributes": {
+        "handbook": {
+            "ignoreCreativeInvStacks": true
+        },
+        "waterTightContainerProps": {
+            "containable": true,
+            "itemsPerLitre": 10,
+            "texture": { "base": "block/liquid/alumhoney" },
+            "whenFilled": {
+                "stack": {
+                    "type": "item",
+                    "code": "alumhoney"
+                }
+            },
+            "allowSpill": true,
+            "whenSpilled": {
+                "action": "DropContents",
+                "stack": {
+                    "type": "item",
+                    "code": "alumhoney"
+                }
+            },
+            "handbook": {
+                "exclude": true
+            }
+        }
+    },
+    "texture": { "base": "block/liquid/alumhoney" },
+    "creativeinventory": {
+        "general": [ "*" ],
+        "items": [ "*" ]
+    },
+    "maxstacksize": 16,
+    "materialDensity": 1000
+}

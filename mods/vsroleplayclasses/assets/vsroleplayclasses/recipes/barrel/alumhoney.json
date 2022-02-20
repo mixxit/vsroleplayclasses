@@ -1,0 +1,21 @@
+{
+    "code": "alumhoney",
+    "sealHours": 1,
+    "ingredients": [
+        {
+            "type": "item",
+            "code": "game:salt",
+            "quantity": 2
+        },
+        {
+            "type": "item",
+            "code": "game:honeyportion",
+            "litres": 1
+        }
+    ],
+    "output": {
+        "type": "item",
+        "code": "alumhoneyportion",
+        "litres": 1
+    }
+}

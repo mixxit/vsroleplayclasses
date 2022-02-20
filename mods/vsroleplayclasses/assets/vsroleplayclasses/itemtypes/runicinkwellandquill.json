@@ -1,7 +1,7 @@
 {
-	"code": "runeofpower",
-	"class": "runeofpower",
-	"texture": { "base": "item/runeofpower" },
+	"code": "runicinkwellandquill",
+	"class": "runicinkwellandquill",
+	"texture": { "base": "item/runicinkwellandquill" },
 	"attributes": {
 		"rackable": false
 	},
@@ -134,6 +134,7 @@
 			]
 		}
 	],
+
 	"maxstacksize": 64,
 	"creativeinventory": {
 		"general": [ "*" ],
