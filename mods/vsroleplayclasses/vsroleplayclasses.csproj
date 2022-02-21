@@ -72,6 +72,7 @@
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\alumhoney.png" />
+    <Content Include="assets\vsroleplayclasses\textures\block\liquid\runicinkportion.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\inkportion.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\inkwellempty.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\runicinkwellandquill.png" />
@@ -115,6 +116,7 @@
   <ItemGroup>
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\liquid\alumhoney.json" />
+    <None Include="assets\vsroleplayclasses\itemtypes\liquid\runicinkportion.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\liquid\inkportion.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\runicinkwellandquill.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquill.json" />
@@ -124,8 +126,9 @@
     <None Include="assets\vsroleplayclasses\itemtypes\abilityscroll.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\abilitybook.json" />
     <None Include="assets\vsroleplayclasses\recipes\barrel\alumhoney.json" />
-    <None Include="assets\vsroleplayclasses\recipes\barrel\inkwell.json" />
     <None Include="assets\vsroleplayclasses\recipes\barrel\inkportion.json" />
+    <None Include="assets\vsroleplayclasses\recipes\barrel\inkwell.json" />
+    <None Include="assets\vsroleplayclasses\recipes\barrel\runicinkportion.json" />
     <None Include="assets\vsroleplayclasses\recipes\clayforming\inkwellempty.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

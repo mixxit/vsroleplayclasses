@@ -1,0 +1,22 @@
+{
+    "code": "runicinkportion",
+    "sealHours": 1,
+    "ingredients": [
+        {
+            "type": "item",
+            "code": "crushedpower-*",
+            "name": "rune",
+            "quantity": 2
+        },
+        {
+            "type": "item",
+            "code": "inkportion",
+            "litres": 1
+        }
+    ],
+    "output": {
+        "type": "item",
+        "code": "runicinkportion-{rune}",
+        "litres": 1
+    }
+}
