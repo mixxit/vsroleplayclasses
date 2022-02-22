@@ -69,6 +69,7 @@
     <Compile Include="src\Items\InkwellAndQuillItem.cs" />
     <Compile Include="src\Items\InkwellItem.cs" />
     <Compile Include="src\Items\CrushedPowerItem.cs" />
+    <Compile Include="src\RunicTools.cs" />
     <Compile Include="src\WorldLimits.cs" />
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />

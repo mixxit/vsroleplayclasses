@@ -157,6 +157,22 @@ namespace vsroleplayclasses.src
             return result;
         }
 
+        public static string WordOfPowerToLingaMagicaCaseInsensitive(MagicaPower magicaPower)
+        {
+            if (magicaPower == MagicaPower.None)
+                return null;
+
+            return ToDictionary()[magicaPower];
+        }
+
+        internal static MagicaPower? LinguaMagicaStringToMagicaPowerCaseInsensitive(string linguaMagica)
+        {
+            if (String.IsNullOrEmpty(linguaMagica))
+                return null;
+
+            return ToDictionary().FirstOrDefault(e => e.Value.ToLower().Equals(linguaMagica.ToLower())).Key;
+        }
+
         internal static string FromPower(MagicaPower rune)
         {
             return ToDictionary()[rune];

@@ -5,6 +5,7 @@
 	"attributes": {
 		"rackable": false
 	},
+	"storageFlags": 257,
 	"maxstacksize": 1,
 	"creativeinventory": {
 		"general": [ "*" ],
