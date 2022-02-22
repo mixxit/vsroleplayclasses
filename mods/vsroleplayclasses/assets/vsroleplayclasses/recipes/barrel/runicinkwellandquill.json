@@ -1,0 +1,21 @@
+{
+    "code": "runicinkwellandquill",
+    "ingredients": [
+        {
+            "type": "item",
+            "code": "runicinkportion-*",
+            "name": "rune",
+            "litres": 1
+        },
+        {
+            "type": "item",
+            "code": "inkwellandquillempty",
+            "quantity": 1
+        }
+    ],
+    "output": {
+        "type": "item",
+        "code": "runicinkwellandquill-{rune}",
+        "quantity": 1
+    }
+}

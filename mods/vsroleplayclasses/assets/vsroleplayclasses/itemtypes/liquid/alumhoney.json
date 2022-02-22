@@ -8,7 +8,7 @@
         },
         "waterTightContainerProps": {
             "containable": true,
-            "itemsPerLitre": 10,
+            "itemsPerLitre": 1,
             "texture": { "base": "block/liquid/alumhoney" },
             "whenFilled": {
                 "stack": {

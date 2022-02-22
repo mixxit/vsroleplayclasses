@@ -25,6 +25,7 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterItemClass("inkwellempty", typeof(InkwellEmptyItem));
             api.RegisterItemClass("inkwellandquill", typeof(InkwellAndQuillItem));
             api.RegisterItemClass("runicinkwellandquill", typeof(RunicInkwellAndQuillItem));
+            api.RegisterItemClass("runicinkwell", typeof(RunicInkwellItem));
         }
 
 

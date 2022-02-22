@@ -1,0 +1,19 @@
+{
+	"ingredientPattern": "B,C",
+	"ingredients": {
+		"B": {
+			"type": "item",
+			"code": "game:feather"
+		},
+		"C": {
+			"type": "item",
+			"code": "inkwellempty"
+		}
+	},
+	"width": 1,
+	"height": 2,
+	"output": {
+		"type": "item",
+		"code": "inkwellandquillempty"
+	}
+}
