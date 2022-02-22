@@ -4,6 +4,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
+using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Items
 {
@@ -56,6 +57,8 @@ namespace vsroleplayclasses.src.Items
 
             if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, (MagicaPower)magicaPower))
             {
+                TryTransitionToAbility(player, player.Entity.LeftHandItemSlot.Itemstack);
+
                 api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);
                 slot.TakeOut(1);
                 slot.MarkDirty();
@@ -69,12 +72,40 @@ namespace vsroleplayclasses.src.Items
             base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
         }
 
+        private bool TryTransitionToAbility(IServerPlayer player, ItemStack itemstack)
+        {
+            if (itemstack == null)
+                return false;
+
+            if (!(itemstack.Item is AbilityScrollItem))
+                return false;
+
+            if (((AbilityScrollItem)itemstack.Item).IsAbilityScribed(itemstack))
+                return false;
+
+            if (((AbilityScrollItem)itemstack.Item).HasSpareRuneSlot(itemstack))
+                return false;
+
+            SystemAbilities mod = player.Entity.World.Api.ModLoader.GetModSystem<SystemAbilities>();
+            long abilityId = mod.TryCreateAbility(player, itemstack);
+            if (abilityId > 0)
+            {
+                ((AbilityScrollItem)itemstack.Item).SetScribedAbility(itemstack, abilityId);
+                return true;
+            }
+
+            return false;
+        }
+
         private bool TryApplyRuneToScroll(IServerPlayer player, ItemStack itemstack, MagicaPower wordOfPower)
         {
             if (player == null || itemstack == null)
                 return false;
 
             if (!(itemstack.Item is AbilityScrollItem))
+                return false;
+
+            if (((AbilityScrollItem)itemstack.Item).IsAbilityScribed(itemstack))
                 return false;
 
             if (!((AbilityScrollItem)itemstack.Item).HasSpareRuneSlot(itemstack))

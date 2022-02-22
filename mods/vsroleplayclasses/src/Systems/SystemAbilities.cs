@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Common;
@@ -11,7 +12,7 @@ namespace vsroleplayclasses.src.Systems
 {
     public class SystemAbilities : ModSystem
     {
-        List<Ability> abilityList;
+        ConcurrentDictionary<long,Ability> abilityList;
         ICoreServerAPI serverApi;
 
         public override void Start(ICoreAPI api)
@@ -50,7 +51,7 @@ namespace vsroleplayclasses.src.Systems
         private void CmdAbilities(IServerPlayer player, int groupId, CmdArgs args)
         {
             player.SendMessage(groupId, "Abilities:", EnumChatType.OwnMessage);
-            foreach(var value in abilityList)
+            foreach(var value in abilityList.Values)
                 player.SendMessage(groupId, value.Id + ":" + value.Name, EnumChatType.OwnMessage);
         }
 
@@ -90,9 +91,79 @@ namespace vsroleplayclasses.src.Systems
             }
         }
 
+        internal long TryCreateAbility(IServerPlayer player, ItemStack itemstack)
+        {
+            if (itemstack == null)
+                return 0;
+
+            if (!(itemstack.Item is AbilityScrollItem))
+                return 0;
+
+            if (((AbilityScrollItem)itemstack.Item).IsAbilityScribed(itemstack))
+                return ((AbilityScrollItem)itemstack.Item).GetScribedAbility(itemstack);
+
+            if (((AbilityScrollItem)itemstack.Item).HasSpareRuneSlot(itemstack))
+                return 0;
+
+
+            return TryCreateAbilityByRunes(
+                player,
+                ((AbilityScrollItem)itemstack.Item).GetWordOfPowers(itemstack)
+                );
+        }
+
+        private long TryCreateAbilityByRunes(IServerPlayer player, List<MagicaPower> magicaPowers)
+        {
+            if (magicaPowers == null || player == null || magicaPowers.Count < 4)
+                return 0;
+
+            long returnAbilityId = GetAbilityByRunes(magicaPowers.ToArray());
+
+            if (!IsValidMagicaPowerCombination(magicaPowers))
+                return 0;
+
+            return CreateAbility(player, magicaPowers);
+        }
+
+        private long CreateAbility(IServerPlayer player, List<MagicaPower> magicaPowers)
+        {
+            long nextKey = 1;
+            if (this.abilityList.Keys.Count > 0)
+                nextKey = (this.abilityList.Keys.Max() + 1);
+            var ability = this.abilityList.GetOrAdd(nextKey, Ability.Create(nextKey,magicaPowers, PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(player.Entity), player.PlayerUID));
+            if (ability == null)
+                return 0;
+
+            return ability.Id;
+        }
+
+        private long GetAbilityByRunes(MagicaPower[] magicaPowers)
+        {
+            if (magicaPowers.Length < 4)
+                return 0;
+
+            var ability = this.abilityList.Values.FirstOrDefault(
+                e => 
+                e.WordsOfMagic.Contains(magicaPowers[0]) &&
+                e.WordsOfMagic.Contains(magicaPowers[1]) &&
+                e.WordsOfMagic.Contains(magicaPowers[2]) &&
+                e.WordsOfMagic.Contains(magicaPowers[3])
+                );
+
+            if (ability == null)
+                return 0;
+
+            return ability.Id;
+        }
+
+        private bool IsValidMagicaPowerCombination(List<MagicaPower> magicaPowers)
+        {
+            return true;
+        }
+
         private bool AbilityExists(long abilityId)
         {
-            return this.abilityList.Any(e => e.Id == abilityId);
+            return this.abilityList[abilityId] != null;
         }
 
         private void CmdForceScrollAbility(IServerPlayer player, int groupId, CmdArgs args)
@@ -173,7 +244,11 @@ namespace vsroleplayclasses.src.Systems
         {
             byte[] data = serverApi.WorldManager.SaveGame.GetData("vsroleplayclasses_abilities");
 
-            abilityList = data == null || data.Length == 0 ? PreloadSpells() : SerializerUtil.Deserialize<List<Ability>>(data);
+            abilityList = new ConcurrentDictionary<long, Ability>();
+            var temporaryAbilityList = data == null || data.Length == 0 ? PreloadSpells() : SerializerUtil.Deserialize<List<Ability>>(data);
+            foreach (var ability in temporaryAbilityList)
+                abilityList.GetOrAdd(ability.Id, ability);
+
         }
 
         private List<Ability> PreloadSpells()
@@ -183,7 +258,7 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnSaveGameSaving()
         {
-            serverApi.WorldManager.SaveGame.StoreData("vsroleplayclasses_abilities", SerializerUtil.Serialize(abilityList));
+            serverApi.WorldManager.SaveGame.StoreData("vsroleplayclasses_abilities", SerializerUtil.Serialize(abilityList.Values.ToList()));
         }
 
 

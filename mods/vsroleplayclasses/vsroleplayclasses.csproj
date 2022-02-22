@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\Lib\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +73,7 @@
     <Compile Include="src\Items\InkwellAndQuillItem.cs" />
     <Compile Include="src\Items\InkwellItem.cs" />
     <Compile Include="src\Items\CrushedPowerItem.cs" />
+    <Compile Include="src\PlayerNameUtils.cs" />
     <Compile Include="src\RunicTools.cs" />
     <Compile Include="src\WorldLimits.cs" />
     <Content Include="assets\game\config\characterclasses.json" />
