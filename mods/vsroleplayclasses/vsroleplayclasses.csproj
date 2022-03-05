@@ -68,13 +68,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Items\InkwellEmptyItem.cs" />
+    <Compile Include="src\MagicPowerSlot.cs" />
     <Compile Include="src\Items\RunicInkwellItem.cs" />
     <Compile Include="src\Items\RunicInkwellAndQuillItem.cs" />
     <Compile Include="src\Items\InkwellAndQuillItem.cs" />
     <Compile Include="src\Items\InkwellItem.cs" />
     <Compile Include="src\Items\CrushedPowerItem.cs" />
+    <Compile Include="src\MagicWord.cs" />
     <Compile Include="src\PlayerNameUtils.cs" />
+    <Compile Include="src\PowerLevel.cs" />
+    <Compile Include="src\ResistType.cs" />
     <Compile Include="src\RunicTools.cs" />
+    <Compile Include="src\SpellEffectIndex.cs" />
+    <Compile Include="src\SpellPolarity.cs" />
+    <Compile Include="src\TargetType.cs" />
     <Compile Include="src\WorldLimits.cs" />
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />
@@ -97,9 +104,7 @@
     <Compile Include="src\SpellEffectType.cs" />
     <Compile Include="src\Systems\SystemMana.cs" />
     <Compile Include="src\Systems\SystemStatistics.cs" />
-    <Compile Include="src\Time.cs" />
     <Compile Include="src\Items\RuneOfPowerItem.cs" />
-    <Compile Include="src\LinguaMagica.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorExperience.cs" />
     <Compile Include="src\Extensions\EntityExt.cs" />
     <Compile Include="src\EnumAdventuringClass.cs" />

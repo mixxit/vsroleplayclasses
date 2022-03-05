@@ -125,7 +125,16 @@
                 "ros",
                 "ex",
                 "xen",
-                "gen"
+                "gen",
+                "fri",
+                "heet",
+                "swe",
+                "tar",
+                "krup",
+                "expa",
+                "ghu",
+                "scu",
+                "rew"
             ]
         }
     ],
@@ -267,7 +276,16 @@
                         "ros",
                         "ex",
                         "xen",
-                        "gen"
+                        "gen",
+                        "fri",
+                        "heet",
+                        "swe",
+                        "tar",
+                        "krup",
+                        "expa",
+                        "ghu",
+                        "scu",
+                        "rew"
                     ]
                 }
             },

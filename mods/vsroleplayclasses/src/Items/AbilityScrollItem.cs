@@ -41,21 +41,27 @@ namespace vsroleplayclasses.src.Items
                 }
             }
 
-            var wordOfPower1 = GetWordOfPower(inSlot.Itemstack, 1);
-            var wordOfPower2 = GetWordOfPower(inSlot.Itemstack, 2);
-            var wordOfPower3 = GetWordOfPower(inSlot.Itemstack, 3);
-            var wordOfPower4 = GetWordOfPower(inSlot.Itemstack, 4);
 
-            if (wordOfPower1 != null)
-                dsc.AppendLine(Lang.Get("Words of Power: {0}", LinguaMagica.WordOfPowerToLingaMagicaCaseInsensitive((MagicaPower)wordOfPower1)));
-            if (wordOfPower2 != null)
-                dsc.AppendLine(Lang.Get("Words of Power: {0}", LinguaMagica.WordOfPowerToLingaMagicaCaseInsensitive((MagicaPower)wordOfPower2)));
-            if (wordOfPower3 != null)
-                dsc.AppendLine(Lang.Get("Words of Power: {0}", LinguaMagica.WordOfPowerToLingaMagicaCaseInsensitive((MagicaPower)wordOfPower3)));
-            if (wordOfPower4 != null)
-                dsc.AppendLine(Lang.Get("Words of Power: {0}", LinguaMagica.WordOfPowerToLingaMagicaCaseInsensitive((MagicaPower)wordOfPower4)));
+            var spellEffectIndex = GetWordOfPower<SpellEffectIndex>(inSlot.Itemstack);
+            var spellEffectType = GetWordOfPower<SpellEffectType>(inSlot.Itemstack);
+            var targetType = GetWordOfPower<TargetType>(inSlot.Itemstack);
+            var resistType = GetWordOfPower<ResistType>(inSlot.Itemstack);
+            var spellPolarity = GetWordOfPower<SpellPolarity>(inSlot.Itemstack);
+            var powerLevel = GetWordOfPower<PowerLevel>(inSlot.Itemstack);
+
+            if (spellEffectIndex != SpellEffectIndex.None)
+                dsc.AppendLine(Lang.Get("Spell Effect Index: {0}", spellEffectIndex));
+            if (spellEffectType != SpellEffectType.None)
+                dsc.AppendLine(Lang.Get("Spell Effect Type: {0}", spellEffectType));
+            if (targetType != TargetType.None)
+                dsc.AppendLine(Lang.Get("Target Type: {0}", targetType));
+            if (resistType != ResistType.None)
+                dsc.AppendLine(Lang.Get("Resist Type: {0}", resistType));
+            if (spellPolarity != SpellPolarity.None)
+                dsc.AppendLine(Lang.Get("Spell Polarity: {0}", spellPolarity));
+            if (powerLevel != PowerLevel.None)
+                dsc.AppendLine(Lang.Get("Power Level: {0}", powerLevel));
         }
-
 
         public bool IsAbilityScribed(ItemStack itemStack)
         {
@@ -73,40 +79,49 @@ namespace vsroleplayclasses.src.Items
             }
         }
 
-        public void SetWordOfPower(ItemStack itemStack, int slot, MagicaPower magicPower)
+        public void SetWordOfPower<T>(ItemStack itemStack, T magicPower) where T : Enum
         {
-            if (slot < 1 || slot > 4)
+            MagicPowerSlot magicPowerSlot = (MagicPowerSlot)Enum.Parse(typeof(MagicPowerSlot), typeof(T).Name);
+
+            if (magicPowerSlot == MagicPowerSlot.None)
                 throw new Exception("Invalid slot");
 
             if (itemStack.Attributes != null)
             {
-                itemStack.Attributes.SetString("wordOfPower_"+slot, magicPower.ToString());
-                if (!itemStack.Attributes.HasAttribute("wordOfPower_"+slot))
+                itemStack.Attributes.SetInt("wordOfPower_"+ magicPowerSlot, (int)(object)magicPower);
+                if (!itemStack.Attributes.HasAttribute("wordOfPower_" + magicPowerSlot))
                     throw new Exception("This should not happen");
             }
         }
 
-        internal MagicaPower? GetWordOfPower(ItemStack itemStack, int slot)
+        internal T GetWordOfPower<T>(ItemStack itemStack) where T : Enum
         {
-            if (slot < 1 || slot > 4)
+            MagicPowerSlot magicPowerSlot = (MagicPowerSlot)Enum.Parse(typeof(MagicPowerSlot), typeof(T).Name);
+
+            if (magicPowerSlot == MagicPowerSlot.None)
                 throw new Exception("Invalid slot");
 
             if (itemStack.Attributes != null)
             {
                 try
                 {
-                    if (!itemStack.Attributes.HasAttribute("wordOfPower_"+slot))
-                        return null;
-                    var wordOfPower = itemStack.Attributes.GetString("wordOfPower_" + slot, null);
-                    return RunicTools.GetWordOfPowerFromWordOfPowerString(wordOfPower);
+                    if (!itemStack.Attributes.HasAttribute("wordOfPower_"+ magicPowerSlot))
+                        return default(T);
+
+                    var wordOfPower = itemStack.Attributes.TryGetInt("wordOfPower_" + magicPowerSlot);
+                    if (wordOfPower == null)
+                        return default(T);
+
+
+                    return (T)Enum.ToObject(typeof(T), wordOfPower);
                 }
                 catch (InvalidCastException)
                 {
 
-                    return null;
+                    return default(T);
                 }
             }
-            return null;
+            return default(T);
         }
         
         internal long GetScribedAbility(ItemStack itemStack)
@@ -129,26 +144,28 @@ namespace vsroleplayclasses.src.Items
             return -1;
         }
 
-        public List<MagicaPower> GetWordOfPowers(ItemStack itemStack)
-        {
-            List<MagicaPower> magicPowers = new List<MagicaPower>();
-            for (int i = 1; i <= 4; i++)
-            {
-                if (GetWordOfPower(itemStack,i) != null)
-                    magicPowers.Add((MagicaPower)GetWordOfPower(itemStack,i));
-            }
-
-            return magicPowers;
-        }
-
-        internal bool HasRunePower(ItemStack itemstack, MagicaPower wordOfPower)
-        {
-            return GetWordOfPowers(itemstack).Contains(wordOfPower);
-        }
-
         public bool HasSpareRuneSlot(ItemStack itemstack)
         {
-            return (GetWordOfPower(itemstack, 4) == null);
+            if (!HasRunePower<SpellEffectIndex>(itemstack))
+                return true;
+            if (!HasRunePower<SpellEffectType>(itemstack))
+                return true;
+            if (!HasRunePower<TargetType>(itemstack))
+                return true;
+            if (!HasRunePower<ResistType>(itemstack))
+                return true;
+            if (!HasRunePower<SpellPolarity>(itemstack))
+                return true;
+            if (!HasRunePower<PowerLevel>(itemstack))
+                return true;
+
+            return false;
+        }
+
+
+        internal bool HasRunePower<T>(ItemStack itemstack) where T : Enum
+        {
+            return !Object.Equals(GetWordOfPower<T>(itemstack), default(T));
         }
     }
 }

@@ -8,6 +8,7 @@ namespace vsroleplayclasses.src
 {
     public enum SpellEffectType
     {
+        None,
         CurrentHP, 
         ArmorClass, 
         ATK, 

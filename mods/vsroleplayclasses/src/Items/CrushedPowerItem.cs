@@ -14,14 +14,5 @@ namespace vsroleplayclasses.src.Items
             if (api.Side != EnumAppSide.Client)
                 return;
         }
-        internal MagicaPower GetScribedRune(ItemStack itemStack)
-        {
-            if (itemStack.Attributes != null)
-            {
-                
-            }
-            return MagicaPower.None;
-        }
-
     }
 }

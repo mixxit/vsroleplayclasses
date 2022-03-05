@@ -47,29 +47,89 @@ namespace vsroleplayclasses.src.Items
                 return;
             }
 
-            var magicaPower = RunicTools.GetWordOfPowerFromQuillItem((RunicInkwellAndQuillItem)slot.Itemstack.Item);
-            if (magicaPower == null)
+            var spellEffectIndex = RunicTools.GetWordOfPowerFromQuillItem<SpellEffectIndex>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+            var spellEffectType = RunicTools.GetWordOfPowerFromQuillItem<SpellEffectType>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+            var targetType = RunicTools.GetWordOfPowerFromQuillItem<TargetType>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+            var resistType = RunicTools.GetWordOfPowerFromQuillItem<ResistType>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+            var spellPolarity = RunicTools.GetWordOfPowerFromQuillItem<SpellPolarity>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+            var powerLevel = RunicTools.GetWordOfPowerFromQuillItem<PowerLevel>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+
+            if (
+                spellEffectIndex == SpellEffectIndex.None &&
+                spellEffectType == SpellEffectType.None &&
+                targetType == TargetType.None &&
+                resistType == ResistType.None &&
+                spellPolarity == SpellPolarity.None &&
+                powerLevel == PowerLevel.None
+                )
             {
                 player.SendMessage(GlobalConstants.CurrentChatGroup, $"Cannot find runic ink and quill", EnumChatType.CommandError);
                 handling = EnumHandHandling.PreventDefault;
                 return;
             }
 
-            if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, (MagicaPower)magicaPower))
-            {
-                TryTransitionToAbility(player, player.Entity.LeftHandItemSlot.Itemstack);
+            if (spellEffectIndex != SpellEffectIndex.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, spellEffectIndex))
+                {
+                    Consume(player, slot);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
 
-                api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);
-                slot.TakeOut(1);
-                slot.MarkDirty();
-                player.Entity.LeftHandItemSlot.MarkDirty();
+            if (spellEffectType != SpellEffectType.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, spellEffectType))
+                {
+                    Consume(player, slot);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
 
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"Scribed", EnumChatType.CommandSuccess);
-                handling = EnumHandHandling.PreventDefault;
-                return;
-            }
+            if (targetType != TargetType.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, targetType))
+                {
+                    Consume(player, slot);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+
+            if (resistType != ResistType.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, resistType))
+                {
+                    Consume(player, slot);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+
+            if (spellPolarity != SpellPolarity.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, spellPolarity))
+                {
+                    Consume(player, slot);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+
+            if (powerLevel != PowerLevel.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, powerLevel))
+                {
+                    Consume(player, slot);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
 
             base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
+        }
+
+        private void Consume(IServerPlayer player, ItemSlot slot)
+        {
+            TryTransitionToAbility(player, player.Entity.LeftHandItemSlot.Itemstack);
+
+            api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);
+            slot.TakeOut(1);
+            slot.MarkDirty();
+            player.Entity.LeftHandItemSlot.MarkDirty();
+
+            player.SendMessage(GlobalConstants.CurrentChatGroup, $"Scribed", EnumChatType.CommandSuccess);
+            
         }
 
         private bool TryTransitionToAbility(IServerPlayer player, ItemStack itemstack)
@@ -97,7 +157,7 @@ namespace vsroleplayclasses.src.Items
             return false;
         }
 
-        private bool TryApplyRuneToScroll(IServerPlayer player, ItemStack itemstack, MagicaPower wordOfPower)
+        private bool TryApplyRuneToScroll<T>(IServerPlayer player, ItemStack itemstack, T wordOfPower) where T : Enum
         {
             if (player == null || itemstack == null)
                 return false;
@@ -111,33 +171,14 @@ namespace vsroleplayclasses.src.Items
             if (!((AbilityScrollItem)itemstack.Item).HasSpareRuneSlot(itemstack))
                 return false;
 
-            if (((AbilityScrollItem)itemstack.Item).HasRunePower(itemstack, wordOfPower))
+            if (((AbilityScrollItem)itemstack.Item).HasRunePower<T>(itemstack))
                 return false;
 
-            if (((AbilityScrollItem)itemstack.Item).GetWordOfPower(itemstack, 1) == null)
+            if (Object.Equals(((AbilityScrollItem)itemstack.Item).GetWordOfPower<T>(itemstack), default(T)))
             {
-                ((AbilityScrollItem)itemstack.Item).SetWordOfPower(itemstack, 1, wordOfPower);
+                ((AbilityScrollItem)itemstack.Item).SetWordOfPower<T>(itemstack, wordOfPower);
                 return true;
             }
-
-            if (((AbilityScrollItem)itemstack.Item).GetWordOfPower(itemstack, 2) == null)
-            {
-                ((AbilityScrollItem)itemstack.Item).SetWordOfPower(itemstack, 2, wordOfPower);
-                return true;
-            }
-
-            if (((AbilityScrollItem)itemstack.Item).GetWordOfPower(itemstack, 3) == null)
-            {
-                ((AbilityScrollItem)itemstack.Item).SetWordOfPower(itemstack, 3, wordOfPower);
-                return true;
-            }
-
-            if (((AbilityScrollItem)itemstack.Item).GetWordOfPower(itemstack, 4) == null)
-            {
-                ((AbilityScrollItem)itemstack.Item).SetWordOfPower(itemstack, 4, wordOfPower);
-                return true;
-            }
-
             return false;
         }
     }

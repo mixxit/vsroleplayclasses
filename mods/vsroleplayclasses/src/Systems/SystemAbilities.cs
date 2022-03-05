@@ -44,7 +44,7 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
             api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
             api.RegisterCommand("forceabilitybookability", "forces a abilitybook abillity in a slot", "", CmdForceAbilitybookAbility, "root");
-            api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
+            //api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
             base.StartServerSide(api);
         }
 
@@ -105,60 +105,104 @@ namespace vsroleplayclasses.src.Systems
             if (((AbilityScrollItem)itemstack.Item).HasSpareRuneSlot(itemstack))
                 return 0;
 
+            var spellEffectIndex = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<SpellEffectIndex>(itemstack);
+            var spellEffectType = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<SpellEffectType>(itemstack);
+            var targetType = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<TargetType>(itemstack);
+            var resistType = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<ResistType>(itemstack);
+            var spellPolarity = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<SpellPolarity>(itemstack);
+            var powerLevel = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<PowerLevel>(itemstack);
 
             return TryCreateAbilityByRunes(
                 player,
-                ((AbilityScrollItem)itemstack.Item).GetWordOfPowers(itemstack)
+                spellEffectIndex,
+                spellEffectType,
+                resistType,
+                targetType,
+                spellPolarity,
+                powerLevel
+                
                 );
         }
 
-        private long TryCreateAbilityByRunes(IServerPlayer player, List<MagicaPower> magicaPowers)
+        private long TryCreateAbilityByRunes(IServerPlayer player,
+            SpellEffectIndex spellEffectIndex,
+            SpellEffectType spellEffect,
+            ResistType resistType,
+            TargetType targetType,
+            SpellPolarity spellPolarity,
+            PowerLevel powerLevel
+            )
         {
-            if (magicaPowers == null || player == null || magicaPowers.Count < 4)
+            if (player == null)
                 return 0;
 
-            long returnAbilityId = GetAbilityByRunes(magicaPowers.ToArray());
+            long returnAbilityId = GetAbilityByRunes(spellEffectIndex,
+            spellEffect,
+            resistType,
+            targetType,
+            spellPolarity,
+            powerLevel);
 
-            if (!IsValidMagicaPowerCombination(magicaPowers))
-                return 0;
+            if (returnAbilityId > 0)
+                return returnAbilityId;
 
-            return CreateAbility(player, magicaPowers);
+            /*if (!IsValidMagicaPowerCombination(spellEffectIndex,
+            spellEffect,
+            resistType,
+            targetType,
+            spellPolarity,
+            powerLevel))
+                return 0;*/
+
+            return CreateAbility(player, spellEffectIndex,
+            spellEffect,
+            resistType,
+            targetType,
+            spellPolarity,
+            powerLevel);
         }
 
-        private long CreateAbility(IServerPlayer player, List<MagicaPower> magicaPowers)
+        private long CreateAbility(IServerPlayer player, SpellEffectIndex spellEffectIndex,
+            SpellEffectType spellEffect,
+            ResistType resistType,
+            TargetType targetType,
+            SpellPolarity spellPolarity,
+            PowerLevel powerLevel)
         {
             long nextKey = 1;
             if (this.abilityList.Keys.Count > 0)
                 nextKey = (this.abilityList.Keys.Max() + 1);
-            var ability = this.abilityList.GetOrAdd(nextKey, Ability.Create(nextKey,magicaPowers, PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(player.Entity), player.PlayerUID));
+
+            var ability = this.abilityList.GetOrAdd(nextKey, Ability.Create(nextKey,PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(player.Entity), player.PlayerUID, spellEffectIndex, spellEffect, resistType,targetType, spellPolarity, powerLevel));
             if (ability == null)
                 return 0;
 
             return ability.Id;
         }
 
-        private long GetAbilityByRunes(MagicaPower[] magicaPowers)
+        private long GetAbilityByRunes(
+            SpellEffectIndex spellEffectIndex,
+            SpellEffectType spellEffect,
+            ResistType resistType,
+            TargetType targetType,
+            SpellPolarity spellPolarity,
+            PowerLevel powerLevel
+            )
         {
-            if (magicaPowers.Length < 4)
-                return 0;
-
             var ability = this.abilityList.Values.FirstOrDefault(
                 e => 
-                e.WordsOfMagic.Contains(magicaPowers[0]) &&
-                e.WordsOfMagic.Contains(magicaPowers[1]) &&
-                e.WordsOfMagic.Contains(magicaPowers[2]) &&
-                e.WordsOfMagic.Contains(magicaPowers[3])
+                e.SpellEffectIndex == spellEffectIndex &&
+                e.SpellEffect == spellEffect &&
+                e.ResistType == resistType &&
+                e.TargetType == targetType &&
+                e.SpellPolarity == spellPolarity &&
+                e.PowerLevel == powerLevel
                 );
 
             if (ability == null)
                 return 0;
 
             return ability.Id;
-        }
-
-        private bool IsValidMagicaPowerCombination(List<MagicaPower> magicaPowers)
-        {
-            return true;
         }
 
         private bool AbilityExists(long abilityId)
@@ -218,12 +262,12 @@ namespace vsroleplayclasses.src.Systems
         }
 
 
-        private void CmdLinguaMagica(IServerPlayer player, int groupId, CmdArgs args)
+        /*private void CmdLinguaMagica(IServerPlayer player, int groupId, CmdArgs args)
         {
             var lingua = LinguaMagica.ToCommaSeperatedString();
             player.SendMessage(groupId, "Lingua Magica:", EnumChatType.OwnMessage);
             player.SendMessage(groupId, lingua, EnumChatType.OwnMessage);
-        }
+        }*/
 
         private void OnPlayerNowPlaying(IServerPlayer player)
         {
