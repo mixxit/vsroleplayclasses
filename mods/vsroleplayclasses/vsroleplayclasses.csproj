@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Gui\HudManaBar.cs" />
     <Compile Include="src\Items\InkwellAndQuillEmptyItem.cs" />
     <Compile Include="src\Items\InkwellEmptyItem.cs" />
     <Compile Include="src\MagicPowerSlot.cs" />
@@ -148,6 +149,8 @@
     <None Include="assets\vsroleplayclasses\recipes\grid\abilitybook.json" />
     <None Include="assets\vsroleplayclasses\recipes\grid\crushedpower.json" />
     <None Include="assets\vsroleplayclasses\recipes\grid\inkwellandquillempty.json" />
+    <None Include="assets\vsroleplayclasses\recipes\grid\abilityscroll.json" />
+    <None Include="assets\vsroleplayclasses\recipes\grid\paper-parchment.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

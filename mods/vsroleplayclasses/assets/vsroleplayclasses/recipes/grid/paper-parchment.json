@@ -1,0 +1,22 @@
+{
+    "ingredientPattern": "K,C",
+    "width": 1,
+    "height": 2,
+    "ingredients": {
+        "K": {
+            "type": "item",
+            "code": "game:knife-*",
+            "isTool": true
+        },
+        "C": {
+            "type": "item",
+            "code": "game:cattailtops",
+            "quantity": 5
+        }
+    },
+    "output": {
+        "type": "item",
+        "code": "game:paper-parchment",
+        "quantity": 1
+    }
+}

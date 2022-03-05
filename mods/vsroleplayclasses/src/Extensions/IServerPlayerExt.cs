@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using vsroleplayclasses.src;
@@ -188,17 +189,30 @@ namespace vsroleplayclasses.src.Extensions
             player.Entity.WatchedAttributes.SetInt("level", player.CalculateLevel());
         }
 
-        private static double GetMaxMana(this IServerPlayer player)
+        public static float GetMaxMana(this IServerPlayer player)
         {
-            return player.Entity.WatchedAttributes.GetDouble("maxmana", player.CalculateMaxMana());
+            if (player.Entity.WatchedAttributes.TryGetFloat("maxmana") == null)
+                player.Entity.WatchedAttributes.SetFloat("maxmana",player.CalculateMaxMana());
+
+            return player.Entity.WatchedAttributes.GetFloat("maxmana");
         }
 
-        public static void SetMaxMana(this IServerPlayer player, double maxmana)
+        public static void TickMana(this IServerPlayer player)
         {
-            player.Entity.WatchedAttributes.SetDouble("maxmana", maxmana);
+            player.SetMana(player.GetMana() + player.GetManaRegen());
         }
 
-        private static double CalculateMaxMana(this IServerPlayer player)
+        public static float GetManaRegen(this IServerPlayer player)
+        {
+            return 1;
+        }
+
+        public static void SetMaxMana(this IServerPlayer player, float maxmana)
+        {
+            player.Entity.WatchedAttributes.SetFloat("maxmana", maxmana);
+        }
+
+        private static float CalculateMaxMana(this IServerPlayer player)
         {
             // take whatever is highest starting with agililty
             int wisintagi = new[] { player.GetStatistic(StatType.Wisdom), player.GetStatistic(StatType.Intelligence), player.GetStatistic(StatType.Agility) }.Max(); ;
@@ -206,7 +220,10 @@ namespace vsroleplayclasses.src.Extensions
             double maxmana = ((850 * player.GetLevel()) + (85 * wisintagi * player.GetLevel())) / 425;
             //maxmana += getItemMana();
 
-            return (double)Math.Floor(maxmana);
+            if (maxmana > float.MaxValue)
+                maxmana = float.MaxValue;
+
+            return (float)Math.Floor(maxmana);
         }
 
         public static int GetStatistic(this IServerPlayer player, StatType type)
@@ -242,17 +259,20 @@ namespace vsroleplayclasses.src.Extensions
             return WorldLimits.MAX_STATISTIC;
         }
 
-        public static double GetMana(this IServerPlayer player)
+        public static float GetMana(this IServerPlayer player)
         {
-            return player.Entity.WatchedAttributes.GetDouble("mana", 0);
+            if (player.Entity.WatchedAttributes.TryGetFloat("currentmana") == null)
+                player.SetMana(player.GetMaxMana());
+
+            return player.Entity.WatchedAttributes.GetFloat("currentmana");
         }
 
-        public static void SetMana(this IServerPlayer player, double mana)
+        public static void SetMana(this IServerPlayer player, float mana)
         {
             if (mana > player.GetMaxMana())
                 mana = player.GetMaxMana();
 
-            player.Entity.WatchedAttributes.SetDouble("mana", mana);
+            player.Entity.WatchedAttributes.SetFloat("currentmana", mana);
         }
 
         public static void GrantExperience(this IServerPlayer player, EnumAdventuringClass experienceType, double xp)

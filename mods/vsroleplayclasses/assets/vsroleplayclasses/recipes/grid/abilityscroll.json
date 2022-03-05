@@ -1,0 +1,22 @@
+{
+    "ingredientPattern": "K,C",
+    "width": 1,
+    "height": 2,
+    "ingredients": {
+        "K": {
+            "type": "item",
+            "code": "game:paper-parchment",
+            "quantity": 2
+        },
+        "C": {
+            "type": "item",
+            "code": "crushedpower-mana",
+            "quantity": 2
+        }
+    },
+    "output": {
+        "type": "item",
+        "code": "abilityscroll",
+        "quantity": 1
+    }
+}

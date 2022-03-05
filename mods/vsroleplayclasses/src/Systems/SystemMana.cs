@@ -1,13 +1,16 @@
 ﻿using vsroleplayclasses.src.Extensions;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
+using Vintagestory.API.Client;
+using vsroleplayclasses.src.Gui;
+using System;
 
 namespace vsroleplayclasses.src.Systems
 {
     public class SystemMana : ModSystem
     {
         ICoreServerAPI serverApi;
-
+        
         public override void Start(ICoreAPI api)
         {
             base.Start(api);
@@ -24,12 +27,24 @@ namespace vsroleplayclasses.src.Systems
             serverApi = api;
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             api.RegisterCommand("Mana", "lists information about Mana", "", CmdMana, null);
+            api.Event.RegisterGameTickListener(OnServerManaTick, 8000);
             base.StartServerSide(api);
+        }
+
+        private void OnServerManaTick(float obj)
+        {
+            foreach (var player in serverApi.World.AllOnlinePlayers)
+                ((IServerPlayer)player).TickMana();
+        }
+
+        public override void StartClientSide(ICoreClientAPI capi)
+        {
+            capi.Gui.RegisterDialog(new HudManaBar(capi));
         }
 
         private void CmdMana(IServerPlayer player, int groupId, CmdArgs args)
         {
-            player.SendMessage(groupId, "Mana: " + player.GetMana(), EnumChatType.OwnMessage);
+            player.SendMessage(groupId, "Mana: " + player.GetMana() + "/" + player.GetMaxMana(), EnumChatType.OwnMessage);
         }
 
 
@@ -47,11 +62,6 @@ namespace vsroleplayclasses.src.Systems
         {
             player.ResetMana();
             player.ResetStatisticState();
-        }
-
-        private void OnGameTick(float tick)
-        {
-
         }
     }
 }
