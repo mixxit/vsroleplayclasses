@@ -25,6 +25,7 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterItemClass("inkwell", typeof(InkwellItem));
             api.RegisterItemClass("inkwellempty", typeof(InkwellEmptyItem));
             api.RegisterItemClass("inkwellandquill", typeof(InkwellAndQuillItem));
+            api.RegisterItemClass("inkwellandquillempty", typeof(InkwellAndQuillEmptyItem));
             api.RegisterItemClass("runicinkwellandquill", typeof(RunicInkwellAndQuillItem));
             api.RegisterItemClass("runicinkwell", typeof(RunicInkwellItem));
         }
@@ -41,11 +42,36 @@ namespace vsroleplayclasses.src.Systems
             api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
+            api.RegisterCommand("forcecast", "force casts an ability", "", CmdForceCast, "root");
             api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
             api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
             api.RegisterCommand("forceabilitybookability", "forces a abilitybook abillity in a slot", "", CmdForceAbilitybookAbility, "root");
             //api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
             base.StartServerSide(api);
+        }
+
+        private void CmdForceCast(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            if (args.Length < 1)
+            {
+                player.SendMessage(groupId, $"Missing argument (abilityid)", EnumChatType.CommandError);
+                return;
+            }
+
+            if (!abilityList.ContainsKey(Convert.ToInt64(args[0])))
+            {
+                player.SendMessage(groupId, $"Ability ID not found", EnumChatType.CommandError);
+                return;
+            }
+
+            var ability = abilityList[Convert.ToInt64(args[0])];
+            if (ability == null)
+            {
+                player.SendMessage(groupId, $"Ability ID not found", EnumChatType.CommandError);
+                return;
+            }
+
+            ability.Cast(player.Entity, player.Entity);
         }
 
         private void CmdAbilities(IServerPlayer player, int groupId, CmdArgs args)

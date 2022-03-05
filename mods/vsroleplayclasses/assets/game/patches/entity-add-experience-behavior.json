@@ -14,7 +14,34 @@
         "value": {
             "code": "EntityBehaviorExperience"
         },
-        "file": "entities/land/chicken-rooster.json",
+        "file": "entities/land/wolf-female.json",
+        "side": "Server"
+    },
+    {
+        "op": "add",
+        "path": "/server/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/land/wolf-male.json",
+        "side": "Server"
+    },
+    {
+        "op": "add",
+        "path": "/server/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/land/bear-female.json",
+        "side": "Server"
+    },
+    {
+        "op": "add",
+        "path": "/server/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorExperience"
+        },
+        "file": "entities/land/bear-male.json",
         "side": "Server"
     }
 ]

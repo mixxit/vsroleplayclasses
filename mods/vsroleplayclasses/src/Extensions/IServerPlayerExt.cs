@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -294,7 +295,46 @@ namespace vsroleplayclasses.src.Extensions
         public static void CastSpell(this IServerPlayer player, int memorisedSpellSlot)
         {
             if (GetCurrentAbility() != null)
-                GetCurrentAbility().Cast(player.GetTarget());
+                GetCurrentAbility().Cast(player.Entity, player.GetTarget());
+        }
+
+        public static PlayerSpawnPos GetCurrentPositionAsPlayerSpawnPos(this IServerPlayer player)
+        {
+            return new PlayerSpawnPos()
+            {
+                x = player.Entity.ServerPos.XYZInt.X,
+                y = player.Entity.ServerPos.XYZInt.Y,
+                z = player.Entity.ServerPos.XYZInt.Z,
+                yaw = player.Entity.ServerPos.Yaw,
+                pitch = player.Entity.ServerPos.Pitch,
+                RemainingUses = 99999999
+            };
+        }
+
+        public static PlayerSpawnPos GetPlayerSpawnPos(this IServerPlayer player)
+        {
+            return new PlayerSpawnPos()
+            {
+                x = player.GetSpawnPosition(false).XYZInt.X,
+                y = player.GetSpawnPosition(false).XYZInt.Y,
+                z = player.GetSpawnPosition(false).XYZInt.Z,
+                yaw = player.GetSpawnPosition(false).Yaw,
+                pitch = player.GetSpawnPosition(false).Pitch,
+                RemainingUses = 99999999
+            };
+        }
+
+        public static bool BindToLocation(this IServerPlayer player)
+        {
+            var pos = player.GetCurrentPositionAsPlayerSpawnPos();
+            player.SetSpawnPosition(pos);
+            return true;
+        }
+
+        public static bool GateToBind(this IServerPlayer player)
+        {
+            player.Entity.TeleportTo(player.GetSpawnPosition(false).XYZ.AsBlockPos);
+            return true;
         }
 
         private static Entity GetTarget(this IServerPlayer player)

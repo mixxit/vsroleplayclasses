@@ -6,31 +6,60 @@ namespace vsroleplayclasses.src.Extensions
 {
     public static class EntityExt
     {
+        public static bool IsIServerPlayer(this Entity me)
+        {
+            if (!(me is EntityPlayer))
+                return false;
+
+            if (((EntityPlayer)me).Player == null)
+                return false;
+
+            if (!(((EntityPlayer)me).Player is IServerPlayer))
+                return false;
+
+            return true;
+        }
+
+        public static bool BindToLocation(this Entity me)
+        {
+            if (!me.IsIServerPlayer())
+                return false;
+
+            return me.GetAsIServerPlayer().BindToLocation();
+        }
+
+        public static IServerPlayer GetAsIServerPlayer(this Entity me)
+        {
+            if (!me.IsIServerPlayer())
+                return null;
+
+            return ((IServerPlayer)((EntityPlayer)me).Player);
+        }
+
+        public static bool GateToBind(this Entity me)
+        {
+            if (!me.IsIServerPlayer())
+                return false;
+
+            return me.GetAsIServerPlayer().GateToBind();
+        }
+
         public static void AwardExperience(this Entity me, EnumAdventuringClass experienceType, double experienceAmount)
         {
             if (experienceType == EnumAdventuringClass.None)
                 return;
 
             // Only award to players
-            if (!(me is EntityPlayer))
+            if (!me.IsIServerPlayer())
                 return;
 
-            if (experienceAmount < 1)
-                return;
-
-            if (((EntityPlayer)me).Player == null)
-                return;
-
-            if (!(((EntityPlayer)me).Player is IServerPlayer))
-                return;
-
-            ((IServerPlayer)((EntityPlayer)me).Player).GrantExperience(experienceType, experienceAmount);
+            me.GetAsIServerPlayer().GrantExperience(experienceType, experienceAmount);
         }
 
         public static int GetLevel(this Entity me)
         {
-            if (me is EntityPlayer && ((EntityPlayer)me).Player is IServerPlayer)
-                return ((IServerPlayer)((EntityPlayer)me).Player).GetLevel();
+            if (!me.IsIServerPlayer())
+                return me.GetAsIServerPlayer().GetLevel();
 
             return 1;
         }

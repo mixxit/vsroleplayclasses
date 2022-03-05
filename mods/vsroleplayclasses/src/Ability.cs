@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
+using vsroleplayclasses.src.Extensions;
 
 namespace vsroleplayclasses.src
 {
@@ -70,9 +73,52 @@ namespace vsroleplayclasses.src
             return name;
         }
 
-        internal void Cast(Entity target)
+        internal void Cast(Entity source, Entity clickedTarget)
         {
+            var targets = new List<Entity>();
 
+            if (this.TargetType == TargetType.Self)
+                targets.Add(source);
+            if (this.TargetType == TargetType.Target)
+                targets.Add(clickedTarget);
+
+
+            foreach (var target in targets)
+            {
+                var success = false;
+
+                switch (this.SpellEffect)
+                {
+                    case SpellEffectType.BindAffinity:
+                        success = Bind(source, target);
+                        return;
+                    case SpellEffectType.Gate:
+                        success = Gate(source, target);
+                        return;
+                    default:
+                        return;
+                }
+            }
+        }
+
+        private bool Gate(Entity source, Entity castOn)
+        {
+            var result = castOn.GateToBind();
+            if (result && source.IsIServerPlayer())
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your target stepped through a gate", EnumChatType.CommandSuccess);
+            if (result && castOn.IsIServerPlayer())
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You stepped through a gate", EnumChatType.CommandSuccess);
+            return result;
+        }
+
+        private bool Bind(Entity source, Entity castOn)
+        {
+            var result = castOn.BindToLocation();
+            if (result && source.IsIServerPlayer())
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You bound your target to their location", EnumChatType.CommandSuccess);
+            if (result && castOn.IsIServerPlayer())
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You are bound to your location", EnumChatType.CommandSuccess);
+            return result;
         }
     }
 }

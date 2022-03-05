@@ -1,0 +1,21 @@
+{
+    "code": "abilitybook",
+    "ingredientPattern": "LPP,LPP,LPP",
+    "ingredients": {
+        "L": {
+            "type": "item",
+            "code": "game:leather-plain"
+        },
+        "P": {
+            "type": "item",
+            "code": "game:paper-parchment"
+        }
+    },
+    "width": 3,
+    "height": 3,
+    "output": {
+        "type": "item",
+        "code": "abilitybook",
+        "quantity": 1
+    }
+}
