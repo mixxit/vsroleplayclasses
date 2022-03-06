@@ -62,7 +62,7 @@ namespace vsroleplayclasses.src
 
         protected override ItemSlot NewSlot(int slotId)
         {
-            return new ItemSlot((InventoryBase)this);
+            return (ItemSlot)new ItemSlotScroll((InventoryBase)this);
         }
 
         public override void DiscardAll()
