@@ -120,5 +120,12 @@ namespace vsroleplayclasses.src
                 castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You are bound to your location", EnumChatType.CommandSuccess);
             return result;
         }
+
+        internal float GetManaCost()
+        {
+            var targetTypeModifier = AbilityTools.GetTargetTypeManaCostMultiplier(this.TargetType);
+            return (float)targetTypeModifier*7;
+        }
+
     }
 }

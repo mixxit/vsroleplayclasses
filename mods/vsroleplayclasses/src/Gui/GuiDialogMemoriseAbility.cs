@@ -21,6 +21,9 @@ namespace vsroleplayclasses.src.Gui
         protected virtual void ComposeGuis()
         {
             this.memorisedSlotsInv = this.capi.World.Player.InventoryManager.GetOwnInventory("memoriseability");
+            if (this.memorisedSlotsInv == null)
+                return;
+
             ElementBounds bounds1 = ElementBounds.Fill.WithFixedPadding(GuiStyle.ElementToDialogPadding);
             bounds1.BothSizing = ElementSizing.FitToChildren;
 
@@ -39,8 +42,7 @@ namespace vsroleplayclasses.src.Gui
             SingleComposer = capi.Gui.CreateCompo("memoriseability", dialogBounds)
                 .AddShadedDialogBG(bgBounds)
                 .AddDialogTitleBar("Memorised Abilities", OnTitleBarCloseClicked)
-                .AddItemSlotGrid(this.memorisedSlotsInv,
-                new Action<object>(this.SendInvPacket), 8, new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 }, slotBounds, "spellslots")
+                .AddItemSlotGrid(this.memorisedSlotsInv,new Action<object>(this.SendInvPacket), 8, new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 }, slotBounds, "spellslots")
                 .Compose()
             ;
         }
@@ -48,6 +50,10 @@ namespace vsroleplayclasses.src.Gui
         public override void OnGuiOpened()
         {
             this.ComposeGuis();
+
+            if (this.memorisedSlotsInv == null)
+                return;
+
             if (this.capi.World.Player.WorldData.CurrentGameMode != EnumGameMode.Guest && this.capi.World.Player.WorldData.CurrentGameMode != EnumGameMode.Survival || this.memorisedSlotsInv == null)
                 return;
 

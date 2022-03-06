@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
 using Vintagestory.Common;
@@ -11,6 +12,7 @@ using Vintagestory.Server;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Gui;
 using vsroleplayclasses.src.Items;
+using vsroleplayclasses.src.Packets;
 
 namespace vsroleplayclasses.src.Systems
 {
@@ -26,6 +28,11 @@ namespace vsroleplayclasses.src.Systems
         {
             this.api = api;
             base.Start(api);
+
+            api.Network
+                .RegisterChannel("castabilityinmemoryposition")
+                .RegisterMessageType<CastAbilityInMemoryPositionPacket>();
+
             api.RegisterItemClass("abilitybook", typeof(AbilityBookItem));
             api.RegisterItemClass("abilityscroll", typeof(AbilityScrollItem));
             api.RegisterItemClass("runeofpower", typeof(RuneOfPowerItem));
@@ -50,8 +57,66 @@ namespace vsroleplayclasses.src.Systems
             capi = api;
             capi.Input.RegisterHotKey("memoriseability", "Allows memorisation of abilities", GlKeys.L, HotkeyType.GUIOrOtherControls);
             capi.Input.SetHotKeyHandler("memoriseability", ToggleMemorisationGui);
+            capi.Input.RegisterHotKey("useability1", "Uses memorised ability #1", GlKeys.Number1, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability2", "Uses memorised ability #2", GlKeys.Number2, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability3", "Uses memorised ability #3", GlKeys.Number3, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability4", "Uses memorised ability #4", GlKeys.Number4, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability5", "Uses memorised ability #5", GlKeys.Number5, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability6", "Uses memorised ability #6", GlKeys.Number6, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability7", "Uses memorised ability #7", GlKeys.Number7, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability8", "Uses memorised ability #8", GlKeys.Number8, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.SetHotKeyHandler("useability1", UseAbilityKey1);
+            capi.Input.SetHotKeyHandler("useability2", UseAbilityKey2);
+            capi.Input.SetHotKeyHandler("useability3", UseAbilityKey3);
+            capi.Input.SetHotKeyHandler("useability4", UseAbilityKey4);
+            capi.Input.SetHotKeyHandler("useability5", UseAbilityKey5);
+            capi.Input.SetHotKeyHandler("useability6", UseAbilityKey6);
+            capi.Input.SetHotKeyHandler("useability7", UseAbilityKey7);
+            capi.Input.SetHotKeyHandler("useability8", UseAbilityKey8);
         }
 
+        private bool UseAbilityKey1(KeyCombination keyCombination)
+        {
+            return UseAbility(1);
+        }
+
+        private bool UseAbility(int position)
+        {
+            capi.Network.GetChannel("castabilityinmemoryposition").SendPacket(new CastAbilityInMemoryPositionPacket()
+            {
+                Position = position
+            });
+            return true;
+        }
+
+        private bool UseAbilityKey2(KeyCombination keyCombination)
+        {
+            return UseAbility(2);
+        }
+        private bool UseAbilityKey3(KeyCombination keyCombination)
+        {
+            return UseAbility(3);
+        }
+        private bool UseAbilityKey4(KeyCombination keyCombination)
+        {
+            return UseAbility(4);
+        }
+        private bool UseAbilityKey5(KeyCombination keyCombination)
+        {
+            return UseAbility(5);
+        }
+        private bool UseAbilityKey6(KeyCombination keyCombination)
+        {
+            return UseAbility(6);
+        }
+        private bool UseAbilityKey7(KeyCombination keyCombination)
+        {
+            return UseAbility(7);
+        }
+        private bool UseAbilityKey8(KeyCombination keyCombination)
+        {
+            return UseAbility(8);
+        }
 
         private bool ToggleMemorisationGui(KeyCombination comb)
         {
@@ -70,12 +135,43 @@ namespace vsroleplayclasses.src.Systems
             api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
+            base.StartServerSide(api);
             api.RegisterCommand("forcecast", "force casts an ability", "", CmdForceCast, "root");
             api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
             api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
             api.RegisterCommand("forceabilitybookability", "forces a abilitybook abillity in a slot", "", CmdForceAbilitybookAbility, "root");
             //api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
-            base.StartServerSide(api);
+            api.Network.GetChannel("castabilityinmemoryposition")
+                .SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition)
+            ;
+        }
+
+        internal Ability GetAbilityById(long id)
+        {
+            if (!this.abilityList.ContainsKey(id))
+                return null;
+
+            return this.abilityList[id];
+        }
+
+        private void OnCastAbilityInMemoryPosition(IServerPlayer castingPlayer, CastAbilityInMemoryPositionPacket networkMessage)
+        {
+            var ability = castingPlayer.GetAbilityInMemoryPosition(networkMessage.Position);
+            if (ability == null)
+            {
+                castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Ability not found", EnumChatType.CommandError);
+                return;
+            }
+
+            if (castingPlayer.GetMana() < ability.GetManaCost())
+            {
+                castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient Mana", EnumChatType.CommandError);
+                return;
+            }
+
+            castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Casting {ability.Name}", EnumChatType.CommandSuccess);
+            ability.Cast(castingPlayer.Entity, castingPlayer.GetTarget());
+            castingPlayer.DecreaseMana(ability.GetManaCost());
         }
 
         private void CmdForceCast(IServerPlayer player, int groupId, CmdArgs args)
@@ -154,7 +250,7 @@ namespace vsroleplayclasses.src.Systems
                 return 0;
 
             if (((AbilityScrollItem)itemstack.Item).IsAbilityScribed(itemstack))
-                return ((AbilityScrollItem)itemstack.Item).GetScribedAbility(itemstack);
+                return ((AbilityScrollItem)itemstack.Item).GetScribedAbilityId(itemstack);
 
             if (((AbilityScrollItem)itemstack.Item).HasSpareRuneSlot(itemstack))
                 return 0;

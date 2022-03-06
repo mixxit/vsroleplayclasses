@@ -40,21 +40,20 @@ namespace vsroleplayclasses.src.Systems
         public override void StartServerSide(ICoreServerAPI api)
         {
             ServerMain.ClassRegistry.RegisterInventoryClass("memoriseability", typeof(InventoryPlayerMemorisation));
-            api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
+            api.Event.PlayerJoin += new PlayerDelegate(this.OnPlayerJoinServer);
             base.StartServerSide(api);
         }
-        
-        private void OnPlayerNowPlayingServer(IServerPlayer player)
+
+        private void OnPlayerJoinServer(IServerPlayer player)
         {
             string key = "memoriseability" + "-" + player.WorldData.PlayerUID;
             if (!player.InventoryManager.Inventories.ContainsKey(key))
             {
                 InventoryBasePlayer inventory = (InventoryBasePlayer)ServerMain.ClassRegistry.CreateInventory("memoriseability", key, player.Entity.Api);
                 ((ServerPlayer)player).SetInventory(inventory);
-                inventory.AfterBlocksLoaded(player.Entity.World);
-
                 player.InventoryManager.Inventories[key].Open((IPlayer)player);
             }
         }
+
     }
 }

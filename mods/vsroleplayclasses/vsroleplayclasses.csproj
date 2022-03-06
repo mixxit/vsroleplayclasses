@@ -74,7 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\ItemSlotScroll.cs" />
+    <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
     <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />
     <Compile Include="src\Gui\GuiDialogMemoriseAbility.cs" />
     <Compile Include="src\Gui\HudManaBar.cs" />

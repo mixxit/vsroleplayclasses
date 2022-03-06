@@ -12,6 +12,8 @@ using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using vsroleplayclasses.src;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Items;
+using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Extensions
 {
@@ -154,6 +156,28 @@ namespace vsroleplayclasses.src.Extensions
             player.SetStatistic(StatType.Charisma);
         }
 
+        public static Ability GetAbilityInMemoryPosition(this IServerPlayer player, int position)
+        {
+            if (position < 1 || position > 8)
+                return null;
+
+            if (player.InventoryManager.GetOwnInventory("memoriseability") == null)
+                return null;
+
+            var itemSlot = player.InventoryManager.GetOwnInventory("memoriseability")[position - 1];
+            if (itemSlot == null || itemSlot.Itemstack == null)
+                return null;
+
+            if (!(itemSlot.Itemstack.Item is AbilityScrollItem))
+                return null;
+
+            var mod = player.Entity.World.Api.ModLoader.GetModSystem<SystemAbilities>();
+            if (mod == null)
+                return null;
+
+            return mod.GetAbilityById(((AbilityScrollItem)itemSlot.Itemstack.Item).GetScribedAbilityId(itemSlot.Itemstack));
+        }
+
         public static string GetPlayerOverviewAsText(this IServerPlayer player)
         {
             var text = "Overall Level ["+player.GetLevel()+"] progress: " + player.GetExperiencePercentage() + "% into level - XP: " + player.GetExperience() + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel()) + Environment.NewLine;
@@ -267,10 +291,18 @@ namespace vsroleplayclasses.src.Extensions
             return player.Entity.WatchedAttributes.GetFloat("currentmana");
         }
 
+        public static void DecreaseMana(this IServerPlayer player, float mana)
+        {
+            player.SetMana(player.GetMana()-mana);
+        }
+
         public static void SetMana(this IServerPlayer player, float mana)
         {
             if (mana > player.GetMaxMana())
                 mana = player.GetMaxMana();
+
+            if (mana < 0)
+                mana = 0;
 
             player.Entity.WatchedAttributes.SetFloat("currentmana", mana);
         }
@@ -312,11 +344,6 @@ namespace vsroleplayclasses.src.Extensions
             return charClass;
         }
 
-        public static void CastSpell(this IServerPlayer player, int memorisedSpellSlot)
-        {
-            if (GetCurrentAbility() != null)
-                GetCurrentAbility().Cast(player.Entity, player.GetTarget());
-        }
 
         public static PlayerSpawnPos GetCurrentPositionAsPlayerSpawnPos(this IServerPlayer player)
         {
@@ -357,15 +384,10 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
-        private static Entity GetTarget(this IServerPlayer player)
+        public static Entity GetTarget(this IServerPlayer player)
         {
             // Default to self
             return player.Entity;
-        }
-
-        private static Ability GetCurrentAbility()
-        {
-            return null;
         }
 
         public static void GrantInitialClassItems(this IServerPlayer player)

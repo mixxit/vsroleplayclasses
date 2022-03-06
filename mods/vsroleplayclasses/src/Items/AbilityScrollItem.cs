@@ -24,7 +24,7 @@ namespace vsroleplayclasses.src.Items
 
             if (IsAbilityScribed(inSlot.Itemstack))
             {
-                long scribedAbility = GetScribedAbility(inSlot.Itemstack); // when deserialized json item it will default to long over int
+                long scribedAbility = GetScribedAbilityId(inSlot.Itemstack); // when deserialized json item it will default to long over int
                 dsc.AppendLine(Lang.Get("Ability: {0}", scribedAbility.ToString()));
                 return;
             }
@@ -65,7 +65,7 @@ namespace vsroleplayclasses.src.Items
 
         public bool IsAbilityScribed(ItemStack itemStack)
         {
-            return (GetScribedAbility(itemStack) > 0);
+            return (GetScribedAbilityId(itemStack) > 0);
         }
 
         // Seed so client and server can match
@@ -124,7 +124,7 @@ namespace vsroleplayclasses.src.Items
             return default(T);
         }
         
-        internal long GetScribedAbility(ItemStack itemStack)
+        internal long GetScribedAbilityId(ItemStack itemStack)
         {
             if (itemStack.Attributes != null)
             {
