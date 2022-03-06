@@ -71,6 +71,9 @@ namespace vsroleplayclasses.src.Behaviors
             if (damageSourceForDeath.SourceEntity == null)
                 return;
 
+            if (!(damageSourceForDeath.SourceEntity is EntityPlayer))
+                return;
+
             if (!(((EntityPlayer)damageSourceForDeath.SourceEntity).Player is IServerPlayer))
                 return;
                         

@@ -2,10 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
+using Vintagestory.Common;
+using Vintagestory.Server;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Gui;
 using vsroleplayclasses.src.Items;
 
 namespace vsroleplayclasses.src.Systems
@@ -14,9 +18,13 @@ namespace vsroleplayclasses.src.Systems
     {
         ConcurrentDictionary<long,Ability> abilityList;
         ICoreServerAPI serverApi;
+        GuiDialogMemoriseAbility memorisateAbilityDialog;
+        ICoreClientAPI capi;
+        ICoreAPI api;
 
         public override void Start(ICoreAPI api)
         {
+            this.api = api;
             base.Start(api);
             api.RegisterItemClass("abilitybook", typeof(AbilityBookItem));
             api.RegisterItemClass("abilityscroll", typeof(AbilityScrollItem));
@@ -36,12 +44,32 @@ namespace vsroleplayclasses.src.Systems
             return true;
         }
 
+        public override void StartClientSide(ICoreClientAPI api)
+        {
+            base.StartClientSide(api);
+            capi = api;
+            capi.Input.RegisterHotKey("memoriseability", "Allows memorisation of abilities", GlKeys.L, HotkeyType.GUIOrOtherControls);
+            capi.Input.SetHotKeyHandler("memoriseability", ToggleMemorisationGui);
+        }
+
+
+        private bool ToggleMemorisationGui(KeyCombination comb)
+        {
+            if (memorisateAbilityDialog == null)
+                memorisateAbilityDialog = new GuiDialogMemoriseAbility(capi);
+
+            if (memorisateAbilityDialog.IsOpened()) memorisateAbilityDialog.TryClose();
+            else memorisateAbilityDialog.TryOpen();
+
+            return true;
+        }
+
         public override void StartServerSide(ICoreServerAPI api)
         {
             serverApi = api;
             api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
-            api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
+            api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
             api.RegisterCommand("forcecast", "force casts an ability", "", CmdForceCast, "root");
             api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
             api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
@@ -295,7 +323,7 @@ namespace vsroleplayclasses.src.Systems
             player.SendMessage(groupId, lingua, EnumChatType.OwnMessage);
         }*/
 
-        private void OnPlayerNowPlaying(IServerPlayer player)
+        private void OnPlayerNowPlayingServer(IServerPlayer player)
         {
             RegisterPlayerClassChangedListener(player);
         }
@@ -303,6 +331,7 @@ namespace vsroleplayclasses.src.Systems
         private void RegisterPlayerClassChangedListener(IServerPlayer player)
         {
             player.Entity.WatchedAttributes.RegisterModifiedListener("characterClass", (System.Action)(() => OnPlayerClassChanged(player)));
+            
         }
 
         private void OnPlayerClassChanged(IServerPlayer player)

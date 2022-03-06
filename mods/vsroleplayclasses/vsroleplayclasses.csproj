@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\Lib\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\Lib\protobuf-net.dll</HintPath>
@@ -48,6 +52,9 @@
     <Reference Include="VintagestoryAPI">
       <HintPath>$(AppData)\Vintagestory\VintagestoryAPI.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="VintagestoryLib">
+      <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\VintagestoryLib.dll</HintPath>
     </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>$(AppData)\Vintagestory\Mods\VSSurvivalMod.dll</HintPath>
@@ -67,7 +74,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />
+    <Compile Include="src\Gui\GuiDialogMemoriseAbility.cs" />
     <Compile Include="src\Gui\HudManaBar.cs" />
+    <Compile Include="src\InventoryPlayerMemorisation.cs" />
     <Compile Include="src\Items\InkwellAndQuillEmptyItem.cs" />
     <Compile Include="src\Items\InkwellEmptyItem.cs" />
     <Compile Include="src\MagicPowerSlot.cs" />
