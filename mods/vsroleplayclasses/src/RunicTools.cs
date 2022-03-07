@@ -57,6 +57,10 @@ namespace vsroleplayclasses.src
                     return MagicWord.Set;
                 case SpellEffectIndex.Dispell_Sight:
                     return MagicWord.El;
+                case SpellEffectIndex.Direct_Damage:
+                    return MagicWord.Cal;
+                case SpellEffectIndex.Heal_Cure:
+                    return MagicWord.Meth;
                 default:
                     return MagicWord.Nul;
             }
@@ -73,6 +77,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Maw;
                 case SpellEffectType.Gate:
                     return MagicWord.Xen;
+                case SpellEffectType.CurrentHP:
+                    return MagicWord.Sang;
                 default:
                     return MagicWord.Nul;
             }

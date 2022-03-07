@@ -20,6 +20,18 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
+        public static bool ChangeCurrentHp(this Entity me, Entity sourceEntity, float amount, EnumDamageType type)
+        {
+            return me.ReceiveDamage(
+                new DamageSource() { 
+                Source = sourceEntity is EntityPlayer ? EnumDamageSource.Player : EnumDamageSource.Entity,
+                SourceEntity = sourceEntity, 
+                Type = type
+                },
+                amount
+                );
+        }
+
         public static bool BindToLocation(this Entity me)
         {
             if (!me.IsIServerPlayer())
@@ -34,6 +46,14 @@ namespace vsroleplayclasses.src.Extensions
                 return null;
 
             return ((IServerPlayer)((EntityPlayer)me).Player);
+        }
+
+        public static void SkillUp(this Entity me, Ability ability)
+        {
+            if (!me.IsIServerPlayer())
+                return;
+
+            me.GetAsIServerPlayer().SkillUp(ability);
         }
 
         public static bool GateToBind(this Entity me)

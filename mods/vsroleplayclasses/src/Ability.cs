@@ -83,22 +83,75 @@ namespace vsroleplayclasses.src
                 targets.Add(clickedTarget);
 
 
+            var success = false;
             foreach (var target in targets)
             {
-                var success = false;
-
                 switch (this.SpellEffect)
                 {
                     case SpellEffectType.BindAffinity:
-                        success = Bind(source, target);
+                        if (Bind(source, target))
+                            success = true;
                         return;
                     case SpellEffectType.Gate:
-                        success = Gate(source, target);
+                        if (Gate(source, target))
+                            success = true;
+                        return;
+                    case SpellEffectType.CurrentHP:
+                        if (ChangeCurrentHp(source, target))
+                            success = true;
                         return;
                     default:
+                        if (source.IsIServerPlayer())
+                            source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your ability is inert", EnumChatType.CommandSuccess);
                         return;
                 }
             }
+
+            if (success)
+                source.SkillUp(this);
+        }
+
+        private bool ChangeCurrentHp(Entity source, Entity castOn)
+        {
+            var amount = GetDamageAmount();
+            var type = GetDamageType();
+            var result = castOn.ChangeCurrentHp(source, amount, type);
+            if (result && source.IsIServerPlayer())
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You hit your target with {amount} {GetDamageType()}", EnumChatType.CommandSuccess);
+            if (result && castOn.IsIServerPlayer())
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were hit by {amount} {GetDamageType()}", EnumChatType.CommandSuccess);
+            return result;
+        }
+
+        private EnumDamageType GetDamageType()
+        {
+            if (this.SpellPolarity == SpellPolarity.Positive)
+                return EnumDamageType.Heal;
+
+            if (ResistType == ResistType.Poison)
+                return EnumDamageType.Poison;
+            if (ResistType == ResistType.Disease)
+                return EnumDamageType.Poison;
+            if (ResistType == ResistType.Fire)
+                return EnumDamageType.Fire;
+            if (ResistType == ResistType.Cold)
+                return EnumDamageType.Frost;
+            if (ResistType == ResistType.Magic)
+                return EnumDamageType.Suffocation;
+
+            return EnumDamageType.BluntAttack;
+        }
+
+        private float GetDamageAmount()
+        {
+            var targetTypeModifier = AbilityTools.GetTargetTypeDamageAmountMultiplier(this.TargetType);
+            var damageAmount = targetTypeModifier * (int)this.PowerLevel;
+
+            // Essentially a heal
+            if (this.SpellPolarity == SpellPolarity.Positive)
+                damageAmount *= -1;
+
+            return damageAmount;
         }
 
         private bool Gate(Entity source, Entity castOn)
@@ -124,7 +177,7 @@ namespace vsroleplayclasses.src
         internal float GetManaCost()
         {
             var targetTypeModifier = AbilityTools.GetTargetTypeManaCostMultiplier(this.TargetType);
-            return (float)targetTypeModifier*7;
+            return ((float)targetTypeModifier*7)*(int)this.PowerLevel;
         }
 
     }

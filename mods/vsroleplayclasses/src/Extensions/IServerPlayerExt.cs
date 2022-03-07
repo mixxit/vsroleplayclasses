@@ -35,6 +35,11 @@ namespace vsroleplayclasses.src.Extensions
             
         }
 
+        public static void SkillUp(this IServerPlayer player, Ability ability)
+        {
+            return;
+        }
+
         public static void TryUpdateLevel(this IServerPlayer player)
         {
             if (player.GetLevel() == player.CalculateLevel())

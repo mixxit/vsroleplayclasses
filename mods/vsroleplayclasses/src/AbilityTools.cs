@@ -30,14 +30,25 @@ namespace vsroleplayclasses.src
             }
         }
 
-        internal static int GetManaCostMultiplier(TargetType targetType)
+        public static float GetTargetTypeDamageAmountMultiplier(TargetType enumValue)
         {
-            switch(targetType)
+            switch (enumValue)
             {
+                // should never happen
+                case TargetType.None:
+                    return 6;
                 case TargetType.Self:
+                    return 6;
+                case TargetType.Target:
+                    return 6;
+                case TargetType.Group:
                     return 1;
+                case TargetType.AETarget:
+                    return 1;
+                case TargetType.Undead:
+                    return 7;
                 default:
-                    return 1000000;
+                    return 1;
             }
         }
     }
