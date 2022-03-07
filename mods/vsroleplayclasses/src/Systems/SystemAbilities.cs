@@ -135,6 +135,8 @@ namespace vsroleplayclasses.src.Systems
             api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
+            api.Event.RegisterGameTickListener(new Action<float>(this.OnCastingTimerTick), 500);
+
             base.StartServerSide(api);
             api.RegisterCommand("forcecast", "force casts an ability", "", CmdForceCast, "root");
             api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
@@ -144,6 +146,11 @@ namespace vsroleplayclasses.src.Systems
             api.Network.GetChannel("castabilityinmemoryposition")
                 .SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition)
             ;
+        }
+
+        private void OnCastingTimerTick(float obj)
+        {
+            
         }
 
         internal Ability GetAbilityById(long id)
@@ -170,8 +177,8 @@ namespace vsroleplayclasses.src.Systems
             }
 
             castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Casting {ability.Name}", EnumChatType.CommandSuccess);
-            ability.Cast(castingPlayer.Entity, castingPlayer.GetTarget());
-            castingPlayer.DecreaseMana(ability.GetManaCost());
+            ability.StartCast(castingPlayer.Entity);
+            
         }
 
         private void CmdForceCast(IServerPlayer player, int groupId, CmdArgs args)
@@ -195,7 +202,7 @@ namespace vsroleplayclasses.src.Systems
                 return;
             }
 
-            ability.Cast(player.Entity, player.Entity);
+            ability.StartCast(player.Entity);
         }
 
         private void CmdAbilities(IServerPlayer player, int groupId, CmdArgs args)

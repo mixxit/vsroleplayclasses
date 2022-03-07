@@ -40,6 +40,7 @@ namespace vsroleplayclasses.src.Systems
         public override void StartClientSide(ICoreClientAPI capi)
         {
             capi.Gui.RegisterDialog(new HudManaBar(capi));
+            capi.Gui.RegisterDialog(new HudAbility(capi));
         }
 
         private void CmdMana(IServerPlayer player, int groupId, CmdArgs args)

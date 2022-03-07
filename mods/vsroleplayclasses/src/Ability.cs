@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
+using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Extensions;
 
 namespace vsroleplayclasses.src
@@ -73,8 +74,17 @@ namespace vsroleplayclasses.src
             return name;
         }
 
-        internal void Cast(Entity source, Entity clickedTarget)
+        internal void StartCast(Entity source)
         {
+            EntityBehaviorCasting ebt = source.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
+            if (ebt == null)
+                return;
+
+            ebt.StartCasting(this.Id,GetCastTimeSeconds());
+        }
+
+        internal void FinishCast(Entity source, Entity clickedTarget)
+        { 
             var targets = new List<Entity>();
 
             if (this.TargetType == TargetType.Self)
@@ -91,24 +101,28 @@ namespace vsroleplayclasses.src
                     case SpellEffectType.BindAffinity:
                         if (Bind(source, target))
                             success = true;
-                        return;
+                        break;
                     case SpellEffectType.Gate:
                         if (Gate(source, target))
                             success = true;
-                        return;
+                        break;
                     case SpellEffectType.CurrentHP:
                         if (ChangeCurrentHp(source, target))
                             success = true;
-                        return;
+                        break;
                     default:
                         if (source.IsIServerPlayer())
                             source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your ability is inert", EnumChatType.CommandSuccess);
-                        return;
+                        break;
                 }
             }
 
+            source.DecreaseMana(GetManaCost());
+
             if (success)
+            {
                 source.SkillUp(this);
+            }
         }
 
         private bool ChangeCurrentHp(Entity source, Entity castOn)
@@ -142,15 +156,15 @@ namespace vsroleplayclasses.src
             return EnumDamageType.BluntAttack;
         }
 
+        private int GetCastTimeSeconds()
+        {
+            return 3;
+        }
+
         private float GetDamageAmount()
         {
             var targetTypeModifier = AbilityTools.GetTargetTypeDamageAmountMultiplier(this.TargetType);
             var damageAmount = targetTypeModifier * (int)this.PowerLevel;
-
-            // Essentially a heal
-            if (this.SpellPolarity == SpellPolarity.Positive)
-                damageAmount *= -1;
-
             return damageAmount;
         }
 

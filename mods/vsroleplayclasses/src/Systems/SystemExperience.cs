@@ -19,6 +19,7 @@ namespace vsroleplayclasses.src.Systems
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             api.RegisterCommand("xp", "lists information about experience", "", CmdXp, null);
             api.RegisterEntityBehaviorClass("EntityBehaviorExperience", typeof(EntityBehaviorExperience));
+            api.RegisterEntityBehaviorClass("EntityBehaviorCasting", typeof(EntityBehaviorCasting));
             base.StartServerSide(api);
         }
 

@@ -64,6 +64,23 @@ namespace vsroleplayclasses.src.Extensions
             return me.GetAsIServerPlayer().GateToBind();
         }
 
+        public static Entity GetTarget(this Entity me)
+        {
+            if (!me.IsIServerPlayer())
+                return null;
+
+            return me.GetAsIServerPlayer().GetTarget();
+        }
+
+
+        public static void DecreaseMana(this Entity me, float mana)
+        {
+            if (!me.IsIServerPlayer())
+                return;
+
+            me.GetAsIServerPlayer().DecreaseMana(mana);
+        }
+
         public static void AwardExperience(this Entity me, EnumAdventuringClass experienceType, double experienceAmount)
         {
             if (experienceType == EnumAdventuringClass.None)

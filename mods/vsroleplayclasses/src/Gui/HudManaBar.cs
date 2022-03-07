@@ -19,7 +19,6 @@ namespace vsroleplayclasses.src.Gui
           : base(capi)
         {
             capi.Event.RegisterGameTickListener(new Action<float>(this.OnGameTick), 20);
-            capi.Event.RegisterGameTickListener(new Action<float>(this.OnFlashStatbars), 2500);
         }
 
         public override string ToggleKeyCombinationCode => (string)null;
@@ -29,10 +28,6 @@ namespace vsroleplayclasses.src.Gui
             this.UpdateMana();
         }
 
-        private void OnFlashStatbars(float dt)
-        {
-
-        }
 
         private void UpdateMana()
         {
@@ -77,8 +72,6 @@ namespace vsroleplayclasses.src.Gui
             }.WithFixedAlignmentOffset(0.0, 5.0);
             ElementBounds bounds2 = ElementStdBounds.Statbar(EnumDialogArea.LeftTop, (double)num * 0.41).WithFixedAlignmentOffset(1.0, 5.0);
             bounds2.WithFixedHeight(10.0);
-            ElementBounds bounds3 = ElementStdBounds.Statbar(EnumDialogArea.RightTop, (double)num * 0.41).WithFixedAlignmentOffset(-2.0, 5.0);
-            bounds3.WithFixedHeight(10.0);
             this.Composers["manabar"] = this.capi.Gui.CreateCompo("inventory-manabar", bounds1.FlatCopy().FixedGrow(0.0, 20.0)).BeginChildElements(bounds1).
                 AddStatbar(bounds2, new double[] { 0, 0, 1, 1 }, "manastatbar").EndIf().
                 EndChildElements().Compose();
