@@ -147,6 +147,9 @@ namespace vsroleplayclasses.src.Extensions
 
         public static int GetLevel(this IServerPlayer player)
         {
+            if (player == null || player.Entity == null)
+                return 1;
+
             return player.Entity.WatchedAttributes.GetInt("level", 1);
         }
 

@@ -122,7 +122,7 @@ namespace vsroleplayclasses.src.Extensions
 
         public static int GetLevel(this Entity me)
         {
-            if (!me.IsIServerPlayer())
+            if (me.IsIServerPlayer())
                 return me.GetAsIServerPlayer().GetLevel();
 
             return 1;
