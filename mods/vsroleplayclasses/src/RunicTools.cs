@@ -10,7 +10,7 @@ namespace vsroleplayclasses.src
 {
     public static class RunicTools
     {
-        internal static T GetWordOfPowerFromQuillItem<T>(RunicInkwellAndQuillItem item) where T : Enum
+        public static T GetWordOfPowerFromQuillItem<T>(RunicInkwellAndQuillItem item) where T : Enum
         {
             var magicaString = item.Code.ToString().Replace("vsroleplayclasses", "").Replace(":", "").Replace(item.Class, "").Replace("-", "");
             if (String.IsNullOrEmpty(magicaString))
@@ -26,7 +26,7 @@ namespace vsroleplayclasses.src
             return default(T);
         }
 
-        private static MagicWord ConvertMagicPowerType<T>(T magicPowerType) where T : Enum
+        public static MagicWord ConvertMagicPowerType<T>(T magicPowerType) where T : Enum
         {
             switch (typeof(T).Name)
             {
@@ -38,16 +38,59 @@ namespace vsroleplayclasses.src
                     return GetTargetTypeMagicWord((TargetType)(object)magicPowerType);
                 case "ResistType":
                     return GetResistTypeMagicWord((ResistType)(object)magicPowerType);
-                case "SpellPolarity":
-                    return GetSpellPolarityMagicWord((SpellPolarity)(object)magicPowerType);
                 case "PowerLevel":
                     return GetPowerLevelMagicWord((PowerLevel)(object)magicPowerType);
+                case "AdventureClass":
+                    return GetAdventureClassMagicWord((AdventureClass)(object)magicPowerType);
             }
 
             return MagicWord.Nul;
         }
 
-        private static MagicWord GetSpellEffectIndexMagicWord(SpellEffectIndex enumValue)
+        private static MagicWord GetAdventureClassMagicWord(AdventureClass adventureClass)
+        {
+            switch (adventureClass)
+            {
+                case AdventureClass.None:
+                    return MagicWord.Nul;
+                case AdventureClass.Warrior:
+                    return MagicWord.Tor;
+                case AdventureClass.Cleric:
+                    return MagicWord.Deus;
+                case AdventureClass.Paladin:
+                    return MagicWord.Val;
+                case AdventureClass.Ranger:
+                    return MagicWord.Cara;
+                case AdventureClass.Shadowknight:
+                    return MagicWord.Rew;
+                case AdventureClass.Druid:
+                    return MagicWord.Nato;
+                case AdventureClass.Monk:
+                    return MagicWord.Sek;
+                case AdventureClass.Bard:
+                    return MagicWord.Lum;
+                case AdventureClass.Rogue:
+                    return MagicWord.Tri;
+                case AdventureClass.Shaman:
+                    return MagicWord.Mys;
+                case AdventureClass.Necromancer:
+                    return MagicWord.Jar;
+                case AdventureClass.Wizard:
+                    return MagicWord.Flam;
+                case AdventureClass.Magician:
+                    return MagicWord.Ex;
+                case AdventureClass.Enchanter:
+                    return MagicWord.Azul;
+                case AdventureClass.Beastlord:
+                    return MagicWord.Reg;
+                case AdventureClass.Berserker:
+                    return MagicWord.Hek;
+                default:
+                    return MagicWord.Nul;
+            }
+        }
+
+        public static MagicWord GetSpellEffectIndexMagicWord(SpellEffectIndex enumValue)
         {
             switch (enumValue)
             {
@@ -66,7 +109,7 @@ namespace vsroleplayclasses.src
             }
         }
 
-        private static MagicWord GetSpellEffectTypeMagicWord(SpellEffectType enumValue)
+        public static MagicWord GetSpellEffectTypeMagicWord(SpellEffectType enumValue)
         {
             switch (enumValue)
             {
@@ -84,7 +127,7 @@ namespace vsroleplayclasses.src
             }
         }
 
-        private static MagicWord GetTargetTypeMagicWord(TargetType enumValue)
+        public static MagicWord GetTargetTypeMagicWord(TargetType enumValue)
         {
             switch (enumValue)
             {
@@ -105,7 +148,7 @@ namespace vsroleplayclasses.src
             }
         }
 
-        private static MagicWord GetResistTypeMagicWord(ResistType enumValue)
+        public static MagicWord GetResistTypeMagicWord(ResistType enumValue)
         {
             switch (enumValue)
             {
@@ -134,22 +177,7 @@ namespace vsroleplayclasses.src
             }
         }
 
-        private static MagicWord GetSpellPolarityMagicWord(SpellPolarity enumValue)
-        {
-            switch (enumValue)
-            {
-                case SpellPolarity.None:
-                    return MagicWord.Nul;
-                case SpellPolarity.Positive:
-                    return MagicWord.Scu;
-                case SpellPolarity.Negative:
-                    return MagicWord.Rew;
-                default:
-                    return MagicWord.Nul;
-            }
-        }
-
-        private static MagicWord GetPowerLevelMagicWord(PowerLevel enumValue)
+        public static MagicWord GetPowerLevelMagicWord(PowerLevel enumValue)
         {
             switch (enumValue)
             {

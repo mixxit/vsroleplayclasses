@@ -51,16 +51,16 @@ namespace vsroleplayclasses.src.Items
             var spellEffectType = RunicTools.GetWordOfPowerFromQuillItem<SpellEffectType>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
             var targetType = RunicTools.GetWordOfPowerFromQuillItem<TargetType>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
             var resistType = RunicTools.GetWordOfPowerFromQuillItem<ResistType>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
-            var spellPolarity = RunicTools.GetWordOfPowerFromQuillItem<SpellPolarity>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
             var powerLevel = RunicTools.GetWordOfPowerFromQuillItem<PowerLevel>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
+            var adventureClass = RunicTools.GetWordOfPowerFromQuillItem<AdventureClass>((RunicInkwellAndQuillItem)slot.Itemstack.Item);
 
             if (
                 spellEffectIndex == SpellEffectIndex.None &&
                 spellEffectType == SpellEffectType.None &&
                 targetType == TargetType.None &&
                 resistType == ResistType.None &&
-                spellPolarity == SpellPolarity.None &&
-                powerLevel == PowerLevel.None
+                powerLevel == PowerLevel.None &&
+                adventureClass == AdventureClass.None
                 )
             {
                 player.SendMessage(GlobalConstants.CurrentChatGroup, $"Cannot find runic ink and quill", EnumChatType.CommandError);
@@ -100,16 +100,16 @@ namespace vsroleplayclasses.src.Items
                     return;
                 }
 
-            if (spellPolarity != SpellPolarity.None)
-                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, spellPolarity))
+            if (powerLevel != PowerLevel.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, powerLevel))
                 {
                     Consume(player, slot);
                     handling = EnumHandHandling.PreventDefault;
                     return;
                 }
 
-            if (powerLevel != PowerLevel.None)
-                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, powerLevel))
+            if (adventureClass != AdventureClass.None)
+                if (TryApplyRuneToScroll(player, player.Entity.LeftHandItemSlot.Itemstack, adventureClass))
                 {
                     Consume(player, slot);
                     handling = EnumHandHandling.PreventDefault;
@@ -121,15 +121,22 @@ namespace vsroleplayclasses.src.Items
 
         private void Consume(IServerPlayer player, ItemSlot slot)
         {
-            TryTransitionToAbility(player, player.Entity.LeftHandItemSlot.Itemstack);
+            if (TryTransitionToAbility(player, player.Entity.LeftHandItemSlot.Itemstack))
+            {
+                api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);
+                slot.TakeOut(1);
+                slot.MarkDirty();
+                player.Entity.LeftHandItemSlot.MarkDirty();
 
-            api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);
-            slot.TakeOut(1);
-            slot.MarkDirty();
-            player.Entity.LeftHandItemSlot.MarkDirty();
-
-            player.SendMessage(GlobalConstants.CurrentChatGroup, $"Scribed", EnumChatType.CommandSuccess);
-            
+                player.SendMessage(GlobalConstants.CurrentChatGroup, $"You have created an ability!", EnumChatType.CommandSuccess);
+            } else
+            {
+                api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);
+                slot.TakeOut(1);
+                slot.MarkDirty();
+                player.Entity.LeftHandItemSlot.MarkDirty();
+                // incomplete or wrong
+            }
         }
 
         private bool TryTransitionToAbility(IServerPlayer player, ItemStack itemstack)
@@ -150,7 +157,7 @@ namespace vsroleplayclasses.src.Items
             long abilityId = mod.TryCreateAbility(player, itemstack);
             if (abilityId > 0)
             {
-                ((AbilityScrollItem)itemstack.Item).SetScribedAbility(itemstack, abilityId);
+                ((AbilityScrollItem)itemstack.Item).SetScribedAbility(itemstack, mod.GetAbilityById(abilityId));
                 return true;
             }
 

@@ -100,11 +100,17 @@ namespace vsroleplayclasses.src.Behaviors
 
         private void OnFinishCasting(long abilityId, Entity targetEntity)
         {
+            if (abilityId == 0)
+                return;
+
             var mod = this.entity.World.Api.ModLoader.GetModSystem<SystemAbilities>();
             if (mod == null)
                 return;
 
             var ability = mod.GetAbilityById(abilityId);
+            if (ability == null)
+                return;
+
             ability.FinishCast(this.entity, targetEntity);
         }
 

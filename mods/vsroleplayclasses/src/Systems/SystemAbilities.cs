@@ -303,18 +303,16 @@ namespace vsroleplayclasses.src.Systems
             var spellEffectType = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<SpellEffectType>(itemstack);
             var targetType = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<TargetType>(itemstack);
             var resistType = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<ResistType>(itemstack);
-            var spellPolarity = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<SpellPolarity>(itemstack);
             var powerLevel = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<PowerLevel>(itemstack);
-
+            var adventureClass = ((AbilityScrollItem)itemstack.Item).GetWordOfPower<AdventureClass>(itemstack);
             return TryCreateAbilityByRunes(
                 player,
                 spellEffectIndex,
                 spellEffectType,
                 resistType,
                 targetType,
-                spellPolarity,
-                powerLevel
-                
+                powerLevel,
+                adventureClass                
                 );
         }
 
@@ -323,8 +321,8 @@ namespace vsroleplayclasses.src.Systems
             SpellEffectType spellEffect,
             ResistType resistType,
             TargetType targetType,
-            SpellPolarity spellPolarity,
-            PowerLevel powerLevel
+            PowerLevel powerLevel,
+            AdventureClass adventureClass
             )
         {
             if (player == null)
@@ -334,40 +332,36 @@ namespace vsroleplayclasses.src.Systems
             spellEffect,
             resistType,
             targetType,
-            spellPolarity,
-            powerLevel);
+            powerLevel,
+            adventureClass);
 
             if (returnAbilityId > 0)
                 return returnAbilityId;
 
-            /*if (!IsValidMagicaPowerCombination(spellEffectIndex,
-            spellEffect,
-            resistType,
-            targetType,
-            spellPolarity,
-            powerLevel))
-                return 0;*/
+            if (EffectCombo.GetEffectCombo(spellEffectIndex, spellEffect) == null)
+                return 0;
 
             return CreateAbility(player, spellEffectIndex,
             spellEffect,
             resistType,
             targetType,
-            spellPolarity,
-            powerLevel);
+            powerLevel,
+            adventureClass);
         }
 
         private long CreateAbility(IServerPlayer player, SpellEffectIndex spellEffectIndex,
             SpellEffectType spellEffect,
             ResistType resistType,
             TargetType targetType,
-            SpellPolarity spellPolarity,
-            PowerLevel powerLevel)
+            PowerLevel powerLevel,
+            AdventureClass adventureClass
+            )
         {
             long nextKey = 1;
             if (this.abilityList.Keys.Count > 0)
                 nextKey = (this.abilityList.Keys.Max() + 1);
 
-            var ability = this.abilityList.GetOrAdd(nextKey, Ability.Create(nextKey,PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(player.Entity), player.PlayerUID, spellEffectIndex, spellEffect, resistType,targetType, spellPolarity, powerLevel));
+            var ability = this.abilityList.GetOrAdd(nextKey, Ability.Create(nextKey,PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(player.Entity), player.PlayerUID, spellEffectIndex, spellEffect, resistType,targetType, powerLevel, adventureClass));
             if (ability == null)
                 return 0;
 
@@ -379,8 +373,8 @@ namespace vsroleplayclasses.src.Systems
             SpellEffectType spellEffect,
             ResistType resistType,
             TargetType targetType,
-            SpellPolarity spellPolarity,
-            PowerLevel powerLevel
+            PowerLevel powerLevel,
+            AdventureClass adventureClass
             )
         {
             var ability = this.abilityList.Values.FirstOrDefault(
@@ -389,8 +383,8 @@ namespace vsroleplayclasses.src.Systems
                 e.SpellEffect == spellEffect &&
                 e.ResistType == resistType &&
                 e.TargetType == targetType &&
-                e.SpellPolarity == spellPolarity &&
-                e.PowerLevel == powerLevel
+                e.PowerLevel == powerLevel &&
+                e.AdventureClass == adventureClass
                 );
 
             if (ability == null)
@@ -421,8 +415,8 @@ namespace vsroleplayclasses.src.Systems
                     return;
                 }
 
-                TryForceAbilityScrollInSlot(player.Entity.RightHandItemSlot, abilityId);
-                TryForceAbilityScrollInSlot(player.Entity.LeftHandItemSlot, abilityId);
+                TryForceAbilityScrollInSlot(player.Entity.RightHandItemSlot, this.abilityList[abilityId]);
+                TryForceAbilityScrollInSlot(player.Entity.LeftHandItemSlot, this.abilityList[abilityId]);
 
                 player.SendMessage(groupId, $"Attempt to force scribe ability completed, please check ability scroll", EnumChatType.CommandSuccess);
             }
@@ -442,7 +436,7 @@ namespace vsroleplayclasses.src.Systems
             itemSlot.MarkDirty();
         }
 
-        private void TryForceAbilityScrollInSlot(ItemSlot itemSlot, long abilityId)
+        private void TryForceAbilityScrollInSlot(ItemSlot itemSlot, Ability ability)
         {
             if (itemSlot.Itemstack == null || itemSlot.Itemstack.Item == null || (itemSlot.Itemstack.Item as AbilityScrollItem) == null)
                 return;
@@ -451,7 +445,7 @@ namespace vsroleplayclasses.src.Systems
             if ((itemSlot.Itemstack.Item as AbilityScrollItem).IsAbilityScribed(itemSlot.Itemstack))
                 return;
 
-            (itemSlot.Itemstack.Item as AbilityScrollItem).SetScribedAbility(itemSlot.Itemstack, abilityId);
+            (itemSlot.Itemstack.Item as AbilityScrollItem).SetScribedAbility(itemSlot.Itemstack, ability);
             itemSlot.MarkDirty();
         }
 

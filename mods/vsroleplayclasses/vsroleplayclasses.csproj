@@ -75,8 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\AbilityTools.cs" />
+    <Compile Include="src\AdventureClass.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
+    <Compile Include="src\EffectCombo.cs" />
     <Compile Include="src\Gui\HudAbility.cs" />
     <Compile Include="src\ItemSlotScroll.cs" />
     <Compile Include="src\Packets\ClientRequestFinishCastingPacket.cs" />
@@ -99,7 +101,6 @@
     <Compile Include="src\ResistType.cs" />
     <Compile Include="src\RunicTools.cs" />
     <Compile Include="src\SpellEffectIndex.cs" />
-    <Compile Include="src\SpellPolarity.cs" />
     <Compile Include="src\TargetType.cs" />
     <Compile Include="src\WorldLimits.cs" />
     <Content Include="assets\game\config\characterclasses.json" />

@@ -7,7 +7,7 @@
         SpellEffectType,
         TargetType,
         ResistType,
-        SpellPolarity,
-        PowerLevel
+        PowerLevel,
+        AdventureClass
     }
 }

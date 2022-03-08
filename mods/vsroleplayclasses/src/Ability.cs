@@ -22,12 +22,11 @@ namespace vsroleplayclasses.src
         public string CreatorUid { get; set; }
         public SpellEffectType effectType { get; set; }
         public TargetType TargetType { get; set; }
-        public SpellPolarity SpellPolarity { get; set; }
         public ResistType ResistType { get; set; }
         public SpellEffectIndex SpellEffectIndex { get; set; }
         public SpellEffectType SpellEffect { get; set; }
         public PowerLevel PowerLevel { get; set; }
-
+        public AdventureClass AdventureClass { get; set; }
         public static Ability Create(
             long id, 
             string characterName, 
@@ -36,42 +35,142 @@ namespace vsroleplayclasses.src
             SpellEffectType spellEffect, 
             ResistType resistType, 
             TargetType targetType,
-            SpellPolarity spellPolarity,
-            PowerLevel powerLevel
+            PowerLevel powerLevel,
+            AdventureClass adventureClass
             )
         {
             return new Ability()
             {
                 Id = id,
                 CreatorUid = creatorUid,
-                Name = GenerateName(characterName, spellEffectIndex, spellEffect, resistType, targetType, spellPolarity, powerLevel),
+                Name = GenerateName(characterName, spellEffectIndex, spellEffect, resistType, targetType, powerLevel, adventureClass),
                 SpellEffectIndex = spellEffectIndex,
                 SpellEffect = spellEffect,
                 ResistType = resistType,
                 TargetType = targetType,
-                SpellPolarity = spellPolarity,
-                PowerLevel = powerLevel
+                PowerLevel = powerLevel,
+                AdventureClass = adventureClass
             };
         }
 
-        private static string GenerateName(string characterName, SpellEffectIndex spellEffectIndex, SpellEffectType spellEffect, ResistType resistType, TargetType targetType, SpellPolarity spellPolarity, PowerLevel powerLevel)
+        private static string GenerateName(string characterName, SpellEffectIndex spellEffectIndex, SpellEffectType spellEffect, ResistType resistType, TargetType targetType, PowerLevel powerLevel, AdventureClass adventureClass)
         {
             var name = $"{characterName}'s ";
+            if (resistType != ResistType.None)
+                name += $"{GetDisplayNameFromResistType(resistType)} ";
 
-            if (spellPolarity == SpellPolarity.Positive)
-                name += "Add ";
-            if (spellPolarity == SpellPolarity.Negative)
-                name += "Remove ";
-            if (spellEffectIndex != SpellEffectIndex.None)
-                name += spellEffectIndex.ToString() + "ing ";
-            if (spellEffect != SpellEffectType.None)
-                name += spellEffect.ToString() + " ";
+            if (spellEffect != SpellEffectType.None && spellEffectIndex != SpellEffectIndex.None)
+                name += EffectCombo.GetEffectCombo(spellEffectIndex, spellEffect).Name + " ";
+
+            if (adventureClass != AdventureClass.None)
+                name += $"of {GetDisplayNameFromAdventureClass(adventureClass)} ";
+
             if (targetType != TargetType.None)
-                name += $"to {targetType.ToString()} ";
+                name += $"{GetDisplayNameFromTarget(targetType)} ";
+
             if (powerLevel != PowerLevel.None)
-                name += $"Rank {powerLevel.ToString()}";
+                name += $"Rank {powerLevel}";
 
             return name;
+        }
+
+        public static string GetDisplayNameFromTarget(TargetType targetType)
+        {
+            switch (targetType)
+            {
+                case TargetType.None:
+                    return "Nothing";
+                case TargetType.Self:
+                    return "Internalism";
+                case TargetType.Target:
+                    return "Externalism";
+                case TargetType.Group:
+                    return "Nepotism";
+                case TargetType.AETarget:
+                    return "Altruism";
+                case TargetType.TargetOptional:
+                    return "Mutualism";
+                case TargetType.AECaster:
+                    return "Pantheism";
+                case TargetType.Animal:
+                    return "Totemism";
+                case TargetType.Undead:
+                    return "Animism";
+                default:
+                    return "Unknown";
+            }
+        }
+
+        public static string GetDisplayNameFromAdventureClass(AdventureClass adventureClass)
+        {
+            switch (adventureClass)
+            {
+                case AdventureClass.None:
+                    return "Unknown";
+                case AdventureClass.Warrior:
+                    return "Vanquishing";
+                case AdventureClass.Cleric:
+                    return "Holy";
+                case AdventureClass.Paladin:
+                    return "Virtuous";
+                case AdventureClass.Ranger:
+                    return "Stalking";
+                case AdventureClass.Shadowknight:
+                    return "Defiling";
+                case AdventureClass.Druid:
+                    return "Wild";
+                case AdventureClass.Monk:
+                    return "Tranquil";
+                case AdventureClass.Bard:
+                    return "Lyrical";
+                case AdventureClass.Rogue:
+                    return "Deceitful";
+                case AdventureClass.Shaman:
+                    return "Mystical";
+                case AdventureClass.Necromancer:
+                    return "Unholy";
+                case AdventureClass.Wizard:
+                    return "Evoking";
+                case AdventureClass.Magician:
+                    return "Conjuring";
+                case AdventureClass.Enchanter:
+                    return "Beguiling";
+                case AdventureClass.Beastlord:
+                    return "Feral";
+                case AdventureClass.Berserker:
+                    return "Raging";
+                default:
+                    return "Unknown";
+            }
+        }
+
+        public static string GetDisplayNameFromResistType(ResistType resistType)
+        {
+            switch (resistType)
+            {
+                case ResistType.None:
+                    return "Nullifying";
+                case ResistType.Chromatic:
+                    return "Chromatic";
+                case ResistType.Cold:
+                    return "Freezing";
+                case ResistType.Corruption:
+                    return "Corrupting";
+                case ResistType.Disease:
+                    return "Sickening";
+                case ResistType.Fire:
+                    return "Fiery";
+                case ResistType.Magic:
+                    return "Magical";
+                case ResistType.Physical:
+                    return "Wounding";
+                case ResistType.Poison:
+                    return "Toxic";
+                case ResistType.Prismatic:
+                    return "Nothing";
+                default:
+                    return "Unknown";
+            }
         }
 
         internal void StartCast(Entity source)
@@ -83,8 +182,20 @@ namespace vsroleplayclasses.src
             ebt.StartCasting(this.Id,GetCastTimeSeconds());
         }
 
+        public EffectCombo GetEffectCombo()
+        {
+            return EffectCombo.GetEffectCombo(this.SpellEffectIndex, this.SpellEffect);
+        }
+
         internal void FinishCast(Entity source, Entity clickedTarget)
-        { 
+        {
+            var effectCombo = GetEffectCombo();
+            if (effectCombo == null || effectCombo.Effect == null)
+            {
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your ability is inert", EnumChatType.CommandSuccess);
+                return;
+            }
+
             var targets = new List<Entity>();
 
             if (this.TargetType == TargetType.Self)
@@ -92,56 +203,22 @@ namespace vsroleplayclasses.src
             if (this.TargetType == TargetType.Target)
                 targets.Add(clickedTarget);
 
-
             var success = false;
             foreach (var target in targets)
             {
-                switch (this.SpellEffect)
-                {
-                    case SpellEffectType.BindAffinity:
-                        if (Bind(source, target))
-                            success = true;
-                        break;
-                    case SpellEffectType.Gate:
-                        if (Gate(source, target))
-                            success = true;
-                        break;
-                    case SpellEffectType.CurrentHP:
-                        if (ChangeCurrentHp(source, target))
-                            success = true;
-                        break;
-                    default:
-                        if (source.IsIServerPlayer())
-                            source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your ability is inert", EnumChatType.CommandSuccess);
-                        break;
-                }
+                var result = effectCombo.Effect(source, target, this.GetDamageType(), this.GetDamageAmount(), this.ResistType);
+                if (result)
+                    success = result;
             }
 
             source.DecreaseMana(GetManaCost());
 
             if (success)
-            {
                 source.SkillUp(this);
-            }
-        }
-
-        private bool ChangeCurrentHp(Entity source, Entity castOn)
-        {
-            var amount = GetDamageAmount();
-            var type = GetDamageType();
-            var result = castOn.ChangeCurrentHp(source, amount, type);
-            if (result && source.IsIServerPlayer())
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You hit your target with {amount} {GetDamageType()}", EnumChatType.CommandSuccess);
-            if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were hit by {amount} {GetDamageType()}", EnumChatType.CommandSuccess);
-            return result;
         }
 
         private EnumDamageType GetDamageType()
         {
-            if (this.SpellPolarity == SpellPolarity.Positive)
-                return EnumDamageType.Heal;
-
             if (ResistType == ResistType.Poison)
                 return EnumDamageType.Poison;
             if (ResistType == ResistType.Disease)
@@ -152,8 +229,10 @@ namespace vsroleplayclasses.src
                 return EnumDamageType.Frost;
             if (ResistType == ResistType.Magic)
                 return EnumDamageType.Suffocation;
+            if (ResistType == ResistType.Physical)
+                return EnumDamageType.BluntAttack;
 
-            return EnumDamageType.BluntAttack;
+            return EnumDamageType.Crushing;
         }
 
         private int GetCastTimeSeconds()
@@ -168,25 +247,6 @@ namespace vsroleplayclasses.src
             return damageAmount;
         }
 
-        private bool Gate(Entity source, Entity castOn)
-        {
-            var result = castOn.GateToBind();
-            if (result && source.IsIServerPlayer())
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your target stepped through a gate", EnumChatType.CommandSuccess);
-            if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You stepped through a gate", EnumChatType.CommandSuccess);
-            return result;
-        }
-
-        private bool Bind(Entity source, Entity castOn)
-        {
-            var result = castOn.BindToLocation();
-            if (result && source.IsIServerPlayer())
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You bound your target to their location", EnumChatType.CommandSuccess);
-            if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You are bound to your location", EnumChatType.CommandSuccess);
-            return result;
-        }
 
         internal float GetManaCost()
         {

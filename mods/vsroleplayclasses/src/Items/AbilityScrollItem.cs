@@ -24,8 +24,7 @@ namespace vsroleplayclasses.src.Items
 
             if (IsAbilityScribed(inSlot.Itemstack))
             {
-                long scribedAbility = GetScribedAbilityId(inSlot.Itemstack); // when deserialized json item it will default to long over int
-                dsc.AppendLine(Lang.Get("Ability: {0}", scribedAbility.ToString()));
+                dsc.AppendLine(Lang.Get("Ability: {0}", GetScribedAbilityName(inSlot.Itemstack)));
                 return;
             }
             else
@@ -46,8 +45,8 @@ namespace vsroleplayclasses.src.Items
             var spellEffectType = GetWordOfPower<SpellEffectType>(inSlot.Itemstack);
             var targetType = GetWordOfPower<TargetType>(inSlot.Itemstack);
             var resistType = GetWordOfPower<ResistType>(inSlot.Itemstack);
-            var spellPolarity = GetWordOfPower<SpellPolarity>(inSlot.Itemstack);
             var powerLevel = GetWordOfPower<PowerLevel>(inSlot.Itemstack);
+            var adventureClass = GetWordOfPower<AdventureClass>(inSlot.Itemstack);
 
             if (spellEffectIndex != SpellEffectIndex.None)
                 dsc.AppendLine(Lang.Get("Spell Effect Index: {0}", spellEffectIndex));
@@ -57,10 +56,10 @@ namespace vsroleplayclasses.src.Items
                 dsc.AppendLine(Lang.Get("Target Type: {0}", targetType));
             if (resistType != ResistType.None)
                 dsc.AppendLine(Lang.Get("Resist Type: {0}", resistType));
-            if (spellPolarity != SpellPolarity.None)
-                dsc.AppendLine(Lang.Get("Spell Polarity: {0}", spellPolarity));
             if (powerLevel != PowerLevel.None)
                 dsc.AppendLine(Lang.Get("Power Level: {0}", powerLevel));
+            if (adventureClass != AdventureClass.None)
+                dsc.AppendLine(Lang.Get("Adventure Class: {0}", adventureClass));
         }
 
         public bool IsAbilityScribed(ItemStack itemStack)
@@ -69,12 +68,15 @@ namespace vsroleplayclasses.src.Items
         }
 
         // Seed so client and server can match
-        public void SetScribedAbility(ItemStack itemStack, long scribedAbility)
+        public void SetScribedAbility(ItemStack itemStack, Ability ability)
         {
             if (itemStack.Attributes != null)
             {
-                itemStack.Attributes.SetLong("scribedAbility", scribedAbility); // when deserialized json item it will default to long over int
+                itemStack.Attributes.SetLong("scribedAbility", ability.Id);
+                itemStack.Attributes.SetString("scribedAbilityName", ability.Name);
                 if (!itemStack.Attributes.HasAttribute("scribedAbility"))
+                    throw new Exception("This should not happen");
+                if (!itemStack.Attributes.HasAttribute("scribedAbilityName"))
                     throw new Exception("This should not happen");
             }
         }
@@ -144,6 +146,26 @@ namespace vsroleplayclasses.src.Items
             return -1;
         }
 
+        internal string GetScribedAbilityName(ItemStack itemStack)
+        {
+            if (itemStack.Attributes != null)
+            {
+                try
+                {
+                    if (!itemStack.Attributes.HasAttribute("scribedAbilityName"))
+                        return "Unknown Ability";
+
+                    return itemStack.Attributes.GetString("scribedAbilityName", "Unknown Ability"); 
+                }
+                catch (InvalidCastException)
+                {
+
+                    return "Unknown Ability";
+                }
+            }
+            return "Unknown Ability";
+        }
+
         public bool HasSpareRuneSlot(ItemStack itemstack)
         {
             if (!HasRunePower<SpellEffectIndex>(itemstack))
@@ -154,9 +176,9 @@ namespace vsroleplayclasses.src.Items
                 return true;
             if (!HasRunePower<ResistType>(itemstack))
                 return true;
-            if (!HasRunePower<SpellPolarity>(itemstack))
-                return true;
             if (!HasRunePower<PowerLevel>(itemstack))
+                return true;
+            if (!HasRunePower<AdventureClass>(itemstack))
                 return true;
 
             return false;
