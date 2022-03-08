@@ -19,6 +19,7 @@ namespace vsroleplayclasses.src.Gui
           : base(capi)
         {
             capi.Event.RegisterGameTickListener(new Action<float>(this.OnGameTick), 500);
+            capi.Event.RegisterGameTickListener(new Action<float>(this.OnFlashStatbar), 1000);
         }
 
         public override string ToggleKeyCombinationCode => (string)null;
@@ -26,6 +27,19 @@ namespace vsroleplayclasses.src.Gui
         private void OnGameTick(float dt)
         {
             this.UpdateCastingPercent();
+        }
+
+        private void OnFlashStatbar(float dt)
+        {
+            float? nullable1 = capi.World.Player.Entity.WatchedAttributes.GetFloat("castingpct", 0.0f);
+            if (!nullable1.HasValue)
+                return;
+
+            if (this.castingbar == null)
+                return;
+
+            if (nullable1.GetValueOrDefault() == 1.0F)
+                this.castingbar.ShouldFlash = true;
         }
 
         private void UpdateCastingPercent()

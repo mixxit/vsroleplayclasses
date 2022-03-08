@@ -1,6 +1,7 @@
 ﻿using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Server;
+using vsroleplayclasses.src.Behaviors;
 
 namespace vsroleplayclasses.src.Extensions
 {
@@ -18,6 +19,41 @@ namespace vsroleplayclasses.src.Extensions
                 return false;
 
             return true;
+        }
+
+        public static void TryFinishCast(this Entity me, long targetEntityId)
+        {
+            if (me.Api.Side != EnumAppSide.Server)
+                return;
+            if (targetEntityId < 1)
+                return;
+
+            var targetEntity = me.World.GetEntityById(targetEntityId);
+            if (targetEntity == null)
+                return;
+
+            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
+            if (ebt == null)
+                return;
+
+            ebt.TryFinishCast(targetEntity);
+        }
+
+        public static bool IsWaitingToCast(this Entity me)
+        {
+            if (me.Api.Side == EnumAppSide.Client)
+            {
+                if (me.WatchedAttributes.GetFloat("castingpct", 1.0F) == 1.0F)
+                    return true;
+                else
+                    return false;
+            }
+
+            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
+            if (ebt == null)
+                return false;
+
+            return ebt.IsWaitingToCast();
         }
 
         public static bool ChangeCurrentHp(this Entity me, Entity sourceEntity, float amount, EnumDamageType type)
@@ -63,15 +99,6 @@ namespace vsroleplayclasses.src.Extensions
 
             return me.GetAsIServerPlayer().GateToBind();
         }
-
-        public static Entity GetTarget(this Entity me)
-        {
-            if (!me.IsIServerPlayer())
-                return null;
-
-            return me.GetAsIServerPlayer().GetTarget();
-        }
-
 
         public static void DecreaseMana(this Entity me, float mana)
         {

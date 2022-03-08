@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
 using Vintagestory.Common;
 using Vintagestory.Server;
+using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Gui;
 using vsroleplayclasses.src.Items;
@@ -33,6 +35,10 @@ namespace vsroleplayclasses.src.Systems
                 .RegisterChannel("castabilityinmemoryposition")
                 .RegisterMessageType<CastAbilityInMemoryPositionPacket>();
 
+            api.Network
+                .RegisterChannel("clientrequestfinishcastingpacket")
+                .RegisterMessageType<ClientRequestFinishCastingPacket>();
+
             api.RegisterItemClass("abilitybook", typeof(AbilityBookItem));
             api.RegisterItemClass("abilityscroll", typeof(AbilityScrollItem));
             api.RegisterItemClass("runeofpower", typeof(RuneOfPowerItem));
@@ -49,6 +55,31 @@ namespace vsroleplayclasses.src.Systems
         public override bool ShouldLoad(EnumAppSide side)
         {
             return true;
+        }
+        public override void StartServerSide(ICoreServerAPI api)
+        {
+            serverApi = api;
+            api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
+            api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
+            api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
+            api.Event.RegisterGameTickListener(new Action<float>(this.OnCastingTimerTick), 500);
+            base.StartServerSide(api);
+            api.RegisterCommand("forcecast", "force casts an ability", "", CmdForceCast, "root");
+            api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
+            api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
+            api.RegisterCommand("forceabilitybookability", "forces a abilitybook abillity in a slot", "", CmdForceAbilitybookAbility, "root");
+            //api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
+
+            api.RegisterEntityBehaviorClass("EntityBehaviorCasting", typeof(EntityBehaviorCasting));
+            api.RegisterEntityBehaviorClass("EntityBehaviorSpellTargetable", typeof(EntityBehaviorSpellTargetable));
+
+            api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
+            api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);
+        }
+
+        private void OnClientRequestFinishCasting(IServerPlayer fromPlayer, ClientRequestFinishCastingPacket networkMessage)
+        {
+            fromPlayer.Entity.TryFinishCast(networkMessage.targetEntityId);
         }
 
         public override void StartClientSide(ICoreClientAPI api)
@@ -73,6 +104,31 @@ namespace vsroleplayclasses.src.Systems
             capi.Input.SetHotKeyHandler("useability6", UseAbilityKey6);
             capi.Input.SetHotKeyHandler("useability7", UseAbilityKey7);
             capi.Input.SetHotKeyHandler("useability8", UseAbilityKey8);
+            capi.Input.InWorldAction += OnClientInWorldAction;
+        }
+
+        private void OnClientInWorldAction(EnumEntityAction action, bool on, ref EnumHandling handled)
+        {
+            if (capi.Side != EnumAppSide.Client)
+                return;
+
+            if (action != EnumEntityAction.RightMouseDown)
+                return;
+
+            if (!((Entity)capi.World.Player.Entity).IsWaitingToCast())
+                return;
+
+            // default target self
+            long targetEntityId = capi.World.Player.Entity.EntityId;
+            if (capi.World.Player.CurrentEntitySelection != null)
+                targetEntityId = capi.World.Player.CurrentEntitySelection.Entity.EntityId;
+
+
+            capi.Network.GetChannel("clientrequestfinishcastingpacket").SendPacket(new ClientRequestFinishCastingPacket()
+            {
+                playerUid = capi.World.Player.PlayerUID,
+                targetEntityId = targetEntityId
+            });
         }
 
         private bool UseAbilityKey1(KeyCombination keyCombination)
@@ -127,25 +183,6 @@ namespace vsroleplayclasses.src.Systems
             else memorisateAbilityDialog.TryOpen();
 
             return true;
-        }
-
-        public override void StartServerSide(ICoreServerAPI api)
-        {
-            serverApi = api;
-            api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
-            api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
-            api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
-            api.Event.RegisterGameTickListener(new Action<float>(this.OnCastingTimerTick), 500);
-
-            base.StartServerSide(api);
-            api.RegisterCommand("forcecast", "force casts an ability", "", CmdForceCast, "root");
-            api.RegisterCommand("abilities", "lists information about abilities", "", CmdAbilities, null);
-            api.RegisterCommand("forcescrollability", "forces a scroll abillity", "", CmdForceScrollAbility, "root");
-            api.RegisterCommand("forceabilitybookability", "forces a abilitybook abillity in a slot", "", CmdForceAbilitybookAbility, "root");
-            //api.RegisterCommand("linguamagica", "lists information about lingua magica", "", CmdLinguaMagica, null);
-            api.Network.GetChannel("castabilityinmemoryposition")
-                .SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition)
-            ;
         }
 
         private void OnCastingTimerTick(float obj)

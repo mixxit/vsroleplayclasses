@@ -76,8 +76,10 @@
   <ItemGroup>
     <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
+    <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
     <Compile Include="src\Gui\HudAbility.cs" />
     <Compile Include="src\ItemSlotScroll.cs" />
+    <Compile Include="src\Packets\ClientRequestFinishCastingPacket.cs" />
     <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
     <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />
     <Compile Include="src\Gui\GuiDialogMemoriseAbility.cs" />
@@ -143,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\game\patches\entity-add-casting-behavior.json" />
+    <Content Include="assets\game\patches\entity-add-spelltargetable-behavior.json" />
     <None Include="assets\game\patches\survival-blocktypes-wood-pan.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquillempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellempty.json" />

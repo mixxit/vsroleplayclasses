@@ -39,6 +39,27 @@ namespace vsroleplayclasses.src.Behaviors
             //this.finishCastingUnixTime = Convert.ToInt64(attributes["finishCastingUnixTime"].AsString());
         }
 
+        public bool IsWaitingToCast()
+        {
+            if (entity.WatchedAttributes.GetFloat("castingpct", 1.0F) == 1.0F)
+                return true;
+
+            return false;
+        }
+
+        public void TryFinishCast(Entity targetEntity)
+        {
+            if (!IsWaitingToCast())
+                return;
+
+            startCastingUnixTime = 0;
+            finishCastingUnixTime = 0;
+
+            entity.WatchedAttributes.SetFloat("castingpct", 0.0f);
+            OnFinishCasting(this.abilityId, targetEntity);
+            this.abilityId = 0;
+        }
+
         internal void UpdateCastingPercentAttribute()
         {
             if (startCastingUnixTime < 1 || finishCastingUnixTime < 1)
@@ -48,7 +69,12 @@ namespace vsroleplayclasses.src.Behaviors
             var totalTime = finishCastingUnixTime - startCastingUnixTime;
             var progress = now - startCastingUnixTime;
             float percentage = (float)((double)progress / (double)totalTime);
-            entity.WatchedAttributes.SetFloat("castingpct", percentage);
+            if (percentage < 0.0F)
+                percentage = 0.0F;
+            if (percentage > 1.0F)
+                percentage = 1.0F;
+            if (entity.WatchedAttributes.GetFloat("castingpct", 0.0F) != percentage)
+                entity.WatchedAttributes.SetFloat("castingpct", percentage);
         }
 
         public override void OnGameTick(float dt)
@@ -70,23 +96,16 @@ namespace vsroleplayclasses.src.Behaviors
             UpdateCastingPercentAttribute();
             if (currenttime < finishCastingUnixTime)
                 return;
-
-            startCastingUnixTime = 0;
-            finishCastingUnixTime = 0;
-
-            entity.WatchedAttributes.SetFloat("castingpct", 0.0f);
-            OnFinishCasting(this.abilityId);
-            this.abilityId = 0;
         }
 
-        private void OnFinishCasting(long abilityId)
+        private void OnFinishCasting(long abilityId, Entity targetEntity)
         {
             var mod = this.entity.World.Api.ModLoader.GetModSystem<SystemAbilities>();
             if (mod == null)
                 return;
 
             var ability = mod.GetAbilityById(abilityId);
-            ability.FinishCast(this.entity, this.entity.GetTarget());
+            ability.FinishCast(this.entity, targetEntity);
         }
 
         internal void StartCasting(long abilityId, int duration)

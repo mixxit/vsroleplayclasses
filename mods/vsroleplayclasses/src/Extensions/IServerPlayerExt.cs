@@ -389,12 +389,6 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
-        public static Entity GetTarget(this IServerPlayer player)
-        {
-            // Default to self
-            return player.Entity;
-        }
-
         public static void GrantInitialClassItems(this IServerPlayer player)
         {
             var charClass = player.GetCharClassOrDefault();
