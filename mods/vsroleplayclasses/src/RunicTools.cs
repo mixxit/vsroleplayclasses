@@ -47,7 +47,7 @@ namespace vsroleplayclasses.src
             return MagicWord.Nul;
         }
 
-        private static MagicWord GetAdventureClassMagicWord(AdventureClass adventureClass)
+        public static MagicWord GetAdventureClassMagicWord(AdventureClass adventureClass)
         {
             switch (adventureClass)
             {
@@ -104,6 +104,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Cal;
                 case SpellEffectIndex.Heal_Cure:
                     return MagicWord.Meth;
+                case SpellEffectIndex.Calm:
+                    return MagicWord.Nifl;
                 default:
                     return MagicWord.Nul;
             }

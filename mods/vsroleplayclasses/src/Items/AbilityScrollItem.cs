@@ -25,6 +25,25 @@ namespace vsroleplayclasses.src.Items
             if (IsAbilityScribed(inSlot.Itemstack))
             {
                 dsc.AppendLine(Lang.Get("Ability: {0}", GetScribedAbilityName(inSlot.Itemstack)));
+                var s_spellEffectIndex = GetScribedAbilityRunicComponent<SpellEffectIndex>(inSlot.Itemstack);
+                var s_spellEffectType = GetScribedAbilityRunicComponent<SpellEffectType>(inSlot.Itemstack);
+                var s_targetType = GetScribedAbilityRunicComponent<TargetType>(inSlot.Itemstack);
+                var s_resistType = GetScribedAbilityRunicComponent<ResistType>(inSlot.Itemstack);
+                var s_powerLevel = GetScribedAbilityRunicComponent<PowerLevel>(inSlot.Itemstack);
+                var s_adventureClass = GetScribedAbilityRunicComponent<AdventureClass>(inSlot.Itemstack);
+
+                if (s_spellEffectIndex != SpellEffectIndex.None)
+                    dsc.AppendLine(Lang.Get("Spell Effect Index: {0} ({1})", s_spellEffectIndex, RunicTools.GetSpellEffectIndexMagicWord(s_spellEffectIndex)));
+                if (s_spellEffectType != SpellEffectType.None)
+                    dsc.AppendLine(Lang.Get("Spell Effect Type: {0} ({1})", s_spellEffectType, RunicTools.GetSpellEffectTypeMagicWord(s_spellEffectType)));
+                if (s_targetType != TargetType.None)
+                    dsc.AppendLine(Lang.Get("Target Type: {0} ({1})", s_targetType, RunicTools.GetTargetTypeMagicWord(s_targetType)));
+                if (s_resistType != ResistType.None)
+                    dsc.AppendLine(Lang.Get("Resist Type: {0} ({1})", s_resistType, RunicTools.GetResistTypeMagicWord(s_resistType)));
+                if (s_powerLevel != PowerLevel.None)
+                    dsc.AppendLine(Lang.Get("Power Level: {0} ({1})", s_powerLevel, RunicTools.GetPowerLevelMagicWord(s_powerLevel)));
+                if (s_adventureClass != AdventureClass.None)
+                    dsc.AppendLine(Lang.Get("Adventure Class: {0} ({1})", s_adventureClass, RunicTools.GetAdventureClassMagicWord(s_adventureClass)));
                 return;
             }
             else
@@ -32,34 +51,52 @@ namespace vsroleplayclasses.src.Items
                 if (HasSpareRuneSlot(inSlot.Itemstack))
                 {
                     dsc.AppendLine(Lang.Get("Ability: {0}", "This scroll is incomplete"));
+                    var spellEffectIndex = GetWordOfPower<SpellEffectIndex>(inSlot.Itemstack);
+                    var spellEffectType = GetWordOfPower<SpellEffectType>(inSlot.Itemstack);
+                    var targetType = GetWordOfPower<TargetType>(inSlot.Itemstack);
+                    var resistType = GetWordOfPower<ResistType>(inSlot.Itemstack);
+                    var powerLevel = GetWordOfPower<PowerLevel>(inSlot.Itemstack);
+                    var adventureClass = GetWordOfPower<AdventureClass>(inSlot.Itemstack);
+
+                    if (spellEffectIndex != SpellEffectIndex.None)
+                        dsc.AppendLine(Lang.Get("Spell Effect Index: {0} ({1})", spellEffectIndex, RunicTools.GetSpellEffectIndexMagicWord(spellEffectIndex)));
+                    if (spellEffectType != SpellEffectType.None)
+                        dsc.AppendLine(Lang.Get("Spell Effect Type: {0} ({1})", spellEffectType, RunicTools.GetSpellEffectTypeMagicWord(spellEffectType)));
+                    if (targetType != TargetType.None)
+                        dsc.AppendLine(Lang.Get("Target Type: {0} ({1})", targetType, RunicTools.GetTargetTypeMagicWord(targetType)));
+                    if (resistType != ResistType.None)
+                        dsc.AppendLine(Lang.Get("Resist Type: {0} ({1})", resistType, RunicTools.GetResistTypeMagicWord(resistType)));
+                    if (powerLevel != PowerLevel.None)
+                        dsc.AppendLine(Lang.Get("Power Level: {0} ({1})", powerLevel, RunicTools.GetPowerLevelMagicWord(powerLevel)));
+                    if (adventureClass != AdventureClass.None)
+                        dsc.AppendLine(Lang.Get("Adventure Class: {0} ({1})", adventureClass, RunicTools.GetAdventureClassMagicWord(adventureClass)));
+                    return;
                 }
                 else
                 {
                     dsc.AppendLine(Lang.Get("Ability: {0}", "This scroll appears useless"));
+                    var s_spellEffectIndex = GetScribedAbilityRunicComponent<SpellEffectIndex>(inSlot.Itemstack);
+                    var s_spellEffectType = GetScribedAbilityRunicComponent<SpellEffectType>(inSlot.Itemstack);
+                    var s_targetType = GetScribedAbilityRunicComponent<TargetType>(inSlot.Itemstack);
+                    var s_resistType = GetScribedAbilityRunicComponent<ResistType>(inSlot.Itemstack);
+                    var s_powerLevel = GetScribedAbilityRunicComponent<PowerLevel>(inSlot.Itemstack);
+                    var s_adventureClass = GetScribedAbilityRunicComponent<AdventureClass>(inSlot.Itemstack);
+
+                    if (s_spellEffectIndex != SpellEffectIndex.None)
+                        dsc.AppendLine(Lang.Get("Spell Effect Index: {0} ({1})", s_spellEffectIndex, RunicTools.GetSpellEffectIndexMagicWord(s_spellEffectIndex)));
+                    if (s_spellEffectType != SpellEffectType.None)
+                        dsc.AppendLine(Lang.Get("Spell Effect Type: {0} ({1})", s_spellEffectType, RunicTools.GetSpellEffectTypeMagicWord(s_spellEffectType)));
+                    if (s_targetType != TargetType.None)
+                        dsc.AppendLine(Lang.Get("Target Type: {0} ({1})", s_targetType, RunicTools.GetTargetTypeMagicWord(s_targetType)));
+                    if (s_resistType != ResistType.None)
+                        dsc.AppendLine(Lang.Get("Resist Type: {0} ({1})", s_resistType, RunicTools.GetResistTypeMagicWord(s_resistType)));
+                    if (s_powerLevel != PowerLevel.None)
+                        dsc.AppendLine(Lang.Get("Power Level: {0} ({1})", s_powerLevel, RunicTools.GetPowerLevelMagicWord(s_powerLevel)));
+                    if (s_adventureClass != AdventureClass.None)
+                        dsc.AppendLine(Lang.Get("Adventure Class: {0} ({1})", s_adventureClass, RunicTools.GetAdventureClassMagicWord(s_adventureClass)));
                     return;
                 }
             }
-
-
-            var spellEffectIndex = GetWordOfPower<SpellEffectIndex>(inSlot.Itemstack);
-            var spellEffectType = GetWordOfPower<SpellEffectType>(inSlot.Itemstack);
-            var targetType = GetWordOfPower<TargetType>(inSlot.Itemstack);
-            var resistType = GetWordOfPower<ResistType>(inSlot.Itemstack);
-            var powerLevel = GetWordOfPower<PowerLevel>(inSlot.Itemstack);
-            var adventureClass = GetWordOfPower<AdventureClass>(inSlot.Itemstack);
-
-            if (spellEffectIndex != SpellEffectIndex.None)
-                dsc.AppendLine(Lang.Get("Spell Effect Index: {0}", spellEffectIndex));
-            if (spellEffectType != SpellEffectType.None)
-                dsc.AppendLine(Lang.Get("Spell Effect Type: {0}", spellEffectType));
-            if (targetType != TargetType.None)
-                dsc.AppendLine(Lang.Get("Target Type: {0}", targetType));
-            if (resistType != ResistType.None)
-                dsc.AppendLine(Lang.Get("Resist Type: {0}", resistType));
-            if (powerLevel != PowerLevel.None)
-                dsc.AppendLine(Lang.Get("Power Level: {0}", powerLevel));
-            if (adventureClass != AdventureClass.None)
-                dsc.AppendLine(Lang.Get("Adventure Class: {0}", adventureClass));
         }
 
         public bool IsAbilityScribed(ItemStack itemStack)
@@ -74,6 +111,12 @@ namespace vsroleplayclasses.src.Items
             {
                 itemStack.Attributes.SetLong("scribedAbility", ability.Id);
                 itemStack.Attributes.SetString("scribedAbilityName", ability.Name);
+                itemStack.Attributes.SetLong("scribedAbilitySpellEffectIndex", (int)ability.SpellEffectIndex);
+                itemStack.Attributes.SetLong("scribedAbilitySpellEffectType", (int)ability.SpellEffect);
+                itemStack.Attributes.SetLong("scribedAbilityTargetType", (int)ability.TargetType);
+                itemStack.Attributes.SetLong("scribedAbilityResistType", (int)ability.ResistType);
+                itemStack.Attributes.SetLong("scribedAbilityPowerLevel", (int)ability.PowerLevel);
+                itemStack.Attributes.SetLong("scribedAbilityAdventureClass", (int)ability.AdventureClass);
                 if (!itemStack.Attributes.HasAttribute("scribedAbility"))
                     throw new Exception("This should not happen");
                 if (!itemStack.Attributes.HasAttribute("scribedAbilityName"))
@@ -164,6 +207,25 @@ namespace vsroleplayclasses.src.Items
                 }
             }
             return "Unknown Ability";
+        }
+
+        internal T GetScribedAbilityRunicComponent<T>(ItemStack itemStack) where T : Enum
+        {
+            if (itemStack.Attributes != null)
+            {
+                try
+                {
+                    if (!itemStack.Attributes.HasAttribute($"scribedAbility{typeof(T).Name}"))
+                        return default(T);
+
+                    return (T)Enum.ToObject(typeof(T), itemStack.Attributes.GetLong($"scribedAbility{typeof(T).Name}", 0));
+                }
+                catch (InvalidCastException)
+                {
+                    return default(T);
+                }
+            }
+            return default(T);
         }
 
         public bool HasSpareRuneSlot(ItemStack itemstack)

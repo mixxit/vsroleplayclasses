@@ -78,9 +78,12 @@
     <Compile Include="src\AdventureClass.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
+    <Compile Include="src\DamageTypeClass.cs" />
     <Compile Include="src\EffectCombo.cs" />
+    <Compile Include="src\ExtendedEnumDamageType.cs" />
     <Compile Include="src\Gui\HudAbility.cs" />
     <Compile Include="src\ItemSlotScroll.cs" />
+    <Compile Include="src\Packets\ClearCastingPacket.cs" />
     <Compile Include="src\Packets\ClientRequestFinishCastingPacket.cs" />
     <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
     <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />
@@ -127,7 +130,6 @@
     <Compile Include="src\Items\RuneOfPowerItem.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorExperience.cs" />
     <Compile Include="src\Extensions\EntityExt.cs" />
-    <Compile Include="src\EnumAdventuringClass.cs" />
     <Compile Include="src\Ability.cs" />
     <Compile Include="src\Items\AbilityScrollItem.cs" />
     <Compile Include="src\Items\AbilityBookItem.cs" />

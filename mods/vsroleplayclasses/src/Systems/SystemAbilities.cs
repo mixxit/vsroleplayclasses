@@ -35,6 +35,8 @@ namespace vsroleplayclasses.src.Systems
                 .RegisterChannel("castabilityinmemoryposition")
                 .RegisterMessageType<CastAbilityInMemoryPositionPacket>();
 
+            api.Network.RegisterChannel("clearcasting").RegisterMessageType<ClearCastingPacket>();
+
             api.Network
                 .RegisterChannel("clientrequestfinishcastingpacket")
                 .RegisterMessageType<ClientRequestFinishCastingPacket>();
@@ -75,6 +77,7 @@ namespace vsroleplayclasses.src.Systems
 
             api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
             api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);
+            api.Network.GetChannel("clearcasting").SetMessageHandler<ClearCastingPacket>(OnClearCasting);
         }
 
         private void OnClientRequestFinishCasting(IServerPlayer fromPlayer, ClientRequestFinishCastingPacket networkMessage)
@@ -88,6 +91,7 @@ namespace vsroleplayclasses.src.Systems
             capi = api;
             capi.Input.RegisterHotKey("memoriseability", "Allows memorisation of abilities", GlKeys.L, HotkeyType.GUIOrOtherControls);
             capi.Input.SetHotKeyHandler("memoriseability", ToggleMemorisationGui);
+            capi.Input.RegisterHotKey("clearcasting", "Clear casting ability", GlKeys.C, HotkeyType.GUIOrOtherControls, false, true, false);
             capi.Input.RegisterHotKey("useability1", "Uses memorised ability #1", GlKeys.Number1, HotkeyType.GUIOrOtherControls, true,false,false);
             capi.Input.RegisterHotKey("useability2", "Uses memorised ability #2", GlKeys.Number2, HotkeyType.GUIOrOtherControls, true,false,false);
             capi.Input.RegisterHotKey("useability3", "Uses memorised ability #3", GlKeys.Number3, HotkeyType.GUIOrOtherControls, true,false,false);
@@ -96,6 +100,7 @@ namespace vsroleplayclasses.src.Systems
             capi.Input.RegisterHotKey("useability6", "Uses memorised ability #6", GlKeys.Number6, HotkeyType.GUIOrOtherControls, true,false,false);
             capi.Input.RegisterHotKey("useability7", "Uses memorised ability #7", GlKeys.Number7, HotkeyType.GUIOrOtherControls, true,false,false);
             capi.Input.RegisterHotKey("useability8", "Uses memorised ability #8", GlKeys.Number8, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.SetHotKeyHandler("clearcasting", ClearCasting);
             capi.Input.SetHotKeyHandler("useability1", UseAbilityKey1);
             capi.Input.SetHotKeyHandler("useability2", UseAbilityKey2);
             capi.Input.SetHotKeyHandler("useability3", UseAbilityKey3);
@@ -141,6 +146,15 @@ namespace vsroleplayclasses.src.Systems
             capi.Network.GetChannel("castabilityinmemoryposition").SendPacket(new CastAbilityInMemoryPositionPacket()
             {
                 Position = position
+            });
+            return true;
+        }
+
+        private bool ClearCasting(KeyCombination keyCombo)
+        {
+            capi.Network.GetChannel("clearcasting").SendPacket(new ClearCastingPacket()
+            {
+                
             });
             return true;
         }
@@ -196,6 +210,14 @@ namespace vsroleplayclasses.src.Systems
                 return null;
 
             return this.abilityList[id];
+        }
+        private void OnClearCasting(IServerPlayer castingPlayer, ClearCastingPacket networkMessage)
+        {
+            EntityBehaviorCasting ebt = castingPlayer.Entity.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
+            if (ebt == null)
+                return;
+
+            ebt.ClearCasting();
         }
 
         private void OnCastAbilityInMemoryPosition(IServerPlayer castingPlayer, CastAbilityInMemoryPositionPacket networkMessage)

@@ -14,52 +14,7 @@
         "value": {
             "code": "EntityBehaviorSpellTargetable"
         },
-        "file": "entities/land/wolf-female.json",
-        "side": "Server"
-    },
-    {
-        "op": "add",
-        "path": "/server/behaviors/-",
-        "value": {
-            "code": "EntityBehaviorSpellTargetable"
-        },
-        "file": "entities/land/wolf-male.json",
-        "side": "Server"
-    },
-    {
-        "op": "add",
-        "path": "/server/behaviors/-",
-        "value": {
-            "code": "EntityBehaviorSpellTargetable"
-        },
-        "file": "entities/land/bear-female.json",
-        "side": "Server"
-    },
-    {
-        "op": "add",
-        "path": "/server/behaviors/-",
-        "value": {
-            "code": "EntityBehaviorSpellTargetable"
-        },
-        "file": "entities/land/bear-male.json",
-        "side": "Server"
-    },
-    {
-        "op": "add",
-        "path": "/server/behaviors/-",
-        "value": {
-            "code": "EntityBehaviorSpellTargetable"
-        },
-        "file": "entities/land/sheep-bighorn-female.json",
-        "side": "Server"
-    },
-    {
-        "op": "add",
-        "path": "/server/behaviors/-",
-        "value": {
-            "code": "EntityBehaviorSpellTargetable"
-        },
-        "file": "entities/land/sheep-bighorn-male.json",
+        "file": "entities/land/*",
         "side": "Server"
     }
 ]

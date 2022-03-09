@@ -206,7 +206,7 @@ namespace vsroleplayclasses.src
             var success = false;
             foreach (var target in targets)
             {
-                var result = effectCombo.Effect(source, target, this.GetDamageType(), this.GetDamageAmount(), this.ResistType);
+                var result = effectCombo.Effect(source, target, this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
                 if (result)
                     success = result;
             }
@@ -215,24 +215,13 @@ namespace vsroleplayclasses.src
 
             if (success)
                 source.SkillUp(this);
+            if (success)
+                source.GrantSmallAmountOfAdventureClassXp(this);
         }
 
-        private EnumDamageType GetDamageType()
+        private ExtendedEnumDamageType GetDamageType(AdventureClass adventureClass)
         {
-            if (ResistType == ResistType.Poison)
-                return EnumDamageType.Poison;
-            if (ResistType == ResistType.Disease)
-                return EnumDamageType.Poison;
-            if (ResistType == ResistType.Fire)
-                return EnumDamageType.Fire;
-            if (ResistType == ResistType.Cold)
-                return EnumDamageType.Frost;
-            if (ResistType == ResistType.Magic)
-                return EnumDamageType.Suffocation;
-            if (ResistType == ResistType.Physical)
-                return EnumDamageType.BluntAttack;
-
-            return EnumDamageType.Crushing;
+            return (ExtendedEnumDamageType)(Enum.Parse(typeof(ExtendedEnumDamageType), adventureClass + "_" + this.ResistType));
         }
 
         private int GetCastTimeSeconds()

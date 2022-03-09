@@ -52,12 +52,9 @@ namespace vsroleplayclasses.src.Behaviors
             if (!IsWaitingToCast())
                 return;
 
-            startCastingUnixTime = 0;
-            finishCastingUnixTime = 0;
-
-            entity.WatchedAttributes.SetFloat("castingpct", 0.0f);
-            OnFinishCasting(this.abilityId, targetEntity);
-            this.abilityId = 0;
+            var tempAbilityId = this.abilityId;
+            ClearCasting();
+            OnFinishCasting(tempAbilityId, targetEntity);
         }
 
         internal void UpdateCastingPercentAttribute()
@@ -121,6 +118,14 @@ namespace vsroleplayclasses.src.Behaviors
             this.startCastingUnixTime = DateTimeOffset.Now.ToUnixTimeSeconds();
             this.finishCastingUnixTime = DateTimeOffset.Now.ToUnixTimeSeconds()+(duration);
 
+        }
+
+        internal void ClearCasting()
+        {
+            startCastingUnixTime = 0;
+            finishCastingUnixTime = 0;
+            entity.WatchedAttributes.SetFloat("castingpct", 0.0f);
+            this.abilityId = 0;
         }
     }
 }

@@ -76,13 +76,9 @@ namespace vsroleplayclasses.src.Behaviors
 
             if (!(((EntityPlayer)damageSourceForDeath.SourceEntity).Player is IServerPlayer))
                 return;
-                        
-            var expType = EnumAdventuringClass.Warrior;
-            if (damageSourceForDeath.Type == EnumDamageType.PiercingAttack)
-                expType = EnumAdventuringClass.Ranger;
-            if (damageSourceForDeath.Type == EnumDamageType.Poison)
-                expType = EnumAdventuringClass.Rogue;
 
+            
+            var expType = DamageTypeClass.Convert((ExtendedEnumDamageType)damageSourceForDeath.Type).AdventureClass;
             damageSourceForDeath.SourceEntity.AwardExperience(expType, this.entity.GetExperienceWorth((IServerPlayer)((EntityPlayer)damageSourceForDeath.SourceEntity).Player));
         }
     }

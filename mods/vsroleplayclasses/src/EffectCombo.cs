@@ -12,7 +12,7 @@ namespace vsroleplayclasses.src
 {
     public class EffectCombo
     {
-        public System.Func<Entity, Entity, EnumDamageType?, float?, ResistType, bool> Effect;
+        public System.Func<Entity, Entity, ExtendedEnumDamageType?, float?, ResistType, bool> Effect;
         public string Name { get; set; }
         public SpellEffectIndex SpellEffectIndex { get; set; }
         public SpellEffectType SpellEffectType { get; set; }
@@ -22,22 +22,22 @@ namespace vsroleplayclasses.src
             if (spellEffectType == SpellEffectType.None || spellEffectIndex == SpellEffectIndex.None)
                 return null;
 
-            if (spellEffectType == SpellEffectType.CurrentHP || spellEffectIndex == SpellEffectIndex.Direct_Damage)
+            if (spellEffectType == SpellEffectType.CurrentHP && spellEffectIndex == SpellEffectIndex.Direct_Damage)
                 return new EffectCombo() { Name = "Blast", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = DD };
 
-            if (spellEffectType == SpellEffectType.CurrentHP || spellEffectIndex == SpellEffectIndex.Heal_Cure)
+            if (spellEffectType == SpellEffectType.CurrentHP && spellEffectIndex == SpellEffectIndex.Heal_Cure)
                 return new EffectCombo() { Name = "Heal", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Heal };
 
-            if (spellEffectType == SpellEffectType.BindAffinity || spellEffectIndex == SpellEffectIndex.Dispell_Sight)
+            if (spellEffectType == SpellEffectType.BindAffinity && spellEffectIndex == SpellEffectIndex.Dispell_Sight)
                 return new EffectCombo() { Name = "Soul Binding", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Bind };
 
-            if (spellEffectType == SpellEffectType.Gate || spellEffectIndex == SpellEffectIndex.Vanish)
+            if (spellEffectType == SpellEffectType.Gate && spellEffectIndex == SpellEffectIndex.Vanish)
                 return new EffectCombo() { Name = "Return Home", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Gate };
 
             return null;
         }
 
-        public static bool Heal(Entity source, Entity castOn, EnumDamageType? damageType = EnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None)
+        public static bool Heal(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None)
         {
             var result = castOn.ChangeCurrentHp(source, (float)amount, EnumDamageType.Heal);
             if (result && source.IsIServerPlayer())
@@ -47,8 +47,14 @@ namespace vsroleplayclasses.src
             return result;
         }
 
-        public static bool DD(Entity source, Entity castOn, EnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None)
+        public static bool DD(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None)
         {
+            if (castOn.IsInvulerable())
+            {
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"Your target is invulnerable", EnumChatType.CommandSuccess);
+                return false;
+            }
+
             var result = castOn.ChangeCurrentHp(source, (float)amount, (EnumDamageType)damageType);
             if (result && source.IsIServerPlayer())
                 source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You blasted your target with {amount} {(resistType).ToString()} damage", EnumChatType.CommandSuccess);
@@ -57,7 +63,7 @@ namespace vsroleplayclasses.src
             return result;
         }
 
-        public static bool Bind(Entity source, Entity castOn, EnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None)
+        public static bool Bind(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None)
         {
             var result = castOn.BindToLocation();
             if (result && source.IsIServerPlayer())
@@ -67,7 +73,7 @@ namespace vsroleplayclasses.src
             return result;
         }
 
-        public static bool Gate(Entity source, Entity castOn, EnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None)
+        public static bool Gate(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None)
         {
             var result = castOn.GateToBind();
             if (result && source.IsIServerPlayer())

@@ -56,6 +56,14 @@ namespace vsroleplayclasses.src.Extensions
             return ebt.IsWaitingToCast();
         }
 
+        public static bool IsInvulerable(this Entity me)
+        {
+            if ((!me.Alive || me.IsActivityRunning("invulnerable")))
+                return true;
+
+            return false;
+        }
+
         public static bool ChangeCurrentHp(this Entity me, Entity sourceEntity, float amount, EnumDamageType type)
         {
             return me.ReceiveDamage(
@@ -84,6 +92,17 @@ namespace vsroleplayclasses.src.Extensions
             return ((IServerPlayer)((EntityPlayer)me).Player);
         }
 
+        public static void GrantSmallAmountOfAdventureClassXp(this Entity me, Ability ability)
+        {
+            if (ability.AdventureClass == AdventureClass.None)
+                return;
+
+            if (!me.IsIServerPlayer())
+                return;
+
+            me.GetAsIServerPlayer().GrantSmallAmountOfAdventureClassXp(ability);
+        }
+
         public static void SkillUp(this Entity me, Ability ability)
         {
             if (!me.IsIServerPlayer())
@@ -108,9 +127,9 @@ namespace vsroleplayclasses.src.Extensions
             me.GetAsIServerPlayer().DecreaseMana(mana);
         }
 
-        public static void AwardExperience(this Entity me, EnumAdventuringClass experienceType, double experienceAmount)
+        public static void AwardExperience(this Entity me, AdventureClass experienceType, double experienceAmount)
         {
-            if (experienceType == EnumAdventuringClass.None)
+            if (experienceType == AdventureClass.None)
                 return;
 
             // Only award to players

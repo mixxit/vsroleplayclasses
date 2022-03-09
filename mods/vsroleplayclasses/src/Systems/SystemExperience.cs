@@ -50,16 +50,16 @@ namespace vsroleplayclasses.src.Systems
 
         private void RegisterPlayerExperienceChangedListener(IServerPlayer player)
         {
-            foreach (EnumAdventuringClass experienceType in Enum.GetValues(typeof(EnumAdventuringClass)))
+            foreach (AdventureClass experienceType in Enum.GetValues(typeof(AdventureClass)))
             {
-                if (experienceType == EnumAdventuringClass.None)
+                if (experienceType == AdventureClass.None)
                     continue;
 
                 player.Entity.WatchedAttributes.RegisterModifiedListener(experienceType.ToString().ToLower()+"xp", (System.Action)(() => OnPlayerExperienceChanged(player, experienceType)));
             }
         }
 
-        private void OnPlayerExperienceChanged(IServerPlayer player, EnumAdventuringClass experienceType)
+        private void OnPlayerExperienceChanged(IServerPlayer player, AdventureClass experienceType)
         {
             if (player.GetExperience(experienceType) > 0)
                 player.SendMessage(GlobalConstants.CurrentChatGroup, "* You have gained "+ experienceType.ToString().ToLower() + " experience!", EnumChatType.OwnMessage);

@@ -25,14 +25,24 @@ namespace vsroleplayclasses.src.Extensions
             if (player.GetCharClassOrDefault() == null)
                 return;
 
-            foreach (EnumAdventuringClass adventuringClass in Enum.GetValues(typeof(EnumAdventuringClass)))
+            foreach (AdventureClass adventuringClass in Enum.GetValues(typeof(AdventureClass)))
             {
-                if (adventuringClass == EnumAdventuringClass.None)
+                if (adventuringClass == AdventureClass.None)
                     continue;
 
                 player.SetExperience(adventuringClass, 0);
             }
             
+        }
+        
+        public static void GrantSmallAmountOfAdventureClassXp(this IServerPlayer player, Ability ability)
+        {
+            if (ability.AdventureClass == AdventureClass.None)
+                return;
+
+            player.GrantExperience(ability.AdventureClass, 10);
+
+            return;
         }
 
         public static void SkillUp(this IServerPlayer player, Ability ability)
@@ -56,9 +66,9 @@ namespace vsroleplayclasses.src.Extensions
             if (player.GetCharClassOrDefault() == null)
                 return result;
 
-            foreach (EnumAdventuringClass adventuringClass in Enum.GetValues(typeof(EnumAdventuringClass)))
+            foreach (AdventureClass adventuringClass in Enum.GetValues(typeof(AdventureClass)))
             {
-                if (adventuringClass == EnumAdventuringClass.None)
+                if (adventuringClass == AdventureClass.None)
                     continue;
                 result.Add(new Tuple<string, double>(adventuringClass.ToString().ToLower(), player.GetExperience(adventuringClass)));
             }
@@ -71,17 +81,17 @@ namespace vsroleplayclasses.src.Extensions
             return player.GetExperienceValues().Sum(e => e.Item2);
         }
 
-        public static double GetExperience(this IServerPlayer player, EnumAdventuringClass experienceType)
+        public static double GetExperience(this IServerPlayer player, AdventureClass experienceType)
         {
-            if (experienceType == EnumAdventuringClass.None)
+            if (experienceType == AdventureClass.None)
                 return 0D;
 
             return player.Entity.WatchedAttributes.GetDouble(experienceType.ToString().ToLower() + "xp", 0);
         }
 
-        public static void SetExperience(this IServerPlayer player, EnumAdventuringClass experienceType, double xp)
+        public static void SetExperience(this IServerPlayer player, AdventureClass experienceType, double xp)
         {
-            if (experienceType == EnumAdventuringClass.None)
+            if (experienceType == AdventureClass.None)
                 return;
 
             if ((player.GetExperience() + xp) > WorldLimits.GetMaxExperience())
@@ -315,9 +325,9 @@ namespace vsroleplayclasses.src.Extensions
             player.Entity.WatchedAttributes.SetFloat("currentmana", mana);
         }
 
-        public static void GrantExperience(this IServerPlayer player, EnumAdventuringClass experienceType, double xp)
+        public static void GrantExperience(this IServerPlayer player, AdventureClass experienceType, double xp)
         {
-            if (experienceType == EnumAdventuringClass.None)
+            if (experienceType == AdventureClass.None)
                 return;
 
             // needs to have chosen their profession
