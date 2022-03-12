@@ -58,6 +58,22 @@ namespace vsroleplayclasses.src.Extensions
             player.SetLevel();
         }
 
+        public static bool HasAdventureClassLevel(this IServerPlayer player, Tuple<AdventureClass, int> adventureClassLevel)
+        {
+            if (player == null)
+                return false;
+
+            if (adventureClassLevel == null)
+                return false;
+
+            return player.GetAdventureClassLevel(adventureClassLevel.Item1) >= adventureClassLevel.Item2;
+        }
+
+        public static int GetAdventureClassLevel(this IServerPlayer player, AdventureClass adventureClass)
+        {
+            return PlayerUtils.GetLevelFromExperience(player.GetExperience(adventureClass));
+        }
+
 
         public static List<Tuple<string,double>> GetExperienceValues(this IServerPlayer player)
         {

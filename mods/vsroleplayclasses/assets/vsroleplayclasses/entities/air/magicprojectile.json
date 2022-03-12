@@ -1,6 +1,7 @@
 {
     "code": "magicprojectile",
     "class": "EntityMagicProjectile",
+    "habitat": "Air",
     "hitboxSize": {
         "x": 0.4,
         "y": 0.2
@@ -22,7 +23,7 @@
                 "code": "passivephysics",
                 "groundDragFactor": 1,
                 "airDragFactor": 0.0,
-                "gravityFactor": 0.01
+                "gravityFactor": 0.0
             },
             { "code": "interpolateposition" }
         ]
@@ -33,11 +34,11 @@
                 "code": "passivephysics",
                 "groundDragFactor": 1,
                 "airDragFactor": 0.0,
-                "gravityFactor": 0.01
+                "gravityFactor": 0.0
             },
             {
                 "code": "despawn",
-                "minSeconds": 600
+                "minSeconds": 20
             }
         ]
     },

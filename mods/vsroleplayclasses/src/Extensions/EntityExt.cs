@@ -1,4 +1,5 @@
-﻿using Vintagestory.API.Common;
+﻿using System;
+using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Behaviors;
@@ -38,7 +39,7 @@ namespace vsroleplayclasses.src.Extensions
         {
             if (me.Api.Side == EnumAppSide.Client)
             {
-                if (me.WatchedAttributes.GetFloat("castingpct", 1.0F) == 1.0F)
+                if (me.WatchedAttributes.GetLong("finishCastingUnixTime") <= DateTimeOffset.Now.ToUnixTimeMilliseconds())
                     return true;
                 else
                     return false;

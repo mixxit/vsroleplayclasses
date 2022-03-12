@@ -201,6 +201,8 @@ namespace vsroleplayclasses.src
 
         internal void FinishCast(Entity source, bool forceSelf = false)
         {
+            source.World.PlaySoundAt(new AssetLocation("vsroleplayclasses", "sounds/effect/spell1"), source, null, false, 14);
+
             var effectCombo = GetEffectCombo();
             if (effectCombo == null || effectCombo.Effect == null)
             {
@@ -239,7 +241,7 @@ namespace vsroleplayclasses.src
             Vec3d pos = byEntity.ServerPos.XYZ.Add(0, byEntity.LocalEyePos.Y - 0.2, 0);
 
             Vec3d aheadPos = pos.AheadCopy(1, byEntity.ServerPos.Pitch, byEntity.ServerPos.Yaw);
-            Vec3d velocity = (aheadPos - pos) * 0.65;
+            Vec3d velocity = (aheadPos - pos) * 1.0F;
             Vec3d spawnPos = byEntity.ServerPos.BehindCopy(0.21).XYZ.Add(byEntity.LocalEyePos.X, byEntity.LocalEyePos.Y - 0.2, byEntity.LocalEyePos.Z);
 
             enpr.ServerPos.SetPos(spawnPos);
@@ -281,6 +283,16 @@ namespace vsroleplayclasses.src
 
         }
 
+        internal Tuple<AdventureClass,int> GetMinAdventureClassLevel()
+        {
+            return new Tuple<AdventureClass, int>(this.AdventureClass,this.GetMinlevel());
+        }
+
+        private int GetMinlevel()
+        {
+            return (int)(this.PowerLevel-1) * 5;
+        }
+
         internal void OnSpellCollidedEntity(Entity source, Entity target)
         {
             OnSpellCollidedEntity(source, target, this.GetEffectCombo(), this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
@@ -288,6 +300,8 @@ namespace vsroleplayclasses.src
 
         public void OnSpellCollidedEntity(Entity source, Entity target, EffectCombo effectCombo, ExtendedEnumDamageType extendedEnumDamageType, float damageAmount, ResistType resistType)
         {
+            target.World.PlaySoundAt(new AssetLocation("vsroleplayclasses","sounds/effect/spelhit1"), target, null, false, 24);
+
             var result = effectCombo.Effect(source, target, extendedEnumDamageType, damageAmount, resistType, true);
             if (effectCombo.Duration > 0)
                 target.QueueTickEffect(source, this, effectCombo.Duration);

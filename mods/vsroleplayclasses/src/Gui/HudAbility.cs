@@ -10,7 +10,6 @@ namespace vsroleplayclasses.src.Gui
 {
     public class HudAbility : HudElement
     {
-        private float lastCastingpct;
         private GuiElementStatbar castingbar;
 
         public override double InputOrder => 1.0;
@@ -18,7 +17,7 @@ namespace vsroleplayclasses.src.Gui
         public HudAbility(ICoreClientAPI capi)
           : base(capi)
         {
-            capi.Event.RegisterGameTickListener(new Action<float>(this.OnGameTick), 500);
+            capi.Event.RegisterGameTickListener(new Action<float>(this.OnGameTick), 100);
             capi.Event.RegisterGameTickListener(new Action<float>(this.OnFlashStatbar), 1000);
         }
 
@@ -31,27 +30,33 @@ namespace vsroleplayclasses.src.Gui
 
         private void OnFlashStatbar(float dt)
         {
-            float? nullable1 = capi.World.Player.Entity.WatchedAttributes.GetFloat("castingpct", 0.0f);
-            if (!nullable1.HasValue)
-                return;
-
             if (this.castingbar == null)
                 return;
 
-            if (nullable1.GetValueOrDefault() == 1.0F)
+            if (capi.World.Player.Entity.WatchedAttributes.GetLong("finishCastingUnixTime") < 1)
+                return;
+
+            if (capi.World.Player.Entity.WatchedAttributes.GetLong("finishCastingUnixTime") <= DateTimeOffset.Now.ToUnixTimeMilliseconds())
                 this.castingbar.ShouldFlash = true;
         }
 
         private void UpdateCastingPercent()
         {
-            float? nullable1 = capi.World.Player.Entity.WatchedAttributes.GetFloat("castingpct", 0.0f); ;
-            if (!nullable1.HasValue)
+            if (this.castingbar == null)
                 return;
+
+            if (capi.World.Player.Entity.WatchedAttributes.GetLong("finishCastingUnixTime") < 1 && this.castingbar.GetValue() <= 0.0F)
+                return;
+
+            var now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            var totalTime = capi.World.Player.Entity.WatchedAttributes.GetLong("finishCastingUnixTime") - capi.World.Player.Entity.WatchedAttributes.GetLong("startCastingUnixTime");
+            var progress = now - capi.World.Player.Entity.WatchedAttributes.GetLong("startCastingUnixTime");
+            float percentage = (float)((double)progress / (double)totalTime);
+
             if (this.castingbar == null)
                 return;
             this.castingbar.SetLineInterval(1f);
-            this.castingbar.SetValues(nullable1.Value, 0.0f, 1.0f);
-            this.lastCastingpct = nullable1.Value;
+            this.castingbar.SetValues(percentage, 0.0f, 1.0f);
         }
 
         public override void OnOwnPlayerDataReceived()

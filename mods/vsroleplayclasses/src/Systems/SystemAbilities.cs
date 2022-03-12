@@ -224,6 +224,13 @@ namespace vsroleplayclasses.src.Systems
                 return;
             }
 
+            if (!castingPlayer.HasAdventureClassLevel(ability.GetMinAdventureClassLevel()))
+            {
+                castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient level to cast this spell", EnumChatType.CommandError);
+                return;
+            }
+
+
             if (castingPlayer.GetMana() < ability.GetManaCost())
             {
                 castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient Mana", EnumChatType.CommandError);

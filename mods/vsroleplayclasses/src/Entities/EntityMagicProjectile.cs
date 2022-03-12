@@ -29,7 +29,7 @@ namespace vsroleplayclasses.src.Entities
         CollisionTester collTester = new CollisionTester();
 
         public Entity FiredBy;
-        public float Weight = 0.1f;
+        public float Weight = 0.0f;
         public float DropOnImpactChance = 0f;
 
         Cuboidf collisionTestBox;
@@ -39,7 +39,7 @@ namespace vsroleplayclasses.src.Entities
 
         public override bool ApplyGravity
         {
-            get { return !stuck; }
+            get { return false; }
         }
 
         public override bool IsInteractable
@@ -274,7 +274,6 @@ namespace vsroleplayclasses.src.Entities
             }
 
             msCollide = World.ElapsedMilliseconds;
-            World.PlaySoundAt(new AssetLocation("sounds/arrow-impact"), this, null, false, 24);
             var abilitiesMod = World.Api.ModLoader.GetModSystem<SystemAbilities>();
             if (abilitiesMod != null)
             {

@@ -111,6 +111,18 @@
     <Compile Include="src\WorldLimits.cs" />
     <Content Include="assets\game\config\characterclasses.json" />
     <Content Include="assets\game\lang\en.json" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelcast.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelgdht.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelhit1.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelhit2.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelhit3.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelhit4.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spell1.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spell2.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spell3.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spell4.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spell5.ogg" />
+    <Content Include="assets\vsroleplayclasses\sounds\effect\spelltrav.ogg" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\alumhoney.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\runicinkportion.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\inkportion.png" />
@@ -154,7 +166,7 @@
     <Content Include="assets\game\patches\entity-add-spelltargetable-behavior.json" />
     <Content Include="assets\game\patches\entity-add-spelleffects-behavior.json" />
     <None Include="assets\game\patches\survival-blocktypes-wood-pan.json" />
-    <None Include="assets\vsroleplayclasses\entities\magicprojectile.json" />
+    <None Include="assets\vsroleplayclasses\entities\air\magicprojectile.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquillempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\liquid\alumhoney.json" />
