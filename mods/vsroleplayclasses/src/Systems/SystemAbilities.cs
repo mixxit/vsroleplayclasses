@@ -83,7 +83,7 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnClientRequestFinishCasting(IServerPlayer fromPlayer, ClientRequestFinishCastingPacket networkMessage)
         {
-            fromPlayer.Entity.TryFinishCast();
+            fromPlayer.Entity.TryFinishCast(networkMessage.isForceSelf);
         }
 
         public override void StartClientSide(ICoreClientAPI api)
@@ -127,6 +127,7 @@ namespace vsroleplayclasses.src.Systems
             capi.Network.GetChannel("clientrequestfinishcastingpacket").SendPacket(new ClientRequestFinishCastingPacket()
             {
                 playerUid = capi.World.Player.PlayerUID,
+                isForceSelf = capi.Input.KeyboardKeyState[(int)GlKeys.LShift]
             });
         }
 

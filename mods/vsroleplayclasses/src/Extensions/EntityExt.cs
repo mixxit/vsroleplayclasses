@@ -22,7 +22,7 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
-        public static void TryFinishCast(this Entity me)
+        public static void TryFinishCast(this Entity me, bool forceSelf = false)
         {
             if (me.Api.Side != EnumAppSide.Server)
                 return;
@@ -31,7 +31,7 @@ namespace vsroleplayclasses.src.Extensions
             if (ebt == null)
                 return;
 
-            ebt.TryFinishCast();
+            ebt.TryFinishCast(forceSelf);
         }
 
         public static bool IsWaitingToCast(this Entity me)

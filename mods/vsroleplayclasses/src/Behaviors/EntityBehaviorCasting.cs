@@ -48,14 +48,14 @@ namespace vsroleplayclasses.src.Behaviors
             return false;
         }
 
-        public void TryFinishCast()
+        public void TryFinishCast(bool forceSelf = false)
         {
             if (!IsWaitingToCast())
                 return;
 
             var tempAbilityId = this.abilityId;
             ClearCasting();
-            OnFinishCasting(tempAbilityId);
+            OnFinishCasting(tempAbilityId, forceSelf);
         }
 
         internal void UpdateCastingPercentAttribute()
@@ -96,7 +96,7 @@ namespace vsroleplayclasses.src.Behaviors
                 return;
         }
 
-        private void OnFinishCasting(long abilityId)
+        private void OnFinishCasting(long abilityId, bool forceSelf = false)
         {
             if (abilityId == 0)
                 return;
@@ -109,7 +109,7 @@ namespace vsroleplayclasses.src.Behaviors
             if (ability == null)
                 return;
 
-            ability.FinishCast(this.entity);
+            ability.FinishCast(this.entity, forceSelf);
         }
 
         internal void StartCasting(long abilityId, int duration)

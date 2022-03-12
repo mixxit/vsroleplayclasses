@@ -199,7 +199,7 @@ namespace vsroleplayclasses.src
             return 0;
         }
 
-        internal void FinishCast(Entity source)
+        internal void FinishCast(Entity source, bool forceSelf = false)
         {
             var effectCombo = GetEffectCombo();
             if (effectCombo == null || effectCombo.Effect == null)
@@ -211,10 +211,10 @@ namespace vsroleplayclasses.src
             var targets = new List<Entity>();
 
             // treat as though collided
-            if (this.TargetType == TargetType.Self)
+            if (this.TargetType == TargetType.Self || forceSelf)
                 OnSpellCollidedEntity(source, source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
 
-            if (this.TargetType == TargetType.Target)
+            if (this.TargetType == TargetType.Target && !forceSelf)
                 FlingSpellForward(source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
 
             source.DecreaseMana(GetManaCost());

@@ -6,5 +6,6 @@ namespace vsroleplayclasses.src.Packets
     public class ClientRequestFinishCastingPacket
     {
         public string playerUid;
+        public bool isForceSelf;
     }
 }
