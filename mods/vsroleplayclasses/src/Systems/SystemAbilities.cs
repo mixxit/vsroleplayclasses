@@ -8,9 +8,8 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
-using Vintagestory.Common;
-using Vintagestory.Server;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Entities;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Gui;
 using vsroleplayclasses.src.Items;
@@ -51,6 +50,7 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterItemClass("inkwellandquillempty", typeof(InkwellAndQuillEmptyItem));
             api.RegisterItemClass("runicinkwellandquill", typeof(RunicInkwellAndQuillItem));
             api.RegisterItemClass("runicinkwell", typeof(RunicInkwellItem));
+            api.RegisterEntity("EntityMagicProjectile", typeof(EntityMagicProjectile));
         }
 
 
@@ -74,6 +74,7 @@ namespace vsroleplayclasses.src.Systems
 
             api.RegisterEntityBehaviorClass("EntityBehaviorCasting", typeof(EntityBehaviorCasting));
             api.RegisterEntityBehaviorClass("EntityBehaviorSpellTargetable", typeof(EntityBehaviorSpellTargetable));
+            api.RegisterEntityBehaviorClass("EntityBehaviorSpellEffects", typeof(EntityBehaviorSpellEffects));
 
             api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
             api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);
@@ -82,7 +83,7 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnClientRequestFinishCasting(IServerPlayer fromPlayer, ClientRequestFinishCastingPacket networkMessage)
         {
-            fromPlayer.Entity.TryFinishCast(networkMessage.targetEntityId);
+            fromPlayer.Entity.TryFinishCast();
         }
 
         public override void StartClientSide(ICoreClientAPI api)
@@ -123,16 +124,9 @@ namespace vsroleplayclasses.src.Systems
             if (!((Entity)capi.World.Player.Entity).IsWaitingToCast())
                 return;
 
-            // default target self
-            long targetEntityId = capi.World.Player.Entity.EntityId;
-            if (capi.World.Player.CurrentEntitySelection != null)
-                targetEntityId = capi.World.Player.CurrentEntitySelection.Entity.EntityId;
-
-
             capi.Network.GetChannel("clientrequestfinishcastingpacket").SendPacket(new ClientRequestFinishCastingPacket()
             {
                 playerUid = capi.World.Player.PlayerUID,
-                targetEntityId = targetEntityId
             });
         }
 
@@ -360,7 +354,7 @@ namespace vsroleplayclasses.src.Systems
             if (returnAbilityId > 0)
                 return returnAbilityId;
 
-            if (EffectCombo.GetEffectCombo(spellEffectIndex, spellEffect) == null)
+            if (EffectCombo.GetEffectCombo(spellEffectIndex, spellEffect, 0) == null)
                 return 0;
 
             return CreateAbility(player, spellEffectIndex,

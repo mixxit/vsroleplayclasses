@@ -309,6 +309,11 @@ namespace vsroleplayclasses.src.Extensions
             return player.Entity.WatchedAttributes.GetFloat("currentmana");
         }
 
+        public static void IncreaseMana(this IServerPlayer player, float mana)
+        {
+            player.SetMana(player.GetMana() + mana);
+        }
+
         public static void DecreaseMana(this IServerPlayer player, float mana)
         {
             player.SetMana(player.GetMana()-mana);

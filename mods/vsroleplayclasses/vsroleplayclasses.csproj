@@ -74,12 +74,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\ActiveSpellEffect.cs" />
     <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\AdventureClass.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
+    <Compile Include="src\Behaviors\EntityBehaviorSpellEffects.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
     <Compile Include="src\DamageTypeClass.cs" />
     <Compile Include="src\EffectCombo.cs" />
+    <Compile Include="src\Entities\EntityMagicProjectile.cs" />
     <Compile Include="src\ExtendedEnumDamageType.cs" />
     <Compile Include="src\Gui\HudAbility.cs" />
     <Compile Include="src\ItemSlotScroll.cs" />
@@ -149,7 +152,9 @@
   <ItemGroup>
     <Content Include="assets\game\patches\entity-add-casting-behavior.json" />
     <Content Include="assets\game\patches\entity-add-spelltargetable-behavior.json" />
+    <Content Include="assets\game\patches\entity-add-spelleffects-behavior.json" />
     <None Include="assets\game\patches\survival-blocktypes-wood-pan.json" />
+    <None Include="assets\vsroleplayclasses\entities\magicprojectile.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquillempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\liquid\alumhoney.json" />
@@ -173,6 +178,7 @@
     <None Include="assets\vsroleplayclasses\recipes\grid\inkwellandquillempty.json" />
     <None Include="assets\vsroleplayclasses\recipes\grid\abilityscroll.json" />
     <None Include="assets\vsroleplayclasses\recipes\grid\paper-parchment.json" />
+    <None Include="assets\vsroleplayclasses\shapes\item\magic.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

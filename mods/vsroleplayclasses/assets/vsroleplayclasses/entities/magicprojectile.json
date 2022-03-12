@@ -1,0 +1,48 @@
+{
+    "code": "magicprojectile",
+    "class": "EntityMagicProjectile",
+    "hitboxSize": {
+        "x": 0.4,
+        "y": 0.2
+    },
+    "deadHitboxSize": {
+        "x": 0.25,
+        "y": 0.125
+    },
+    "client": {
+        "renderer": "Shape",
+        "textures": {
+            "material": { "base": "block/stone/rock/{rock}1" }
+        },
+        "shape": { "base": "item/magic" },
+        "size": 1,
+        "glowlevel": 255,
+        "behaviors": [
+            {
+                "code": "passivephysics",
+                "groundDragFactor": 1,
+                "airDragFactor": 0.0,
+                "gravityFactor": 0.01
+            },
+            { "code": "interpolateposition" }
+        ]
+    },
+    "server": {
+        "behaviors": [
+            {
+                "code": "passivephysics",
+                "groundDragFactor": 1,
+                "airDragFactor": 0.0,
+                "gravityFactor": 0.01
+            },
+            {
+                "code": "despawn",
+                "minSeconds": 600
+            }
+        ]
+    },
+    "sounds": {
+    },
+    "attributes": {
+    }
+}

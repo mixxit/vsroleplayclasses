@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Entities;
 using vsroleplayclasses.src.Extensions;
 
 namespace vsroleplayclasses.src
@@ -60,7 +63,7 @@ namespace vsroleplayclasses.src
                 name += $"{GetDisplayNameFromResistType(resistType)} ";
 
             if (spellEffect != SpellEffectType.None && spellEffectIndex != SpellEffectIndex.None)
-                name += EffectCombo.GetEffectCombo(spellEffectIndex, spellEffect).Name + " ";
+                name += EffectCombo.GetEffectCombo(spellEffectIndex, spellEffect, 0).Name + " ";
 
             if (adventureClass != AdventureClass.None)
                 name += $"of {GetDisplayNameFromAdventureClass(adventureClass)} ";
@@ -184,10 +187,19 @@ namespace vsroleplayclasses.src
 
         public EffectCombo GetEffectCombo()
         {
-            return EffectCombo.GetEffectCombo(this.SpellEffectIndex, this.SpellEffect);
+            return EffectCombo.GetEffectCombo(this.SpellEffectIndex, this.SpellEffect, GetDuration());
         }
 
-        internal void FinishCast(Entity source, Entity clickedTarget)
+        private int GetDuration()
+        {
+            if (this.SpellEffectIndex == SpellEffectIndex.Mana_Regen_Resist_Song)
+                return (int)this.PowerLevel * 8;
+
+            // most things are zero
+            return 0;
+        }
+
+        internal void FinishCast(Entity source)
         {
             var effectCombo = GetEffectCombo();
             if (effectCombo == null || effectCombo.Effect == null)
@@ -198,28 +210,90 @@ namespace vsroleplayclasses.src
 
             var targets = new List<Entity>();
 
+            // treat as though collided
             if (this.TargetType == TargetType.Self)
-                targets.Add(source);
-            if (this.TargetType == TargetType.Target)
-                targets.Add(clickedTarget);
+                OnSpellCollidedEntity(source, source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
 
-            var success = false;
-            foreach (var target in targets)
-            {
-                var result = effectCombo.Effect(source, target, this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
-                if (result)
-                    success = result;
-            }
+            if (this.TargetType == TargetType.Target)
+                FlingSpellForward(source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
 
             source.DecreaseMana(GetManaCost());
-
-            if (success)
-                source.SkillUp(this);
-            if (success)
-                source.GrantSmallAmountOfAdventureClassXp(this);
+            source.SkillUp(this);
+            source.GrantSmallAmountOfAdventureClassXp(this);
         }
 
-        private ExtendedEnumDamageType GetDamageType(AdventureClass adventureClass)
+        private void FlingSpellForward(Entity byEntity, EffectCombo effectCombo, ExtendedEnumDamageType extendedEnumDamageType, float damageAmount, ResistType resistType)
+        {
+            IPlayer byPlayer = null;
+            if (byEntity is EntityPlayer) byPlayer = byEntity.World.PlayerByUid(((EntityPlayer)byEntity).PlayerUID);
+            byEntity.World.PlaySoundAt(new AssetLocation("sounds/player/throw"), byEntity, byPlayer, false, 8);
+
+            EntityProperties type = byEntity.World.GetEntityType(new AssetLocation("vsroleplayclasses:magicprojectile"));
+            EntityMagicProjectile enpr = byEntity.World.ClassRegistry.CreateEntity(type) as EntityMagicProjectile;
+            enpr.FiredBy = byEntity;
+            enpr.AbilityId = this.Id;
+            enpr.WatchedAttributes.SetLong("particle_red", GetParticleColour()[0]);
+            enpr.WatchedAttributes.SetLong("particle_green", GetParticleColour()[1]);
+            enpr.WatchedAttributes.SetLong("particle_blue", GetParticleColour()[2]);
+
+            Vec3d pos = byEntity.ServerPos.XYZ.Add(0, byEntity.LocalEyePos.Y - 0.2, 0);
+
+            Vec3d aheadPos = pos.AheadCopy(1, byEntity.ServerPos.Pitch, byEntity.ServerPos.Yaw);
+            Vec3d velocity = (aheadPos - pos) * 0.65;
+            Vec3d spawnPos = byEntity.ServerPos.BehindCopy(0.21).XYZ.Add(byEntity.LocalEyePos.X, byEntity.LocalEyePos.Y - 0.2, byEntity.LocalEyePos.Z);
+
+            enpr.ServerPos.SetPos(spawnPos);
+            enpr.ServerPos.Motion.Set(velocity);
+
+            enpr.Pos.SetFrom(enpr.ServerPos);
+            enpr.World = byEntity.World;
+            ((EntityMagicProjectile)enpr).SetRotation();
+
+            byEntity.World.SpawnEntity(enpr);
+            byEntity.StartAnimation("throw");
+        }
+
+        private int[] GetParticleColour()
+        {
+            switch(ResistType)
+            {
+                case ResistType.Cold:
+                    return new int[] { 0, 0, 255, 255 };
+                case ResistType.Fire:
+                    return new int[] { 255, 0, 0, 255 };
+                case ResistType.Disease:
+                    return new int[] { 139, 69, 19, 255 };
+                case ResistType.Poison:
+                    return new int[] { 107, 142, 35, 255 };
+                case ResistType.Physical:
+                    return new int[] { 128, 128, 128, 255 };
+                case ResistType.Chromatic:
+                    return new int[] { 219, 226, 233, 255 };
+                case ResistType.Prismatic:
+                    return new int[] { 255, 255,255, 255 };
+                case ResistType.Corruption:
+                    return new int[] { 0, 0, 0, 255 };
+                case ResistType.Magic:
+                    return new int[] { 255, 192, 203, 255 };
+                default:
+                    return new int[] { 255, 255, 0, 255 };
+            }
+
+        }
+
+        internal void OnSpellCollidedEntity(Entity source, Entity target)
+        {
+            OnSpellCollidedEntity(source, target, this.GetEffectCombo(), this.GetDamageType(this.AdventureClass), this.GetDamageAmount(), this.ResistType);
+        }
+
+        public void OnSpellCollidedEntity(Entity source, Entity target, EffectCombo effectCombo, ExtendedEnumDamageType extendedEnumDamageType, float damageAmount, ResistType resistType)
+        {
+            var result = effectCombo.Effect(source, target, extendedEnumDamageType, damageAmount, resistType, true);
+            if (effectCombo.Duration > 0)
+                target.QueueTickEffect(source, this, effectCombo.Duration);
+        }
+
+        public ExtendedEnumDamageType GetDamageType(AdventureClass adventureClass)
         {
             return (ExtendedEnumDamageType)(Enum.Parse(typeof(ExtendedEnumDamageType), adventureClass + "_" + this.ResistType));
         }
@@ -229,7 +303,7 @@ namespace vsroleplayclasses.src
             return 3;
         }
 
-        private float GetDamageAmount()
+        public float GetDamageAmount()
         {
             var targetTypeModifier = AbilityTools.GetTargetTypeDamageAmountMultiplier(this.TargetType);
             var damageAmount = targetTypeModifier * (int)this.PowerLevel;

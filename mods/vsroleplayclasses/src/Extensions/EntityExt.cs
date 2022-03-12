@@ -2,6 +2,7 @@
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Extensions
 {
@@ -21,22 +22,16 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
-        public static void TryFinishCast(this Entity me, long targetEntityId)
+        public static void TryFinishCast(this Entity me)
         {
             if (me.Api.Side != EnumAppSide.Server)
-                return;
-            if (targetEntityId < 1)
-                return;
-
-            var targetEntity = me.World.GetEntityById(targetEntityId);
-            if (targetEntity == null)
                 return;
 
             EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
             if (ebt == null)
                 return;
 
-            ebt.TryFinishCast(targetEntity);
+            ebt.TryFinishCast();
         }
 
         public static bool IsWaitingToCast(this Entity me)
@@ -62,6 +57,14 @@ namespace vsroleplayclasses.src.Extensions
                 return true;
 
             return false;
+        }
+
+        public static void QueueTickEffect(this Entity me, Entity source, Ability ability, int duration)
+        {
+            EntityBehaviorSpellEffects ebt = me.GetBehavior("EntityBehaviorSpellEffects") as EntityBehaviorSpellEffects;
+            if (ebt == null)
+                return;
+            ebt.QueueTickEffect(source.EntityId, ability.Id, duration);
         }
 
         public static bool ChangeCurrentHp(this Entity me, Entity sourceEntity, float amount, EnumDamageType type)
@@ -117,6 +120,14 @@ namespace vsroleplayclasses.src.Extensions
                 return false;
 
             return me.GetAsIServerPlayer().GateToBind();
+        }
+
+        public static void IncreaseMana(this Entity me, float mana)
+        {
+            if (!me.IsIServerPlayer())
+                return;
+
+            me.GetAsIServerPlayer().IncreaseMana(mana);
         }
 
         public static void DecreaseMana(this Entity me, float mana)

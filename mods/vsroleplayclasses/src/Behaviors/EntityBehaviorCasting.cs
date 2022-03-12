@@ -31,6 +31,7 @@ namespace vsroleplayclasses.src.Behaviors
                 sapi = entity.Api as ICoreServerAPI;
 
             base.Initialize(properties, attributes);
+            lastTickUnixTimeMs = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             // dont need to store these
             // as casting resets between reload
@@ -47,14 +48,14 @@ namespace vsroleplayclasses.src.Behaviors
             return false;
         }
 
-        public void TryFinishCast(Entity targetEntity)
+        public void TryFinishCast()
         {
             if (!IsWaitingToCast())
                 return;
 
             var tempAbilityId = this.abilityId;
             ClearCasting();
-            OnFinishCasting(tempAbilityId, targetEntity);
+            OnFinishCasting(tempAbilityId);
         }
 
         internal void UpdateCastingPercentAttribute()
@@ -95,7 +96,7 @@ namespace vsroleplayclasses.src.Behaviors
                 return;
         }
 
-        private void OnFinishCasting(long abilityId, Entity targetEntity)
+        private void OnFinishCasting(long abilityId)
         {
             if (abilityId == 0)
                 return;
@@ -108,7 +109,7 @@ namespace vsroleplayclasses.src.Behaviors
             if (ability == null)
                 return;
 
-            ability.FinishCast(this.entity, targetEntity);
+            ability.FinishCast(this.entity);
         }
 
         internal void StartCasting(long abilityId, int duration)

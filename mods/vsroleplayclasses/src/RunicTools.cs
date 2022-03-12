@@ -106,6 +106,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Meth;
                 case SpellEffectIndex.Calm:
                     return MagicWord.Nifl;
+                case SpellEffectIndex.Mana_Regen_Resist_Song:
+                    return MagicWord.Aral;
                 default:
                     return MagicWord.Nul;
             }
@@ -124,6 +126,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Xen;
                 case SpellEffectType.CurrentHP:
                     return MagicWord.Sang;
+                case SpellEffectType.CurrentMana:
+                    return MagicWord.Aty;
                 default:
                     return MagicWord.Nul;
             }
