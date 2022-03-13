@@ -3,11 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
+using vsroleplayclasses.src.Gui;
+using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src
 {
     public class AbilityTools
     {
+        /*public static Dictionary<int, ActiveSpellEffect> GetEffectsFromString(Entity entity)
+        {
+            var result = new Dictionary<int, ActiveSpellEffect>();
+            var effectsstring = entity.WatchedAttributes.GetString("spelleffects");
+
+            if (String.IsNullOrEmpty(effectsstring))
+                return result;
+
+            var rows = effectsstring.Split('|');
+            for (int i = 0; i < rows.Count(); i++)
+            {
+                var data = rows[i].Split(',');
+                result.Add(i, new ActiveSpellEffect() { AbilityId = Convert.ToInt64(data[0]), SourceEntityId = Convert.ToInt64(data[1]), Duration = Convert.ToInt64(data[2]) });
+            }
+
+            return result;
+        }
+
+        public static Dictionary<int, ActiveSpellEffectWithNameAndIcon> GetEffectsWithNameAndIconFromString(Entity entity)
+        {
+            var result = new Dictionary<int, ActiveSpellEffectWithNameAndIcon>();
+            var effectsstring = entity.WatchedAttributes.GetString("spelleffects");
+
+            if (String.IsNullOrEmpty(effectsstring))
+                return result;
+
+            var rows = effectsstring.Split('|');
+            for (int i = 0; i < rows.Count(); i++)
+            {
+                var data = rows[i].Split(',');
+                var entry = new ActiveSpellEffectWithNameAndIcon()
+                {
+                    AbilityId = Convert.ToInt64(data[0]),
+                    SourceEntityId = Convert.ToInt64(data[1]),
+                    Duration = Convert.ToInt64(data[2])
+                };
+
+                if (data.Length > 3)
+                    entry.Icon = Convert.ToInt32(data[3]);
+                if (data.Length > 4)
+                    entry.Name = data[4];
+
+                result.Add(i, entry);
+            }
+
+            return result;
+        }*/
+
         public static float GetTargetTypeManaCostMultiplier(TargetType enumValue)
         {
             switch (enumValue)
@@ -30,7 +82,7 @@ namespace vsroleplayclasses.src
             }
         }
 
-        public static float GetTargetTypeDamageAmountMultiplier(TargetType enumValue)
+        public static float GetTargetTypeAmountMultiplier(TargetType enumValue)
         {
             switch (enumValue)
             {
@@ -50,6 +102,15 @@ namespace vsroleplayclasses.src
                 default:
                     return 1;
             }
+        }
+
+        internal static Ability GetAbility(IWorldAccessor world, long abilityId)
+        {
+            var mod = world.Api.ModLoader.GetModSystem<SystemAbilities>();
+            if (mod == null)
+                return null;
+
+            return mod.GetAbilityById(abilityId);
         }
     }
 }

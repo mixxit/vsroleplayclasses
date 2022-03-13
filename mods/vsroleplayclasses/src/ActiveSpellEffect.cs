@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace vsroleplayclasses.src
 {
-    class ActiveSpellEffect
+    public class ActiveSpellEffect
     {
         public long SourceEntityId { get; set; }
         public long AbilityId { get; set; }
-        public int Duration { get; set; }
+        public long Duration { get; set; }
     }
 }

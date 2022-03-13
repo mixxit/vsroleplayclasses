@@ -274,16 +274,10 @@ namespace vsroleplayclasses.src.Entities
             }
 
             msCollide = World.ElapsedMilliseconds;
-            var abilitiesMod = World.Api.ModLoader.GetModSystem<SystemAbilities>();
-            if (abilitiesMod != null)
-            {
-                var ability = abilitiesMod.GetAbilityById(AbilityId);
-                if (ability != null)
-                {
-                    ability.OnSpellCollidedEntity(FiredBy, entity);
-                }
-            }
 
+            var ability = AbilityTools.GetAbility(entity.World, AbilityId);
+            if (ability != null)
+                ability.OnSpellCollidedEntity(FiredBy, entity);
 
             pos.Motion.Set(0, 0, 0);
             Die();

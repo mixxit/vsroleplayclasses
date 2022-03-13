@@ -34,18 +34,17 @@ namespace vsroleplayclasses.src.Systems
         private void OnServerManaTick(float obj)
         {
             foreach (var player in serverApi.World.AllOnlinePlayers)
-                ((IServerPlayer)player).TickMana();
+                ((IServerPlayer)player).Entity.TickInnateMana();
         }
 
         public override void StartClientSide(ICoreClientAPI capi)
         {
             capi.Gui.RegisterDialog(new HudManaBar(capi));
-            capi.Gui.RegisterDialog(new HudAbility(capi));
         }
 
         private void CmdMana(IServerPlayer player, int groupId, CmdArgs args)
         {
-            player.SendMessage(groupId, "Mana: " + player.GetMana() + "/" + player.GetMaxMana(), EnumChatType.OwnMessage);
+            player.SendMessage(groupId, "Mana: " + player.Entity.GetMana() + "/" + player.Entity.GetMaxMana(), EnumChatType.OwnMessage);
         }
 
 
@@ -61,8 +60,8 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnPlayerClassChanged(IServerPlayer player)
         {
-            player.ResetMana();
-            player.ResetStatisticState();
+            player.Entity.ResetMana();
+            player.Entity.ResetStatisticState();
         }
     }
 }

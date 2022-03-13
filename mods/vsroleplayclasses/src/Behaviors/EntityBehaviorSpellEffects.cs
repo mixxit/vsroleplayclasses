@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Server;
+using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Packets;
 using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Behaviors
@@ -44,12 +47,65 @@ namespace vsroleplayclasses.src.Behaviors
 
         public override void OnEntityLoaded()
         {
+            base.OnEntityLoaded();
+            if (entity is EntityItem)
+                return;
 
+            if (!(entity is EntityPlayer))
+                return;
+
+            RegisterEntityEffectsChangedListener();
+        }
+
+        private void RegisterEntityEffectsChangedListener()
+        {
+            if (this.entity.Api.Side != EnumAppSide.Server)
+                return;
+                
+            entity.WatchedAttributes.RegisterModifiedListener("spelleffects", (System.Action)(() => OnEntityEffectsServerSideChanged()));
+        }
+
+        private void OnEntityEffectsServerSideChanged()
+        {
+            if (!(entity is EntityPlayer))
+                return;
+
+            if (this.entity.Api.Side != EnumAppSide.Server)
+                return;
+
+            if (!(entity.Api is ICoreServerAPI))
+                return;
+
+            var activeEffectsMod = entity.World.Api.ModLoader.GetModSystem<SystemActiveEffects>();
+            if (activeEffectsMod != null)
+                activeEffectsMod.SendHudUpdatePacket(activeSpellEffects, (IServerPlayer)((EntityPlayer)entity).Player);
         }
 
         public override void OnEntitySpawn()
         {
+            base.OnEntitySpawn();
+            if (entity is EntityItem)
+                return;
 
+            if (!(entity is EntityPlayer))
+                return;
+
+            RegisterEntityEffectsChangedListener();
+        }
+
+        public ActiveSpellEffect GetActiveEffectOfType(SpellEffectIndex effectIndex, SpellEffectType type)
+        {
+            foreach(var abilityId in activeSpellEffects.Keys)
+            {
+                var ability = abilitiesMod.GetAbilityById(abilityId);
+                if (ability == null)
+                    continue;
+
+                if (ability.SpellEffect == type && ability.SpellEffectIndex == effectIndex)
+                    return activeSpellEffects[abilityId];
+            }
+
+            return null;
         }
 
         internal void TickEffects()
@@ -66,6 +122,8 @@ namespace vsroleplayclasses.src.Behaviors
 
             foreach(var effect in activeSpellEffects.Keys)
                 TickEffect(effect);
+
+            entity.WatchedAttributes.SetString("spelleffects", GetActiveEffectsAsString());
         }
 
         private void TickEffect(long abilityId)
@@ -94,21 +152,63 @@ namespace vsroleplayclasses.src.Behaviors
                 return;
             }
 
-            abilitiesMod.GetAbilityById(abilityId).GetEffectCombo().Effect(sourceEntity, this.entity, ability.GetDamageType(ability.AdventureClass), ability.GetDamageAmount(), ability.ResistType, false);
+            GetAbility(abilityId).GetEffectCombo().Effect(sourceEntity, this.entity, ability.GetDamageType(ability.AdventureClass), ability.GetAmount(), ability.ResistType, false);
             activeSpellEffects[abilityId].Duration--;
         }
+
+        public Ability GetAbility(long abilityId)
+        {
+            return abilitiesMod.GetAbilityById(abilityId);
+        }
+
+        public Entity GetSourceEntity(long entityId)
+        {
+            return entity.World.GetEntityById(entityId);
+        }
+
 
         private void UnqueueTickEffect(long abilityId)
         {
             this.activeSpellEffects.TryRemove(abilityId, out _);
+            OnActiveSpellEffectUnqueued(GetAbility(abilityId));
         }
 
-        internal void QueueTickEffect(long sourceEntityId, long abilityId, int duration)
+        internal bool QueueTickEffect(long sourceEntityId, long abilityId, long duration)
         {
             if (this.entity.Api.Side != EnumAppSide.Server)
-                return;
+                return false;
+
+            if (activeSpellEffects.Count > WorldLimits.MaxActiveEffectSlots)
+                return false;
 
             activeSpellEffects[abilityId] = new ActiveSpellEffect() { SourceEntityId = sourceEntityId, AbilityId = abilityId, Duration = duration };
+
+
+            OnActiveSpellEffectQueued(GetAbility(abilityId));
+
+            return true;
+        }
+
+        public void OnActiveSpellEffectQueued(Ability ability)
+        {
+            entity.WatchedAttributes.SetString("spelleffects", GetActiveEffectsAsString());
+
+            if (ability.SpellEffectIndex == SpellEffectIndex.Stat_Buff)
+                entity.ResetStatisticState();
+        }
+
+        private string GetActiveEffectsAsString()
+        {
+            var result = activeSpellEffects.Select(e => e.Value.AbilityId +","+e.Value.SourceEntityId+","+e.Value.Duration).ToArray();
+            return String.Join("|", result);
+        }
+
+        public void OnActiveSpellEffectUnqueued(Ability ability)
+        {
+            entity.WatchedAttributes.SetString("spelleffects", GetActiveEffectsAsString());
+
+            if (ability.SpellEffectIndex == SpellEffectIndex.Stat_Buff)
+                entity.ResetStatisticState();
         }
     }
 }

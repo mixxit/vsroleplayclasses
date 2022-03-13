@@ -108,6 +108,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Nifl;
                 case SpellEffectIndex.Mana_Regen_Resist_Song:
                     return MagicWord.Aral;
+                case SpellEffectIndex.Stat_Buff:
+                    return MagicWord.Scor;
                 default:
                     return MagicWord.Nul;
             }
@@ -128,6 +130,22 @@ namespace vsroleplayclasses.src
                     return MagicWord.Sang;
                 case SpellEffectType.CurrentMana:
                     return MagicWord.Aty;
+
+                case SpellEffectType.STR:
+                    return MagicWord.Bala;
+                case SpellEffectType.DEX:
+                    return MagicWord.Avi;
+                case SpellEffectType.AGI:
+                    return MagicWord.Tal;
+                case SpellEffectType.STA:
+                    return MagicWord.Saha;
+                case SpellEffectType.INT:
+                    return MagicWord.Gno;
+                case SpellEffectType.WIS:
+                    return MagicWord.Esot;
+                case SpellEffectType.CHA:
+                    return MagicWord.Adan;
+
                 default:
                     return MagicWord.Nul;
             }

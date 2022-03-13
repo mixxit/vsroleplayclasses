@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
+using Vintagestory.API.Common.Entities;
+using vsroleplayclasses.src.Behaviors;
 
 namespace vsroleplayclasses.src.Systems
 {
@@ -26,6 +28,7 @@ namespace vsroleplayclasses.src.Systems
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
 
             api.RegisterCommand("pstats", "gets player statistical overview", "", GetPlayerOverviewAsText, "root");
+            api.RegisterEntityBehaviorClass("EntityBehaviorStatistics", typeof(EntityBehaviorStatistics));
             base.StartServerSide(api);
         }
 
@@ -37,8 +40,6 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerNowPlaying(IServerPlayer player)
         {
             RegisterPlayerClassChangedListener(player);
-            RegisterPlayerStatisticsChangedListener(player);
-            player.ResetStatisticState();
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)
@@ -46,25 +47,11 @@ namespace vsroleplayclasses.src.Systems
             player.Entity.WatchedAttributes.RegisterModifiedListener("characterClass", (System.Action)(() => OnPlayerClassChanged(player)));
         }
 
-        private void RegisterPlayerStatisticsChangedListener(IServerPlayer player)
-        {
-            foreach (StatType statType in Enum.GetValues(typeof(StatType)))
-            {
-                player.Entity.WatchedAttributes.RegisterModifiedListener("stat_" + statType.ToString(), (System.Action)(() => OnPlayerStatisticsChanged(player, statType)));
-            }
-        }
-
-        private void OnPlayerStatisticsChanged(IServerPlayer player, StatType type)
-        {
-            if (type == StatType.Agility || type == StatType.Intelligence || type == StatType.Wisdom)
-                player.ResetMaxMana();
-            if (type == StatType.Agility)
-                player.ResetMaxHealth();
-        }
+        
 
         private void OnPlayerClassChanged(IServerPlayer player)
         {
-            player.ResetStatisticState();
+            player.Entity.ResetStatisticState();
         }
 
         private void OnSaveGameLoaded()

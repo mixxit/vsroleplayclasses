@@ -63,7 +63,7 @@ namespace vsroleplayclasses.src.Items
                 adventureClass == AdventureClass.None
                 )
             {
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"Cannot find runic ink and quill", EnumChatType.CommandError);
+                player.SendMessage(GlobalConstants.CurrentChatGroup, $"This runic inkwell and quill seems inert", EnumChatType.CommandError);
                 handling = EnumHandHandling.PreventDefault;
                 return;
             }

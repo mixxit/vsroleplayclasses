@@ -34,7 +34,7 @@ namespace vsroleplayclasses.src.Extensions
             }
             
         }
-        
+
         public static void GrantSmallAmountOfAdventureClassXp(this IServerPlayer player, Ability ability)
         {
             if (ability.AdventureClass == AdventureClass.None)
@@ -50,7 +50,15 @@ namespace vsroleplayclasses.src.Extensions
             return;
         }
 
-        public static void TryUpdateLevel(this IServerPlayer player)
+        public static void TryUpdateLevel(this IServerPlayer player, AdventureClass adventureClass)
+        {
+            if (player.GetLevel(adventureClass) == player.CalculateLevel(adventureClass))
+                return;
+
+            player.SetLevel(adventureClass);
+        }
+
+        public static void TryUpdateOverallLevel(this IServerPlayer player)
         {
             if (player.GetLevel() == player.CalculateLevel())
                 return;
@@ -58,7 +66,7 @@ namespace vsroleplayclasses.src.Extensions
             player.SetLevel();
         }
 
-        public static bool HasAdventureClassLevel(this IServerPlayer player, Tuple<AdventureClass, int> adventureClassLevel)
+        public static bool HasLevel(this IServerPlayer player, Tuple<AdventureClass, int> adventureClassLevel)
         {
             if (player == null)
                 return false;
@@ -66,18 +74,12 @@ namespace vsroleplayclasses.src.Extensions
             if (adventureClassLevel == null)
                 return false;
 
-            return player.GetAdventureClassLevel(adventureClassLevel.Item1) >= adventureClassLevel.Item2;
+            return player.GetLevel(adventureClassLevel.Item1) >= adventureClassLevel.Item2;
         }
 
-        public static int GetAdventureClassLevel(this IServerPlayer player, AdventureClass adventureClass)
+        public static List<Tuple<AdventureClass,double>> GetExperienceValues(this IServerPlayer player)
         {
-            return PlayerUtils.GetLevelFromExperience(player.GetExperience(adventureClass));
-        }
-
-
-        public static List<Tuple<string,double>> GetExperienceValues(this IServerPlayer player)
-        {
-            var result = new List<Tuple<string, double>>();
+            var result = new List<Tuple<AdventureClass, double>>();
 
             if (player.GetCharClassOrDefault() == null)
                 return result;
@@ -86,7 +88,7 @@ namespace vsroleplayclasses.src.Extensions
             {
                 if (adventuringClass == AdventureClass.None)
                     continue;
-                result.Add(new Tuple<string, double>(adventuringClass.ToString().ToLower(), player.GetExperience(adventuringClass)));
+                result.Add(new Tuple<AdventureClass, double>(adventuringClass, player.GetExperience(adventuringClass)));
             }
 
             return result;
@@ -116,60 +118,14 @@ namespace vsroleplayclasses.src.Extensions
             player.Entity.WatchedAttributes.SetDouble(experienceType.ToString().ToLower() + "xp", xp);
         }
 
-        public static void ResetMana(this IServerPlayer player)
+        public static int GetLevel(this IServerPlayer player, AdventureClass adventureClass)
         {
-            player.SetMana(player.GetMaxMana());
+            if (player == null || player.Entity == null)
+                return 1;
+
+            return player.Entity.WatchedAttributes.GetInt(adventureClass.ToString().ToLower()+"level", 1);
         }
 
-        public static void ResetMaxMana(this IServerPlayer player)
-        {
-            player.SetMaxMana(player.CalculateMaxMana());
-        }
-
-        public static float CalculateMaxHealth(this IServerPlayer player)
-        {
-            // Get highest class HP
-            float highestStatHp = 1;
-            foreach (var classExperiences in player.GetExperienceValues())
-            {
-                var statHp = EntityUtils.GetStatMaxHP(classExperiences.Item1, player.GetLevel(), player.GetStatistic(StatType.Stamina));
-                if (statHp > highestStatHp)
-                    highestStatHp = statHp;
-            }
-
-            //double itemHp = getItemHp();
-            //double totalHp = statHp + itemHp;
-
-            return highestStatHp;
-        }
-
-        public static float GetMaxHealth(this IServerPlayer player)
-        {
-            var behavior = player.Entity.GetBehavior<EntityBehaviorHealth>();
-            if (behavior != null)
-                return behavior.MaxHealth;
-
-            return 1;
-        }
-
-        public static float GetHealth(this IServerPlayer player)
-        {
-            var behavior = player.Entity.GetBehavior<EntityBehaviorHealth>();
-            if (behavior != null)
-                return behavior.Health;
-
-            return 1;
-        }
-
-        public static void ResetMaxHealth(this IServerPlayer player)
-        {
-            var behavior = player.Entity.GetBehavior<EntityBehaviorHealth>();
-            if (behavior != null)
-            {
-                behavior.BaseMaxHealth = player.CalculateMaxHealth();
-                behavior.UpdateMaxHealth();
-            }
-        }
 
         public static int GetLevel(this IServerPlayer player)
         {
@@ -177,17 +133,6 @@ namespace vsroleplayclasses.src.Extensions
                 return 1;
 
             return player.Entity.WatchedAttributes.GetInt("level", 1);
-        }
-
-        public static void ResetStatisticState(this IServerPlayer player)
-        {
-            player.SetStatistic(StatType.Strength);
-            player.SetStatistic(StatType.Stamina);
-            player.SetStatistic(StatType.Agility);
-            player.SetStatistic(StatType.Dexterity);
-            player.SetStatistic(StatType.Intelligence);
-            player.SetStatistic(StatType.Wisdom);
-            player.SetStatistic(StatType.Charisma);
         }
 
         public static Ability GetAbilityInMemoryPosition(this IServerPlayer player, int position)
@@ -205,28 +150,30 @@ namespace vsroleplayclasses.src.Extensions
             if (!(itemSlot.Itemstack.Item is AbilityScrollItem))
                 return null;
 
-            var mod = player.Entity.World.Api.ModLoader.GetModSystem<SystemAbilities>();
-            if (mod == null)
-                return null;
-
-            return mod.GetAbilityById(((AbilityScrollItem)itemSlot.Itemstack.Item).GetScribedAbilityId(itemSlot.Itemstack));
+            return AbilityTools.GetAbility(player.Entity.World, ((AbilityScrollItem)itemSlot.Itemstack.Item).GetScribedAbilityId(itemSlot.Itemstack));
         }
+
+        public static string GetPlayerOverallLevelAsText(this IServerPlayer player)
+        {
+            return "Overall Level [" + player.GetLevel() + "] progress: " + player.GetExperiencePercentage() + "% into level - XP: " + player.GetExperience() + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel()+1) + Environment.NewLine;
+        }
+
 
         public static string GetPlayerOverviewAsText(this IServerPlayer player)
         {
-            var text = "Overall Level ["+player.GetLevel()+"] progress: " + player.GetExperiencePercentage() + "% into level - XP: " + player.GetExperience() + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel()) + Environment.NewLine;
+            var text = player.GetPlayerOverallLevelAsText();
             text += 
-                "STR: " + player.GetStatistic(StatType.Strength) +
-                " STA: " + player.GetStatistic(StatType.Stamina) +
-                " AGI: " + player.GetStatistic(StatType.Agility) +
-                " DEX: " + player.GetStatistic(StatType.Dexterity) +
-                " INT: " + player.GetStatistic(StatType.Intelligence) +
-                " WIS: " + player.GetStatistic(StatType.Wisdom) +
-                " CHA: " + player.GetStatistic(StatType.Charisma) + 
+                "STR: " + player.Entity.GetStatistic(StatType.Strength) +
+                " STA: " + player.Entity.GetStatistic(StatType.Stamina) +
+                " AGI: " + player.Entity.GetStatistic(StatType.Agility) +
+                " DEX: " + player.Entity.GetStatistic(StatType.Dexterity) +
+                " INT: " + player.Entity.GetStatistic(StatType.Intelligence) +
+                " WIS: " + player.Entity.GetStatistic(StatType.Wisdom) +
+                " CHA: " + player.Entity.GetStatistic(StatType.Charisma) + 
                 Environment.NewLine
                 ;
-            text += "HP: " + player.GetHealth() + "/" + player.GetMaxHealth() + 
-                " MP: " + player.GetMana() + "/" + player.GetMaxMana()
+            text += "HP: " + player.Entity.GetHealth() + "/" + player.Entity.GetMaxHealth() + 
+                " MP: " + player.Entity.GetMana() + "/" + player.Entity.GetMaxMana()
                 + Environment.NewLine;
 
             return text;
@@ -237,9 +184,19 @@ namespace vsroleplayclasses.src.Extensions
             return PlayerUtils.GetExperiencePercentage(player.GetLevel(), player.GetExperience());
         }
 
+        public static int GetExperiencePercentage(this IServerPlayer player, AdventureClass adventureClass)
+        {
+            return PlayerUtils.GetExperiencePercentage(player.GetLevel(adventureClass), player.GetExperience(adventureClass));
+        }
+
         public static int CalculateLevel(this IServerPlayer player)
         {
             return PlayerUtils.GetLevelFromExperience(player.GetExperience());
+        }
+
+        public static int CalculateLevel(this IServerPlayer player, AdventureClass adventureClass)
+        {
+            return PlayerUtils.GetLevelFromExperience(player.GetExperience(adventureClass));
         }
 
         public static void SetLevel(this IServerPlayer player)
@@ -247,105 +204,12 @@ namespace vsroleplayclasses.src.Extensions
             player.Entity.WatchedAttributes.SetInt("level", player.CalculateLevel());
         }
 
-        public static float GetMaxMana(this IServerPlayer player)
+        public static void SetLevel(this IServerPlayer player, AdventureClass adventureClass)
         {
-            if (player.Entity.WatchedAttributes.TryGetFloat("maxmana") == null)
-                player.Entity.WatchedAttributes.SetFloat("maxmana",player.CalculateMaxMana());
-
-            return player.Entity.WatchedAttributes.GetFloat("maxmana");
+            player.Entity.WatchedAttributes.SetInt(adventureClass.ToString().ToLower()+"level", player.CalculateLevel(adventureClass));
         }
 
-        public static void TickMana(this IServerPlayer player)
-        {
-            player.SetMana(player.GetMana() + player.GetManaRegen());
-        }
-
-        public static float GetManaRegen(this IServerPlayer player)
-        {
-            return 1;
-        }
-
-        public static void SetMaxMana(this IServerPlayer player, float maxmana)
-        {
-            player.Entity.WatchedAttributes.SetFloat("maxmana", maxmana);
-        }
-
-        private static float CalculateMaxMana(this IServerPlayer player)
-        {
-            // take whatever is highest starting with agililty
-            int wisintagi = new[] { player.GetStatistic(StatType.Wisdom), player.GetStatistic(StatType.Intelligence), player.GetStatistic(StatType.Agility) }.Max(); ;
-
-            double maxmana = ((850 * player.GetLevel()) + (85 * wisintagi * player.GetLevel())) / 425;
-            //maxmana += getItemMana();
-
-            if (maxmana > float.MaxValue)
-                maxmana = float.MaxValue;
-
-            return (float)Math.Floor(maxmana);
-        }
-
-        public static int GetStatistic(this IServerPlayer player, StatType type)
-        {
-            return player.Entity.WatchedAttributes.GetInt("stat_"+type.ToString(), 0);
-        }
-
-        public static void SetStatistic(this IServerPlayer player, StatType type)
-        {
-            player.Entity.WatchedAttributes.SetInt("stat_" + type.ToString(), player.CalculateStatistic(type));
-        }
-
-        // from roleplayraces mod
-        public static int GetBaseStatistic(this IServerPlayer player, StatType type)
-        {
-            var baseStat = player.Entity.WatchedAttributes.GetInt("base" + type.ToString().ToLower().Substring(0,3), 75);
-            return baseStat;
-        }
-
-        private static int CalculateStatistic(this IServerPlayer player, StatType type)
-        {
-            var stat = player.GetBaseStatistic(type);
-            // items
-            // effects
-            if (stat > player.GetMaxStatistic(type))
-                return player.GetMaxStatistic(type);
-
-            return stat;
-        }
-
-        public static int GetMaxStatistic(this IServerPlayer player, StatType type)
-        {
-            return WorldLimits.MAX_STATISTIC;
-        }
-
-        public static float GetMana(this IServerPlayer player)
-        {
-            if (player.Entity.WatchedAttributes.TryGetFloat("currentmana") == null)
-                player.SetMana(player.GetMaxMana());
-
-            return player.Entity.WatchedAttributes.GetFloat("currentmana");
-        }
-
-        public static void IncreaseMana(this IServerPlayer player, float mana)
-        {
-            player.SetMana(player.GetMana() + mana);
-        }
-
-        public static void DecreaseMana(this IServerPlayer player, float mana)
-        {
-            player.SetMana(player.GetMana()-mana);
-        }
-
-        public static void SetMana(this IServerPlayer player, float mana)
-        {
-            if (mana > player.GetMaxMana())
-                mana = player.GetMaxMana();
-
-            if (mana < 0)
-                mana = 0;
-
-            player.Entity.WatchedAttributes.SetFloat("currentmana", mana);
-        }
-
+        
         public static void GrantExperience(this IServerPlayer player, AdventureClass experienceType, double xp)
         {
             if (experienceType == AdventureClass.None)

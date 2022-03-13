@@ -62,18 +62,14 @@ namespace vsroleplayclasses.src.Behaviors
             if (abilityId == 0)
                 return;
 
-            var mod = this.entity.World.Api.ModLoader.GetModSystem<SystemAbilities>();
-            if (mod == null)
-                return;
-
-            var ability = mod.GetAbilityById(abilityId);
+            var ability = AbilityTools.GetAbility(this.entity.World, abilityId);
             if (ability == null)
                 return;
 
             ability.FinishCast(this.entity, forceSelf);
         }
 
-        internal void StartCasting(long abilityId, int duration)
+        internal void StartCasting(long abilityId, long duration)
         {
             this.abilityId = abilityId;
             entity.World.PlaySoundAt(new AssetLocation("vsroleplayclasses","sounds/effect/spelcast"), entity, null, false, 14);

@@ -30,14 +30,14 @@ namespace vsroleplayclasses.src
 		}
 
 
-		public static float GetStatMaxHP(string className, int level, int stamina)
+		public static float GetStatMaxHP(AdventureClass className, int level, int stamina)
 		{
 			// level multiplier
 			double multiplier = 1;
 
 			String profession = "UNSKILLED";
-			if (!String.IsNullOrEmpty(className))
-				profession = className.ToUpper();
+			if (className != AdventureClass.None)
+				profession = className.ToString().ToUpper();
 
 			if (profession != null)
 			{

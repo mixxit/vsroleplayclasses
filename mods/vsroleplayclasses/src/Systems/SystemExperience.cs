@@ -27,10 +27,9 @@ namespace vsroleplayclasses.src.Systems
             player.SendMessage(groupId, "Experience:", EnumChatType.OwnMessage);
             foreach(var value in player.GetExperienceValues())
             {
-                player.SendMessage(groupId, value.Item1+":"+value.Item2 + $" (Level: {PlayerUtils.GetLevelFromExperience(value.Item2)})", EnumChatType.OwnMessage);
+                player.SendMessage(groupId, value.Item1.ToString()+":"+value.Item2 + $" (Level: {player.GetLevel(value.Item1)}) % into level - XP: " + player.GetExperience(value.Item1) + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel(value.Item1) + 1), EnumChatType.OwnMessage);
             }
-            var text = "Overall Level [" + player.GetLevel() + "] progress: " + player.GetExperiencePercentage() + "% into level - XP: " + player.GetExperience() + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel()) + Environment.NewLine;
-            player.SendMessage(groupId, text, EnumChatType.OwnMessage);
+            player.SendMessage(groupId, player.GetPlayerOverallLevelAsText(), EnumChatType.OwnMessage);
         }
 
         private void OnPlayerNowPlaying(IServerPlayer player)
@@ -58,21 +57,29 @@ namespace vsroleplayclasses.src.Systems
                     continue;
 
                 player.Entity.WatchedAttributes.RegisterModifiedListener(experienceType.ToString().ToLower()+"xp", (System.Action)(() => OnPlayerExperienceChanged(player, experienceType)));
+                player.Entity.WatchedAttributes.RegisterModifiedListener(experienceType.ToString().ToLower() + "lvl", (System.Action)(() => OnPlayerAdventureLevelChanged(player, experienceType)));
             }
+        }
+
+        private void OnPlayerAdventureLevelChanged(IServerPlayer player, AdventureClass experienceType)
+        {
+            if (player.GetLevel(experienceType) > 1)
+                player.SendMessage(GlobalConstants.CurrentChatGroup, $"* You have reached {experienceType.ToString().ToLower()} level " + player.GetLevel() + "!", EnumChatType.OwnMessage);
         }
 
         private void OnPlayerExperienceChanged(IServerPlayer player, AdventureClass experienceType)
         {
             if (player.GetExperience(experienceType) > 0)
                 player.SendMessage(GlobalConstants.CurrentChatGroup, "* You have gained "+ experienceType.ToString().ToLower() + " experience!", EnumChatType.OwnMessage);
-            
-            player.TryUpdateLevel();
+
+            player.TryUpdateLevel(experienceType);
+            player.TryUpdateOverallLevel();
         }
 
         private void OnPlayerLevelChanged(IServerPlayer player)
         {
             if (player.GetLevel() > 1)
-                player.SendMessage(GlobalConstants.CurrentChatGroup, "* You have reached level " + player.GetLevel() + "!", EnumChatType.OwnMessage);
+                player.SendMessage(GlobalConstants.CurrentChatGroup, "* You have reached overall level " + player.GetLevel() + "!", EnumChatType.OwnMessage);
         }
 
         private void OnPlayerClassChanged(IServerPlayer player)

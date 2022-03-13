@@ -16,12 +16,27 @@ namespace vsroleplayclasses.src
         public string Name { get; set; }
         public SpellEffectIndex SpellEffectIndex { get; set; }
         public SpellEffectType SpellEffectType { get; set; }
-        public int Duration { get; set; }
+        public long Duration { get; set; }
 
-        public static EffectCombo GetEffectCombo(SpellEffectIndex spellEffectIndex, SpellEffectType spellEffectType, int duration)
+        public static EffectCombo GetEffectCombo(SpellEffectIndex spellEffectIndex, SpellEffectType spellEffectType, long duration)
         {
             if (spellEffectType == SpellEffectType.None || spellEffectIndex == SpellEffectIndex.None)
                 return null;
+
+            if (spellEffectType == SpellEffectType.STR && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Strength", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffSTR, Duration = duration };
+            if (spellEffectType == SpellEffectType.STA && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Stamina", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffSTA, Duration = duration };
+            if (spellEffectType == SpellEffectType.DEX && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Dexterity", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffDEX, Duration = duration };
+            if (spellEffectType == SpellEffectType.AGI && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Agility", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffAGI, Duration = duration };
+            if (spellEffectType == SpellEffectType.WIS && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Wisdom", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffWIS, Duration = duration };
+            if (spellEffectType == SpellEffectType.INT && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Intelligence", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffINT, Duration = duration };
+            if (spellEffectType == SpellEffectType.CHA && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Charisma", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = StatBuffCHA, Duration = duration };
 
             if (spellEffectType == SpellEffectType.CurrentHP && spellEffectIndex == SpellEffectIndex.Direct_Damage)
                 return new EffectCombo() { Name = "Blast", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = DD, Duration = duration };
@@ -42,6 +57,69 @@ namespace vsroleplayclasses.src
                 return new EffectCombo() { Name = "Return Home", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Gate, Duration = duration };
 
             return null;
+        }
+
+        public static bool StatBuffSTR(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} strength", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} strength", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool StatBuffSTA(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} stamina", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} stamin", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool StatBuffDEX(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} dexterity", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} dexterity", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool StatBuffAGI(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} agility", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} agility", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool StatBuffWIS(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} wisdom", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} wisdom", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool StatBuffINT(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} intelligence", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} intelligence", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool StatBuffCHA(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} charisma", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} charisma", EnumChatType.CommandSuccess);
+            return true;
         }
 
         public static bool HealMana(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)

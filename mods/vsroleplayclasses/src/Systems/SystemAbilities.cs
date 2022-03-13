@@ -22,6 +22,7 @@ namespace vsroleplayclasses.src.Systems
         ConcurrentDictionary<long,Ability> abilityList;
         ICoreServerAPI serverApi;
         GuiDialogMemoriseAbility memorisateAbilityDialog;
+        GuiDialogCompass compassDialog;
         ICoreClientAPI capi;
         ICoreAPI api;
 
@@ -30,15 +31,9 @@ namespace vsroleplayclasses.src.Systems
             this.api = api;
             base.Start(api);
 
-            api.Network
-                .RegisterChannel("castabilityinmemoryposition")
-                .RegisterMessageType<CastAbilityInMemoryPositionPacket>();
-
+            api.Network.RegisterChannel("castabilityinmemoryposition").RegisterMessageType<CastAbilityInMemoryPositionPacket>();
             api.Network.RegisterChannel("clearcasting").RegisterMessageType<ClearCastingPacket>();
-
-            api.Network
-                .RegisterChannel("clientrequestfinishcastingpacket")
-                .RegisterMessageType<ClientRequestFinishCastingPacket>();
+            api.Network.RegisterChannel("clientrequestfinishcastingpacket").RegisterMessageType<ClientRequestFinishCastingPacket>();
 
             api.RegisterItemClass("abilitybook", typeof(AbilityBookItem));
             api.RegisterItemClass("abilityscroll", typeof(AbilityScrollItem));
@@ -52,7 +47,6 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterItemClass("runicinkwell", typeof(RunicInkwellItem));
             api.RegisterEntity("EntityMagicProjectile", typeof(EntityMagicProjectile));
         }
-
 
         public override bool ShouldLoad(EnumAppSide side)
         {
@@ -74,33 +68,29 @@ namespace vsroleplayclasses.src.Systems
 
             api.RegisterEntityBehaviorClass("EntityBehaviorCasting", typeof(EntityBehaviorCasting));
             api.RegisterEntityBehaviorClass("EntityBehaviorSpellTargetable", typeof(EntityBehaviorSpellTargetable));
-            api.RegisterEntityBehaviorClass("EntityBehaviorSpellEffects", typeof(EntityBehaviorSpellEffects));
 
             api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
             api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);
             api.Network.GetChannel("clearcasting").SetMessageHandler<ClearCastingPacket>(OnClearCasting);
         }
 
-        private void OnClientRequestFinishCasting(IServerPlayer fromPlayer, ClientRequestFinishCastingPacket networkMessage)
-        {
-            fromPlayer.Entity.TryFinishCast(networkMessage.isForceSelf);
-        }
-
         public override void StartClientSide(ICoreClientAPI api)
         {
             base.StartClientSide(api);
             capi = api;
+            capi.Input.RegisterHotKey("compass", "Allows direction based on Compass or Sun", GlKeys.C, HotkeyType.GUIOrOtherControls, true);
+            capi.Input.SetHotKeyHandler("compass", ToggleCompassGui);
             capi.Input.RegisterHotKey("memoriseability", "Allows memorisation of abilities", GlKeys.L, HotkeyType.GUIOrOtherControls);
             capi.Input.SetHotKeyHandler("memoriseability", ToggleMemorisationGui);
             capi.Input.RegisterHotKey("clearcasting", "Clear casting ability", GlKeys.C, HotkeyType.GUIOrOtherControls, false, true, false);
-            capi.Input.RegisterHotKey("useability1", "Uses memorised ability #1", GlKeys.Number1, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability2", "Uses memorised ability #2", GlKeys.Number2, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability3", "Uses memorised ability #3", GlKeys.Number3, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability4", "Uses memorised ability #4", GlKeys.Number4, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability5", "Uses memorised ability #5", GlKeys.Number5, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability6", "Uses memorised ability #6", GlKeys.Number6, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability7", "Uses memorised ability #7", GlKeys.Number7, HotkeyType.GUIOrOtherControls, true,false,false);
-            capi.Input.RegisterHotKey("useability8", "Uses memorised ability #8", GlKeys.Number8, HotkeyType.GUIOrOtherControls, true,false,false);
+            capi.Input.RegisterHotKey("useability1", "Uses memorised ability #1", GlKeys.Number1, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability2", "Uses memorised ability #2", GlKeys.Number2, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability3", "Uses memorised ability #3", GlKeys.Number3, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability4", "Uses memorised ability #4", GlKeys.Number4, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability5", "Uses memorised ability #5", GlKeys.Number5, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability6", "Uses memorised ability #6", GlKeys.Number6, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability7", "Uses memorised ability #7", GlKeys.Number7, HotkeyType.GUIOrOtherControls, true, false, false);
+            capi.Input.RegisterHotKey("useability8", "Uses memorised ability #8", GlKeys.Number8, HotkeyType.GUIOrOtherControls, true, false, false);
             capi.Input.SetHotKeyHandler("clearcasting", ClearCasting);
             capi.Input.SetHotKeyHandler("useability1", UseAbilityKey1);
             capi.Input.SetHotKeyHandler("useability2", UseAbilityKey2);
@@ -111,6 +101,18 @@ namespace vsroleplayclasses.src.Systems
             capi.Input.SetHotKeyHandler("useability7", UseAbilityKey7);
             capi.Input.SetHotKeyHandler("useability8", UseAbilityKey8);
             capi.Input.InWorldAction += OnClientInWorldAction;
+
+            capi.Gui.RegisterDialog(new HudAbility(capi));
+        }
+
+        public Entity GetEntity(long entityId)
+        {
+            return this.api.World.GetEntityById(entityId);
+        }
+
+        private void OnClientRequestFinishCasting(IServerPlayer fromPlayer, ClientRequestFinishCastingPacket networkMessage)
+        {
+            fromPlayer.Entity.TryFinishCast(networkMessage.isForceSelf);
         }
 
         private void OnClientInWorldAction(EnumEntityAction action, bool on, ref EnumHandling handled)
@@ -186,6 +188,18 @@ namespace vsroleplayclasses.src.Systems
             return UseAbility(8);
         }
 
+        private bool ToggleCompassGui(KeyCombination comb)
+        {
+            if (compassDialog == null)
+                compassDialog = new GuiDialogCompass(capi);
+
+            if (compassDialog.IsOpened()) memorisateAbilityDialog.TryClose();
+            else compassDialog.TryOpen();
+
+            return true;
+        }
+
+
         private bool ToggleMemorisationGui(KeyCombination comb)
         {
             if (memorisateAbilityDialog == null)
@@ -227,14 +241,14 @@ namespace vsroleplayclasses.src.Systems
                 return;
             }
 
-            if (!castingPlayer.HasAdventureClassLevel(ability.GetMinAdventureClassLevel()))
+            if (!castingPlayer.HasLevel(ability.GetMinAdventureClassLevel()))
             {
                 castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient level to cast this spell", EnumChatType.CommandError);
                 return;
             }
 
 
-            if (castingPlayer.GetMana() < ability.GetManaCost())
+            if (castingPlayer.Entity.GetMana() < ability.GetManaCost())
             {
                 castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient Mana", EnumChatType.CommandError);
                 return;
@@ -487,6 +501,7 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerNowPlayingServer(IServerPlayer player)
         {
             RegisterPlayerClassChangedListener(player);
+            player?.Entity?.Cleanup();
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)
