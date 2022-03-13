@@ -159,6 +159,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Nul;
                 case TargetType.Self:
                     return MagicWord.Swe;
+                case TargetType.AECaster:
+                    return MagicWord.Sie;
                 case TargetType.Target:
                     return MagicWord.Tar;
                 case TargetType.Group:

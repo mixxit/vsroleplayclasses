@@ -269,9 +269,20 @@ namespace vsroleplayclasses.src
             if (this.TargetType == TargetType.Target && !forceSelf)
                 FlingSpellForward(source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
 
+            if (this.TargetType == TargetType.AECaster && !forceSelf)
+            {
+                foreach (var entity in source.World.GetEntitiesAround(new Vec3d(source.Pos.X,source.Pos.Y,source.Pos.Z),GetRange(),GetRange()))
+                    OnSpellCollidedEntity(source, source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
+            }
+
             source.DecreaseMana(GetManaCost());
             source.SkillUp(this);
             source.GrantSmallAmountOfAdventureClassXp(this);
+        }
+
+        private float GetRange()
+        {
+            return (int)PowerLevel * 10;
         }
 
         private void FlingSpellForward(Entity byEntity, EffectCombo effectCombo, ExtendedEnumDamageType extendedEnumDamageType, float amount, ResistType resistType)
