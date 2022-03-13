@@ -29,6 +29,9 @@ namespace vsroleplayclasses.src
             if (spellEffectType == SpellEffectType.CurrentMana && spellEffectIndex == SpellEffectIndex.Mana_Regen_Resist_Song)
                 return new EffectCombo() { Name = "Clarity", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = HealMana, Duration = duration };
 
+            if (spellEffectType == SpellEffectType.CurrentHP && spellEffectIndex == SpellEffectIndex.Mana_Regen_Resist_Song)
+                return new EffectCombo() { Name = "Regen", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Heal, Duration = duration };
+
             if (spellEffectType == SpellEffectType.CurrentHP && spellEffectIndex == SpellEffectIndex.Heal_Cure)
                 return new EffectCombo() { Name = "Heal", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Heal, Duration = duration };
 

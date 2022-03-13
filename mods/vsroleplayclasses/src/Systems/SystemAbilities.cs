@@ -124,6 +124,9 @@ namespace vsroleplayclasses.src.Systems
             if (!((Entity)capi.World.Player.Entity).IsWaitingToCast())
                 return;
 
+            if (capi.World.Player.CameraMode != EnumCameraMode.FirstPerson)
+                return;
+
             capi.Network.GetChannel("clientrequestfinishcastingpacket").SendPacket(new ClientRequestFinishCastingPacket()
             {
                 playerUid = capi.World.Player.PlayerUID,
