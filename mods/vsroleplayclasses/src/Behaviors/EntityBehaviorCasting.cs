@@ -31,7 +31,7 @@ namespace vsroleplayclasses.src.Behaviors
             base.Initialize(properties, attributes);
         }
 
-        public bool IsWaitingToCast()
+        public bool IsWaitingToReleaseCastCast()
         {
             if (entity.WatchedAttributes.GetLong("finishCastingUnixTime") < 1)
                 return false;
@@ -42,9 +42,20 @@ namespace vsroleplayclasses.src.Behaviors
             return false;
         }
 
+        public bool IsUnfinishedCasting()
+        {
+            if (entity.WatchedAttributes.GetLong("finishCastingUnixTime") <= 0)
+                return false;
+
+            if (DateTimeOffset.Now.ToUnixTimeMilliseconds() <= entity.WatchedAttributes.GetLong("finishCastingUnixTime"))
+                return true;
+            else
+                return false;
+        }
+
         public void TryFinishCast(bool forceSelf = false)
         {
-            if (!IsWaitingToCast())
+            if (!IsWaitingToReleaseCastCast())
                 return;
 
             var tempAbilityId = this.abilityId;

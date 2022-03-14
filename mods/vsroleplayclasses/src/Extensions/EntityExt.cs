@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using vsroleplayclasses.src.Behaviors;
@@ -26,15 +27,6 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
-        public static void Cleanup(this Entity me)
-        {
-            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
-            if (ebt == null)
-                return;
-
-            ebt.ClearCasting();
-        }
-
         public static void TryFinishCast(this Entity me, bool forceSelf = false)
         {
             if (me.Api.Side != EnumAppSide.Server)
@@ -47,6 +39,43 @@ namespace vsroleplayclasses.src.Extensions
             ebt.TryFinishCast(forceSelf);
         }
 
+        public static void ClearCasting(this Entity me)
+        {
+            if (me == null)
+                return;
+
+            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
+            if (ebt == null)
+                return;
+
+            ebt.ClearCasting();
+        }
+
+        public static void Interupt(this Entity me)
+        {
+            if (me == null)
+                return;
+
+            if (!me.IsDoingSomethingInteruptable())
+                return;
+
+            me.ClearCasting();
+
+            if (me.IsIServerPlayer())
+                me.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup,"You have been interupted", EnumChatType.CommandSuccess);
+        }
+
+        private static bool IsDoingSomethingInteruptable(this Entity me)
+        {
+            if (me.IsUnfinishedCasting())
+                return true;
+
+            if (me.IsWaitingToReleaseCast())
+                return true;
+
+            return false;
+        }
+
         public static int GetLevel(this Entity me, AdventureClass adventureClass)
         {
             if (me == null)
@@ -55,7 +84,27 @@ namespace vsroleplayclasses.src.Extensions
             return me.WatchedAttributes.GetInt(adventureClass.ToString().ToLower() + "level", 1);
         }
 
-        public static bool IsWaitingToCast(this Entity me)
+        public static bool IsUnfinishedCasting(this Entity me)
+        {
+            if (me.Api.Side == EnumAppSide.Client)
+            {
+                if (me.WatchedAttributes.GetLong("finishCastingUnixTime") <= 0)
+                    return false;
+
+                if (DateTimeOffset.Now.ToUnixTimeMilliseconds() <= me.WatchedAttributes.GetLong("finishCastingUnixTime"))
+                    return true;
+                else
+                    return false;
+            }
+
+            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
+            if (ebt == null)
+                return false;
+
+            return ebt.IsUnfinishedCasting();
+        }
+
+        public static bool IsWaitingToReleaseCast(this Entity me)
         {
             if (me.Api.Side == EnumAppSide.Client)
             {
@@ -69,7 +118,7 @@ namespace vsroleplayclasses.src.Extensions
             if (ebt == null)
                 return false;
 
-            return ebt.IsWaitingToCast();
+            return ebt.IsWaitingToReleaseCastCast();
         }
 
         public static bool IsInvulerable(this Entity me)

@@ -201,9 +201,9 @@ namespace vsroleplayclasses.src.Entities
             // have to swap them round for particle system
             spellParticles.Color = ColorUtil.ColorFromRgba(particleColours[2], particleColours[1], particleColours[0], rand.Next(100, 255));
             spellParticles.OpacityEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
-            spellParticles.BlueEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
-            spellParticles.GreenEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
-            spellParticles.RedEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
+            //spellParticles.BlueEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
+            //spellParticles.GreenEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
+            //spellParticles.RedEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEARREDUCE, 255);
 
             spellParticles.VertexFlags = rand.Next(150, 255);
 

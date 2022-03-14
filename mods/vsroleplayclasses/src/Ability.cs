@@ -289,7 +289,7 @@ namespace vsroleplayclasses.src
 
         private float GetRange()
         {
-            return (int)PowerLevel * 10;
+            return (int)PowerLevel * 3;
         }
 
         private void FlingSpellForward(Entity byEntity, EffectCombo effectCombo, ExtendedEnumDamageType extendedEnumDamageType, float amount, ResistType resistType)
@@ -327,10 +327,11 @@ namespace vsroleplayclasses.src
         {
             switch(ResistType)
             {
+                // RGB format
                 case ResistType.Cold:
-                    return new int[] { 0, 0, 255, 255 };
+                    return new int[] { 51, 153, 255, 255 };
                 case ResistType.Fire:
-                    return new int[] { 255, 0, 0, 255 };
+                    return new int[] { 255, 128, 0, 255 };
                 case ResistType.Disease:
                     return new int[] { 139, 69, 19, 255 };
                 case ResistType.Poison:
@@ -340,7 +341,7 @@ namespace vsroleplayclasses.src
                 case ResistType.Chromatic:
                     return new int[] { 219, 226, 233, 255 };
                 case ResistType.Prismatic:
-                    return new int[] { 255, 255,255, 255 };
+                    return new int[] { 255, 51,153, 255 };
                 case ResistType.Corruption:
                     return new int[] { 0, 0, 0, 255 };
                 case ResistType.Magic:

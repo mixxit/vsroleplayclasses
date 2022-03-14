@@ -18,8 +18,44 @@ namespace vsroleplayclasses.src.Systems
         {
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             api.RegisterCommand("xp", "lists information about experience", "", CmdXp, null);
+            api.RegisterCommand("givexp", "grants experience", "", CmdGiveXp, "root");
             api.RegisterEntityBehaviorClass("EntityBehaviorExperience", typeof(EntityBehaviorExperience));
             base.StartServerSide(api);
+        }
+
+        private void CmdGiveXp(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            if (args.Length < 3)
+            {
+                player.SendMessage(groupId, "Missing args (playername, type, xp)", EnumChatType.OwnMessage);
+                return;
+            }
+
+            long xp = 0;
+            long.TryParse(args[2], out xp);
+
+            if (xp < 1)
+            {
+                player.SendMessage(groupId, "XP must be greater than 0", EnumChatType.OwnMessage);
+                return;
+            }
+
+            var type = AdventureClassTools.GetAdventureClassByString(args[1]);
+            if (type == AdventureClass.None)
+            {
+                player.SendMessage(groupId, "Adventure class does not exist", EnumChatType.OwnMessage);
+                return;
+            }
+
+            var targetPlayer = player.Entity.World.GetPlayerByName(args[0]);
+            if (targetPlayer == null)
+            {
+                player.SendMessage(groupId, "Could not find player by name, try /who", EnumChatType.OwnMessage);
+                return;
+            }
+
+            targetPlayer.Entity.AwardExperience(type, xp);
+            player.SendMessage(groupId, $"Granted additional {xp} {type.ToString()} XP to {targetPlayer.PlayerName}", EnumChatType.OwnMessage);
         }
 
         private void CmdXp(IServerPlayer player, int groupId, CmdArgs args)

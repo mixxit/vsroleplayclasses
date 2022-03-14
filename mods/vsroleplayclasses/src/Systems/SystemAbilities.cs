@@ -123,10 +123,7 @@ namespace vsroleplayclasses.src.Systems
             if (action != EnumEntityAction.RightMouseDown)
                 return;
 
-            if (!((Entity)capi.World.Player.Entity).IsWaitingToCast())
-                return;
-
-            if (capi.World.Player.CameraMode != EnumCameraMode.FirstPerson)
+            if (!((Entity)capi.World.Player.Entity).IsWaitingToReleaseCast())
                 return;
 
             capi.Network.GetChannel("clientrequestfinishcastingpacket").SendPacket(new ClientRequestFinishCastingPacket()
@@ -501,7 +498,7 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerNowPlayingServer(IServerPlayer player)
         {
             RegisterPlayerClassChangedListener(player);
-            player?.Entity?.Cleanup();
+            player?.Entity?.ClearCasting();
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)

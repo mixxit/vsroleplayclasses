@@ -122,9 +122,9 @@ namespace vsroleplayclasses.src
                 case TargetType.Group:
                     return 5;
                 case TargetType.AETarget:
-                    return 3;
+                    return 2;
                 case TargetType.AECaster:
-                    return 4;
+                    return 3;
                 case TargetType.Undead:
                     return 7;
                 default:

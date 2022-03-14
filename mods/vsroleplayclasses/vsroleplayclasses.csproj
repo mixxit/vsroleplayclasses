@@ -78,6 +78,7 @@
     <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\ActiveSpellEffectHudEntry.cs" />
     <Compile Include="src\AdventureClass.cs" />
+    <Compile Include="src\AdventureClassTools.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellEffects.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="src\EffectCombo.cs" />
     <Compile Include="src\Entities\EntityMagicProjectile.cs" />
     <Compile Include="src\ExtendedEnumDamageType.cs" />
+    <Compile Include="src\Extensions\IWorldAccessorExt.cs" />
     <Compile Include="src\Gui\GuiDialogCompass.cs" />
     <Compile Include="src\Gui\HudActiveEffects.cs" />
     <Compile Include="src\Gui\HudAbility.cs" />
