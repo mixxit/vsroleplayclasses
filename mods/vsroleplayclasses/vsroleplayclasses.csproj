@@ -80,6 +80,7 @@
     <Compile Include="src\AdventureClass.cs" />
     <Compile Include="src\AdventureClassTools.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
+    <Compile Include="src\Behaviors\EntityBehaviorInteruptable.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellEffects.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorStatistics.cs" />
@@ -429,6 +430,7 @@
     <Content Include="assets\game\patches\entity-add-spelltargetable-behavior.json" />
     <Content Include="assets\game\patches\entity-add-spelleffects-behavior.json" />
     <Content Include="assets\game\patches\entity-add-statistics-behavior.json" />
+    <Content Include="assets\game\patches\entity-add-interuptable-behavior.json" />
     <None Include="assets\game\patches\survival-blocktypes-wood-pan.json" />
     <None Include="assets\vsroleplayclasses\entities\air\magicprojectile.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquillempty.json" />
