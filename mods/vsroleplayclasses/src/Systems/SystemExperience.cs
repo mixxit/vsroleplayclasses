@@ -27,7 +27,7 @@ namespace vsroleplayclasses.src.Systems
             player.SendMessage(groupId, "Experience:", EnumChatType.OwnMessage);
             foreach(var value in player.GetExperienceValues())
             {
-                player.SendMessage(groupId, value.Item1.ToString()+":"+value.Item2 + $" (Level: {player.GetLevel(value.Item1)}) % into level - XP: " + player.GetExperience(value.Item1) + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel(value.Item1) + 1), EnumChatType.OwnMessage);
+                player.SendMessage(groupId, value.Item1.ToString()+":"+value.Item2 + $" (Level: {player.Entity.GetLevel(value.Item1)}) {player.GetExperiencePercentage(value.Item1)} % into level - XP: " + player.GetExperience(value.Item1) + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.GetLevel(value.Item1) + 1), EnumChatType.OwnMessage);
             }
             player.SendMessage(groupId, player.GetPlayerOverallLevelAsText(), EnumChatType.OwnMessage);
         }

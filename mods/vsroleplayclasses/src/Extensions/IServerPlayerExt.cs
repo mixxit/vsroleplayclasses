@@ -52,7 +52,7 @@ namespace vsroleplayclasses.src.Extensions
 
         public static void TryUpdateLevel(this IServerPlayer player, AdventureClass adventureClass)
         {
-            if (player.GetLevel(adventureClass) == player.CalculateLevel(adventureClass))
+            if (player.Entity.GetLevel(adventureClass) == player.CalculateLevel(adventureClass))
                 return;
 
             player.SetLevel(adventureClass);
@@ -68,13 +68,13 @@ namespace vsroleplayclasses.src.Extensions
 
         public static bool HasLevel(this IServerPlayer player, Tuple<AdventureClass, int> adventureClassLevel)
         {
-            if (player == null)
+            if (player == null || player.Entity == null)
                 return false;
 
             if (adventureClassLevel == null)
                 return false;
 
-            return player.GetLevel(adventureClassLevel.Item1) >= adventureClassLevel.Item2;
+            return player.Entity.GetLevel(adventureClassLevel.Item1) >= adventureClassLevel.Item2;
         }
 
         public static List<Tuple<AdventureClass,double>> GetExperienceValues(this IServerPlayer player)
@@ -117,15 +117,6 @@ namespace vsroleplayclasses.src.Extensions
 
             player.Entity.WatchedAttributes.SetDouble(experienceType.ToString().ToLower() + "xp", xp);
         }
-
-        public static int GetLevel(this IServerPlayer player, AdventureClass adventureClass)
-        {
-            if (player == null || player.Entity == null)
-                return 1;
-
-            return player.Entity.WatchedAttributes.GetInt(adventureClass.ToString().ToLower()+"level", 1);
-        }
-
 
         public static int GetLevel(this IServerPlayer player)
         {
@@ -186,7 +177,7 @@ namespace vsroleplayclasses.src.Extensions
 
         public static int GetExperiencePercentage(this IServerPlayer player, AdventureClass adventureClass)
         {
-            return PlayerUtils.GetExperiencePercentage(player.GetLevel(adventureClass), player.GetExperience(adventureClass));
+            return PlayerUtils.GetExperiencePercentage(player.Entity.GetLevel(adventureClass), player.GetExperience(adventureClass));
         }
 
         public static int CalculateLevel(this IServerPlayer player)

@@ -39,6 +39,9 @@ namespace vsroleplayclasses.src.Behaviors
 
         private void RegisterEntityStatisticsChangedListener(Entity entity)
         {
+            if (this.entity.Api.Side != EnumAppSide.Server)
+                return;
+
             foreach (StatType statType in Enum.GetValues(typeof(StatType)))
             {
                 entity.WatchedAttributes.RegisterModifiedListener("stat_" + statType.ToString(), (System.Action)(() => OnEntityStatisticsChanged(entity, statType)));

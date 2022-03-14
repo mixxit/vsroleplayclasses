@@ -267,12 +267,19 @@ namespace vsroleplayclasses.src
                 OnSpellCollidedEntity(source, source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
 
             if (this.TargetType == TargetType.Target && !forceSelf)
+            {
                 FlingSpellForward(source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
+            }
 
             if (this.TargetType == TargetType.AECaster && !forceSelf)
             {
-                foreach (var entity in source.World.GetEntitiesAround(new Vec3d(source.Pos.X,source.Pos.Y,source.Pos.Z),GetRange(),GetRange()))
-                    OnSpellCollidedEntity(source, source, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
+                foreach (var entity in source.World.GetEntitiesAround(new Vec3d(source.Pos.X, source.Pos.Y, source.Pos.Z), GetRange(), GetRange()))
+                {
+                    if (!entity.Alive)
+                        return;
+
+                    OnSpellCollidedEntity(source, entity, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
+                }
             }
 
             source.DecreaseMana(GetManaCost());
@@ -408,6 +415,9 @@ namespace vsroleplayclasses.src
 
         public void OnSpellCollidedEntity(Entity source, Entity target, EffectCombo effectCombo, ExtendedEnumDamageType extendedEnumDamageType, float amount, ResistType resistType)
         {
+            if (!target.Alive)
+                return;
+
             PlaySpellCollidedSound(target);
 
             if (effectCombo.Duration > 0)
@@ -435,7 +445,8 @@ namespace vsroleplayclasses.src
 
         private int GetCastTimeSeconds()
         {
-            return 3;
+            var castTypeModifier = AbilityTools.GetCastTimeMultiplier(this.TargetType);
+            return castTypeModifier * (int)this.PowerLevel;
         }
 
         public float GetAmount()

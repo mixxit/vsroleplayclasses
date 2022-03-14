@@ -47,6 +47,14 @@ namespace vsroleplayclasses.src.Extensions
             ebt.TryFinishCast(forceSelf);
         }
 
+        public static int GetLevel(this Entity me, AdventureClass adventureClass)
+        {
+            if (me == null)
+                return 1;
+
+            return me.WatchedAttributes.GetInt(adventureClass.ToString().ToLower() + "level", 1);
+        }
+
         public static bool IsWaitingToCast(this Entity me)
         {
             if (me.Api.Side == EnumAppSide.Client)

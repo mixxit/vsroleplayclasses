@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Extensions;
@@ -46,6 +47,45 @@ namespace vsroleplayclasses.src.Behaviors
             
             var expType = DamageTypeClass.Convert((ExtendedEnumDamageType)damageSourceForDeath.Type).AdventureClass;
             damageSourceForDeath.SourceEntity.AwardExperience(expType, this.entity.GetExperienceWorth((IServerPlayer)((EntityPlayer)damageSourceForDeath.SourceEntity).Player));
+        }
+
+        public override void OnEntityLoaded()
+        {
+            base.OnEntityLoaded();
+            if (entity is EntityItem)
+                return;
+
+            RegisterEntityClassLevelChangedListener(entity);
+        }
+
+        private void RegisterEntityClassLevelChangedListener(Entity entity)
+        {
+            if (this.entity.Api.Side != EnumAppSide.Server)
+                return;
+
+            foreach (AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+            {
+                entity.WatchedAttributes.RegisterModifiedListener(adventureClass.ToString().ToLower() + "level", (System.Action)(() => OnEntityAdventureLevelChanged(entity, adventureClass)));
+            }
+        }
+
+        public override void OnEntitySpawn()
+        {
+            base.OnEntitySpawn();
+            if (entity is EntityItem)
+                return;
+
+            RegisterEntityClassLevelChangedListener(entity);
+        }
+
+        private void OnEntityAdventureLevelChanged(Entity entity, AdventureClass type)
+        {
+            if (entity.IsIServerPlayer())
+            {
+                entity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"Your {type.ToString()} adventure level has changed {entity.GetLevel(type)}!", EnumChatType.CommandSuccess);
+            }
+            entity.ResetMaxMana();
+            entity.ResetMaxHealth();
         }
     }
 }

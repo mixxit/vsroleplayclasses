@@ -144,11 +144,13 @@ namespace vsroleplayclasses.src
 
         public static bool DD(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = null, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
+            // ignore invulnerable
             if (castOn.IsInvulerable())
-            {
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"Your target is invulnerable", EnumChatType.CommandSuccess);
                 return false;
-            }
+
+            // ignore self
+            if (source.EntityId == castOn.EntityId)
+                return false;
 
             var result = castOn.ChangeCurrentHp(source, (float)amount, (EnumDamageType)damageType);
             if (result && source.IsIServerPlayer() && firstRun)

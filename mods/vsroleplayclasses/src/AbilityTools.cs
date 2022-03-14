@@ -74,11 +74,37 @@ namespace vsroleplayclasses.src
                 case TargetType.Group:
                     return 4;
                 case TargetType.AETarget:
+                    return 7;
+                case TargetType.AECaster:
                     return 6;
                 case TargetType.Undead:
                     return 4;
                 default:
-                    return 10;
+                    return 100000;
+            }
+        }
+
+        public static int GetCastTimeMultiplier(TargetType enumValue)
+        {
+            switch (enumValue)
+            {
+                // should never happen
+                case TargetType.None:
+                    return 100000;
+                case TargetType.Self:
+                    return 1;
+                case TargetType.Target:
+                    return 2;
+                case TargetType.Group:
+                    return 4;
+                case TargetType.AETarget:
+                    return 7;
+                case TargetType.AECaster:
+                    return 6;
+                case TargetType.Undead:
+                    return 4;
+                default:
+                    return 100000;
             }
         }
 
@@ -88,15 +114,17 @@ namespace vsroleplayclasses.src
             {
                 // should never happen
                 case TargetType.None:
-                    return 6;
+                    return 1;
                 case TargetType.Self:
                     return 6;
                 case TargetType.Target:
                     return 6;
                 case TargetType.Group:
-                    return 1;
+                    return 5;
                 case TargetType.AETarget:
-                    return 1;
+                    return 3;
+                case TargetType.AECaster:
+                    return 4;
                 case TargetType.Undead:
                     return 7;
                 default:
