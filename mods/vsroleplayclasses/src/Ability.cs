@@ -276,7 +276,7 @@ namespace vsroleplayclasses.src
                 foreach (var entity in source.World.GetEntitiesAround(new Vec3d(source.Pos.X, source.Pos.Y, source.Pos.Z), GetRange(), GetRange()))
                 {
                     if (!entity.Alive)
-                        return;
+                        continue;
 
                     OnSpellCollidedEntity(source, entity, effectCombo, this.GetDamageType(this.AdventureClass), this.GetAmount(), this.ResistType);
                 }
