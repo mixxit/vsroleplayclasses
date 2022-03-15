@@ -153,6 +153,7 @@ namespace vsroleplayclasses.src
                 return false;
 
             var result = castOn.ChangeCurrentHp(source, (float)amount, (EnumDamageType)damageType);
+
             if (result && source.IsIServerPlayer() && firstRun)
                 source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You blasted your target with {amount} {(resistType).ToString()} damage", EnumChatType.CommandSuccess);
             if (result && castOn.IsIServerPlayer())

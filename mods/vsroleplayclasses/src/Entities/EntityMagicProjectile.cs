@@ -145,6 +145,26 @@ namespace vsroleplayclasses.src.Entities
 
             IsColliding(SidedPos, Math.Max(motionBeforeCollide.Length(), pos.Motion.Length()));
             motionBeforeCollide.Set(pos.Motion.X, pos.Motion.Y, pos.Motion.Z);
+
+            SimpleParticleProperties props =
+                new SimpleParticleProperties(
+                    15, 22,
+                    ColorUtil.ToRgba(150, 255, 255, 255),
+                    new Vec3d(pos.X, pos.Y, pos.Z),
+                    new Vec3d(pos.X + 1, pos.Y + 1, pos.Z + 1),
+                    new Vec3f(-0.2f, -0.1f, -0.2f),
+                    new Vec3f(0.2f, 0.2f, 0.2f),
+                    1.5f,
+                    0,
+                    0.5f,
+                    1.0f,
+                    EnumParticleModel.Quad
+                );
+
+            props.OpacityEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEAR, -200);
+            props.SizeEvolve = new EvolvingNatFloat(EnumTransformFunction.LINEAR, 2);
+
+            World.SpawnParticles(props);
         }
 
 
