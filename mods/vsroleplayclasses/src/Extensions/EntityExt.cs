@@ -416,26 +416,6 @@ namespace vsroleplayclasses.src.Extensions
 
             return ((IServerPlayer)((EntityPlayer)me).Player);
         }
-
-        public static void GrantSmallAmountOfAdventureClassXp(this Entity me, Ability ability)
-        {
-            if (ability.AdventureClass == AdventureClass.None)
-                return;
-
-            if (!me.IsIServerPlayer())
-                return;
-
-            me.GetAsIServerPlayer().GrantSmallAmountOfAdventureClassXp(ability);
-        }
-
-        public static void SkillUp(this Entity me, Ability ability)
-        {
-            if (!me.IsIServerPlayer())
-                return;
-
-            me.GetAsIServerPlayer().SkillUp(ability);
-        }
-
         public static bool GateToBind(this Entity me)
         {
             if (!me.IsIServerPlayer())
@@ -444,16 +424,13 @@ namespace vsroleplayclasses.src.Extensions
             return me.GetAsIServerPlayer().GateToBind();
         }
 
-        public static void AwardExperience(this Entity me, AdventureClass experienceType, double experienceAmount)
+        public static void AwardPendingExperience(this Entity me, double experienceAmount)
         {
-            if (experienceType == AdventureClass.None)
-                return;
-
             // Only award to players
             if (!me.IsIServerPlayer())
                 return;
 
-            me.GetAsIServerPlayer().GrantExperience(experienceType, experienceAmount);
+            me.GetAsIServerPlayer().GrantPendingExperience(experienceAmount);
         }
 
         public static int GetLevel(this Entity me)

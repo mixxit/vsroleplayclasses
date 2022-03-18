@@ -9,6 +9,13 @@ namespace vsroleplayclasses.src
         public static int MAX_STATISTIC = 255;
 
         public static int MaxActiveEffectSlots = 16;
+        public static double MAX_PENDING_EXPERIENCE = 255;
+
+        // Max level - 10
+        public static double GetMaxPendingExperience()
+        {
+            return PlayerUtils.GetExperienceRequirementForLevel(MAX_LEVEL-10);
+        }
 
         public static double GetMaxExperience()
         {

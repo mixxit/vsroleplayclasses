@@ -44,9 +44,7 @@ namespace vsroleplayclasses.src.Behaviors
             if (!(((EntityPlayer)damageSourceForDeath.SourceEntity).Player is IServerPlayer))
                 return;
 
-            
-            var expType = DamageTypeClass.Convert((ExtendedEnumDamageType)damageSourceForDeath.Type).AdventureClass;
-            damageSourceForDeath.SourceEntity.AwardExperience(expType, this.entity.GetExperienceWorth((IServerPlayer)((EntityPlayer)damageSourceForDeath.SourceEntity).Player));
+            damageSourceForDeath.SourceEntity.AwardPendingExperience(this.entity.GetExperienceWorth((IServerPlayer)((EntityPlayer)damageSourceForDeath.SourceEntity).Player));
         }
 
         public override void OnEntityLoaded()

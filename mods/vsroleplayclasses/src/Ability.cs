@@ -283,8 +283,6 @@ namespace vsroleplayclasses.src
             }
 
             source.DecreaseMana(GetManaCost());
-            source.SkillUp(this);
-            source.GrantSmallAmountOfAdventureClassXp(this);
         }
 
         private float GetRange()

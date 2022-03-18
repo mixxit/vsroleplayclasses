@@ -25,25 +25,18 @@ namespace vsroleplayclasses.src.Systems
 
         private void CmdGiveXp(IServerPlayer player, int groupId, CmdArgs args)
         {
-            if (args.Length < 3)
+            if (args.Length < 2)
             {
-                player.SendMessage(groupId, "Missing args (playername, type, xp)", EnumChatType.OwnMessage);
+                player.SendMessage(groupId, "Missing args (playername, xp)", EnumChatType.OwnMessage);
                 return;
             }
 
             long xp = 0;
-            long.TryParse(args[2], out xp);
+            long.TryParse(args[1], out xp);
 
             if (xp < 1)
             {
                 player.SendMessage(groupId, "XP must be greater than 0", EnumChatType.OwnMessage);
-                return;
-            }
-
-            var type = AdventureClassTools.GetAdventureClassByString(args[1]);
-            if (type == AdventureClass.None)
-            {
-                player.SendMessage(groupId, "Adventure class does not exist", EnumChatType.OwnMessage);
                 return;
             }
 
@@ -54,8 +47,8 @@ namespace vsroleplayclasses.src.Systems
                 return;
             }
 
-            targetPlayer.Entity.AwardExperience(type, xp);
-            player.SendMessage(groupId, $"Granted additional {xp} {type.ToString()} XP to {targetPlayer.PlayerName}", EnumChatType.OwnMessage);
+            ((IServerPlayer)targetPlayer).GrantPendingExperience(xp);
+            player.SendMessage(groupId, $"Granted additional {xp} pending XP to {targetPlayer.PlayerName}", EnumChatType.OwnMessage);
         }
 
         private void CmdXp(IServerPlayer player, int groupId, CmdArgs args)
@@ -65,6 +58,7 @@ namespace vsroleplayclasses.src.Systems
             {
                 player.SendMessage(groupId, value.Item1.ToString()+":"+value.Item2 + $" (Level: {player.Entity.GetLevel(value.Item1)}) {player.GetExperiencePercentage(value.Item1)} % into level - XP: " + player.GetExperience(value.Item1) + "/" + PlayerUtils.GetExperienceRequirementForLevel(player.Entity.GetLevel(value.Item1) + 1), EnumChatType.OwnMessage);
             }
+            player.SendMessage(groupId, "Pending Xp: " + player.GetPendingExperience(), EnumChatType.OwnMessage);
             player.SendMessage(groupId, player.GetPlayerOverallLevelAsText(), EnumChatType.OwnMessage);
         }
 

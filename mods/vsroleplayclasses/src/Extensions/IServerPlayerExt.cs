@@ -35,21 +35,6 @@ namespace vsroleplayclasses.src.Extensions
             
         }
 
-        public static void GrantSmallAmountOfAdventureClassXp(this IServerPlayer player, Ability ability)
-        {
-            if (ability.AdventureClass == AdventureClass.None)
-                return;
-
-            player.GrantExperience(ability.AdventureClass, 10);
-
-            return;
-        }
-
-        public static void SkillUp(this IServerPlayer player, Ability ability)
-        {
-            return;
-        }
-
         public static void TryUpdateLevel(this IServerPlayer player, AdventureClass adventureClass)
         {
             if (player.Entity.GetLevel(adventureClass) == player.CalculateLevel(adventureClass))
@@ -97,6 +82,19 @@ namespace vsroleplayclasses.src.Extensions
         public static double GetExperience(this IServerPlayer player)
         {
             return player.GetExperienceValues().Sum(e => e.Item2);
+        }
+
+        public static double GetPendingExperience(this IServerPlayer player)
+        {
+            return player.Entity.WatchedAttributes.GetDouble("pendingxp", 0);
+        }
+
+        public static void SetPendingExperience(this IServerPlayer player, double xp)
+        {
+            if ((player.GetPendingExperience() + xp) > WorldLimits.GetMaxPendingExperience())
+                xp = WorldLimits.GetMaxPendingExperience();
+
+            player.Entity.WatchedAttributes.SetDouble("pendingxp", xp);
         }
 
         public static double GetExperience(this IServerPlayer player, AdventureClass experienceType)
@@ -200,7 +198,22 @@ namespace vsroleplayclasses.src.Extensions
             player.Entity.WatchedAttributes.SetInt(adventureClass.ToString().ToLower()+"level", player.CalculateLevel(adventureClass));
         }
 
-        
+        public static void GrantPendingExperience(this IServerPlayer player, double xp)
+        {
+            // needs to have chosen their profession
+            if (player.GetCharClassOrDefault() == null)
+                return;
+
+            if ((player.GetPendingExperience() + xp) > WorldLimits.GetMaxPendingExperience())
+                xp = WorldLimits.GetMaxPendingExperience() - player.GetPendingExperience();
+
+            if (!player.CanAddPendingExp(xp))
+                return;
+
+            player.SetPendingExperience(GetPendingExperience(player) + xp);
+        }
+
+
         public static void GrantExperience(this IServerPlayer player, AdventureClass experienceType, double xp)
         {
             if (experienceType == AdventureClass.None)
@@ -221,7 +234,16 @@ namespace vsroleplayclasses.src.Extensions
 
         public static bool CanAddExp(this IServerPlayer player, double xp)
         {
-            if ((player.GetExperience()+xp) < WorldLimits.GetMaxExperience())
+            if ((player.GetExperience()+xp) <= WorldLimits.GetMaxExperience())
+                return true;
+
+            return false;
+        }
+
+
+        public static bool CanAddPendingExp(this IServerPlayer player, double xp)
+        {
+            if ((player.GetPendingExperience() + xp) <= WorldLimits.GetMaxPendingExperience())
                 return true;
 
             return false;
