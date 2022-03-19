@@ -38,6 +38,36 @@ namespace vsroleplayclasses.src.Extensions
             player.GrantExperience(adventureClass, needed);
         }
 
+        public static void SendEmote(this IServerPlayer sourcePlayer, string message, bool prefixNonUserEmote)
+        {
+            foreach (var player in sourcePlayer.Entity.World.AllOnlinePlayers)
+            {
+                if (!(player is IServerPlayer))
+                    continue;
+
+                if (player.Entity.ServerPos.SquareDistanceTo(sourcePlayer.Entity.ServerPos) > WorldLimits.LocalChatDistance)
+                    continue;
+
+                SendEmoteLocally(sourcePlayer, (IServerPlayer)player, message, prefixNonUserEmote);
+            }
+        }
+
+        private static void SendEmoteLocally(this IServerPlayer sourcePlayer, IServerPlayer destinationPlayer, string message, bool prefixNonUserEmote)
+        {
+            var chatType = EnumChatType.OwnMessage;
+            if (!sourcePlayer.PlayerUID.Equals(destinationPlayer.PlayerUID))
+                chatType = EnumChatType.OthersMessage;
+
+            var nonUserPrefix = "[A] ";
+            var prefix = $"{nonUserPrefix}* " + PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(sourcePlayer.Entity) + " ";
+            destinationPlayer.SendMessage(GlobalConstants.GeneralChatGroup, prefix + message, chatType);
+        }
+
+        public static string GetFullRoleplayNameAsDisplayFormat(this IServerPlayer player)
+        {
+            return PlayerNameUtils.GetFullRoleplayNameAsDisplayFormat(player.Entity);
+        }
+
         public static void ResetExperience(this IServerPlayer player)
         {
             if (player.GetCharClassOrDefault() == null)

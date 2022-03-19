@@ -11,6 +11,8 @@ namespace vsroleplayclasses.src
         public static int MaxActiveEffectSlots = 16;
         public static double MAX_PENDING_EXPERIENCE = 255;
 
+        public static float LocalChatDistance = 700;
+
         // Max level - 10
         public static double GetMaxPendingExperience()
         {

@@ -12,11 +12,34 @@ namespace vsroleplayclasses.src
 {
     public class VSRoleplayClassesMod : ModSystem
     {
+        Random rand;
         List<CharacterClass> characterClassesItems;
+        List<String> skillChecks;
 
         public override void Start(ICoreAPI api)
         {
+            rand = new Random();
             base.Start(api);
+            skillChecks = new List<string>();
+            skillChecks.Add("athletics");
+            skillChecks.Add("acrobatics");
+            skillChecks.Add("sleightofhand");
+            skillChecks.Add("stealth");
+            skillChecks.Add("arcana");
+            skillChecks.Add("history");
+            skillChecks.Add("investigation");
+            skillChecks.Add("nature");
+            skillChecks.Add("religion");
+            skillChecks.Add("animalhandling");
+            skillChecks.Add("insight");
+            skillChecks.Add("medicine");
+            skillChecks.Add("perception");
+            skillChecks.Add("survival");
+            skillChecks.Add("deception");
+            skillChecks.Add("intimidation");
+            skillChecks.Add("performance");
+            skillChecks.Add("persuasion");
+
         }
 
         public override void StartPre(ICoreAPI api)
@@ -44,8 +67,65 @@ namespace vsroleplayclasses.src
             api.World.RegisterGameTickListener(OnGameTick, 8000);
             api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
             api.RegisterCommand("itemattributes", "views attributes of items in hand", "", CmdItemAttributes, "root");
+            api.RegisterCommand("roll", "rolls a dice", "", CmdRoll, null);
+            api.RegisterCommand("skillcheck", "performs a skill check", "", CmdSkillCheck, null);
             base.StartServerSide(api);
         }
+
+        private void CmdRoll(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            int maxnumber = 1;
+            try
+            {
+                maxnumber = int.Parse(args[0]);
+            }
+            catch (Exception)
+            {
+                player.SendMessage(groupId, $"Invalid number ", EnumChatType.CommandError);
+                return;
+            }
+
+            String message = "rolls 1d" + maxnumber + ". It's a " + rand.Next(1,maxnumber+1) + "!";
+            player.SendEmote(message,true);
+        }
+
+        private void CmdSkillCheck(IServerPlayer player, int groupId, CmdArgs args)
+        {
+            String skill = "perception";
+
+            if (args.Length == 0)
+            {
+                player.SendMessage(groupId, $"Insufficient arguments, must provide skill from this list: {String.Join(",", skillChecks)}",EnumChatType.CommandError);
+                return;
+            }
+            else
+            {
+                skill = args[0].ToLower();
+                if (!skillChecks.Contains(skill))
+                {
+                    player.SendMessage(groupId, $"Invalid argument [" + skill + "], must provide skill from this list: " + String.Join(", ", skillChecks),EnumChatType.CommandError);
+                    return;
+                }
+            }
+
+            int bonus = 0;
+            //int bonus = getClassRollBonus(skill, solplayer.getClassObj());
+
+
+            String message = " makes a skill check for " + skill + ". They roll: " + rand.Next(0, 20+1) + "/20";
+
+            if (bonus != 0)
+            {
+                int roll = rand.Next(0, 20+1);
+                if (bonus > 0)
+                    player.SendMessage(groupId, $"Your roll has been assigned an appropriate class modifier [" + bonus + "]!", EnumChatType.CommandError);
+
+                int bonusroll = roll + bonus;
+                message = " makes a skill check for " + skill + ". They roll: " + roll + "+" + bonus + "(" + bonusroll + ")" + "/20";
+            }
+            player.SendEmote(message, true);
+        }
+
 
         private void CmdItemAttributes(IServerPlayer player, int groupId, CmdArgs args)
         {
