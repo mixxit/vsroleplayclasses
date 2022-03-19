@@ -191,7 +191,7 @@ namespace vsroleplayclasses.src.Systems
             if (compassDialog == null)
                 compassDialog = new GuiDialogCompass(capi);
 
-            if (compassDialog.IsOpened()) memorisateAbilityDialog.TryClose();
+            if (compassDialog.IsOpened()) compassDialog.TryClose();
             else compassDialog.TryOpen();
 
             return true;

@@ -53,7 +53,7 @@ namespace vsroleplayclasses.src.Systems
             try
             {
                 sapi.Network.GetChannel("updateactiveeffectshudpacket").SendPacket(UpdateActiveEffectsHudPacket.From(sapi.World, activeSpellEffects), new IServerPlayer[] { player });
-            } catch (Exception e)
+            } catch (Exception)
             {
                 // Not registered yet
             }

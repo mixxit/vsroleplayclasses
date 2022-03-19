@@ -89,6 +89,7 @@
     <Compile Include="src\Entities\EntityMagicProjectile.cs" />
     <Compile Include="src\ExtendedEnumDamageType.cs" />
     <Compile Include="src\Extensions\IWorldAccessorExt.cs" />
+    <Compile Include="src\Gui\GuiDialogExperience.cs" />
     <Compile Include="src\Gui\GuiDialogCompass.cs" />
     <Compile Include="src\Gui\HudActiveEffects.cs" />
     <Compile Include="src\Gui\HudAbility.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="src\Packets\ClearCastingPacket.cs" />
     <Compile Include="src\Packets\ClientRequestFinishCastingPacket.cs" />
     <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
+    <Compile Include="src\Packets\SpendPendingExperiencePacket.cs" />
     <Compile Include="src\Packets\UpdateActiveEffectsHudPacket.cs" />
     <Compile Include="src\Systems\SystemCompassInventory.cs" />
     <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />

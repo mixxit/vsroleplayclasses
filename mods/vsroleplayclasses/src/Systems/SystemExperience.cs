@@ -1,17 +1,38 @@
 ﻿using System;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Gui;
+using vsroleplayclasses.src.Packets;
 
 namespace vsroleplayclasses.src.Systems
 {
     public class SystemExperience : ModSystem
     {
+        GuiDialogExperience experienceDialog;
+        ICoreClientAPI capi;
+        ICoreAPI api;
         public override bool ShouldLoad(EnumAppSide side)
         {
             return true;
+        }
+        public override void Start(ICoreAPI api)
+        {
+            this.api = api;
+            base.Start(api);
+
+            api.Network.RegisterChannel("spendpendingexperience").RegisterMessageType<SpendPendingExperiencePacket>();
+        }
+
+        public override void StartClientSide(ICoreClientAPI api)
+        {
+            base.StartClientSide(api);
+            capi = api;
+            capi.Input.RegisterHotKey("experience", "Opens the Experience Window", GlKeys.X, HotkeyType.GUIOrOtherControls, true);
+            capi.Input.SetHotKeyHandler("experience", ToggleExperienceGui);
         }
 
         public override void StartServerSide(ICoreServerAPI api)
@@ -21,6 +42,12 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterCommand("givexp", "grants experience", "", CmdGiveXp, "root");
             api.RegisterEntityBehaviorClass("EntityBehaviorExperience", typeof(EntityBehaviorExperience));
             base.StartServerSide(api);
+            api.Network.GetChannel("spendpendingexperience").SetMessageHandler<SpendPendingExperiencePacket>(OnSpendPendingExperiencePacket);
+        }
+
+        private void OnSpendPendingExperiencePacket(IServerPlayer fromPlayer, SpendPendingExperiencePacket networkMessage)
+        {
+            fromPlayer.SpendPendingExperience(networkMessage.adventureClass);
         }
 
         private void CmdGiveXp(IServerPlayer player, int groupId, CmdArgs args)
@@ -60,6 +87,18 @@ namespace vsroleplayclasses.src.Systems
             }
             player.SendMessage(groupId, "Pending Xp: " + player.GetPendingExperience(), EnumChatType.OwnMessage);
             player.SendMessage(groupId, player.GetPlayerOverallLevelAsText(), EnumChatType.OwnMessage);
+        }
+
+
+        private bool ToggleExperienceGui(KeyCombination comb)
+        {
+            if (experienceDialog == null)
+                experienceDialog = new GuiDialogExperience(capi);
+
+            if (experienceDialog.IsOpened()) experienceDialog.TryClose();
+            else experienceDialog.TryOpen();
+
+            return true;
         }
 
         private void OnPlayerNowPlaying(IServerPlayer player)

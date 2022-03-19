@@ -19,6 +19,24 @@ namespace vsroleplayclasses.src.Extensions
 {
     public static class IServerPlayerExt
     {
+        public static void SpendPendingExperience(this IServerPlayer player, AdventureClass adventureClass)
+        {
+            if (adventureClass == AdventureClass.None)
+                return;
+
+            var currentExperience = (double)player.GetExperience(adventureClass);
+            var lvl = PlayerUtils.GetLevelFromExperience(currentExperience);
+            var nextXp = PlayerUtils.GetExperienceRequirementForLevel(lvl + 1);
+            var pendingXp = player.GetPendingExperience();
+            var needed = nextXp - currentExperience;
+
+            // Only spend pending experience if they have enough to level
+            if (pendingXp < needed)
+                return;
+
+            player.SetPendingExperience(player.GetPendingExperience() - needed);
+            player.GrantExperience(adventureClass, needed);
+        }
 
         public static void ResetExperience(this IServerPlayer player)
         {
@@ -62,11 +80,11 @@ namespace vsroleplayclasses.src.Extensions
             return player.Entity.GetLevel(adventureClassLevel.Item1) >= adventureClassLevel.Item2;
         }
 
-        public static List<Tuple<AdventureClass,double>> GetExperienceValues(this IServerPlayer player)
+        public static List<Tuple<AdventureClass,double>> GetExperienceValues(this IPlayer player)
         {
             var result = new List<Tuple<AdventureClass, double>>();
 
-            if (player.GetCharClassOrDefault() == null)
+            if (player.GetSelectedClassCode() == null)
                 return result;
 
             foreach (AdventureClass adventuringClass in Enum.GetValues(typeof(AdventureClass)))
@@ -79,25 +97,17 @@ namespace vsroleplayclasses.src.Extensions
             return result;
         }
 
-        public static double GetExperience(this IServerPlayer player)
+        public static double GetExperience(this IPlayer player)
         {
             return player.GetExperienceValues().Sum(e => e.Item2);
         }
 
-        public static double GetPendingExperience(this IServerPlayer player)
+        public static double GetPendingExperience(this IPlayer player)
         {
             return player.Entity.WatchedAttributes.GetDouble("pendingxp", 0);
         }
 
-        public static void SetPendingExperience(this IServerPlayer player, double xp)
-        {
-            if ((player.GetPendingExperience() + xp) > WorldLimits.GetMaxPendingExperience())
-                xp = WorldLimits.GetMaxPendingExperience();
-
-            player.Entity.WatchedAttributes.SetDouble("pendingxp", xp);
-        }
-
-        public static double GetExperience(this IServerPlayer player, AdventureClass experienceType)
+        public static double GetExperience(this IPlayer player, AdventureClass experienceType)
         {
             if (experienceType == AdventureClass.None)
                 return 0D;
@@ -110,10 +120,24 @@ namespace vsroleplayclasses.src.Extensions
             if (experienceType == AdventureClass.None)
                 return;
 
-            if ((player.GetExperience() + xp) > WorldLimits.GetMaxExperience())
+            if (xp > WorldLimits.GetMaxExperience())
                 xp = WorldLimits.GetMaxExperience();
 
+            if (xp < 0)
+                xp = 0;
+
             player.Entity.WatchedAttributes.SetDouble(experienceType.ToString().ToLower() + "xp", xp);
+        }
+
+        public static void SetPendingExperience(this IServerPlayer player, double xp)
+        {
+            if (xp > WorldLimits.GetMaxPendingExperience())
+                xp = WorldLimits.GetMaxPendingExperience();
+
+            if (xp < 0)
+                xp = 0;
+
+            player.Entity.WatchedAttributes.SetDouble("pendingxp", xp);
         }
 
         public static int GetLevel(this IServerPlayer player)
@@ -343,7 +367,7 @@ namespace vsroleplayclasses.src.Extensions
             player.Entity.TryGiveItemStack(itemstack);
         }
 
-        public static string GetSelectedClassCode(this IServerPlayer player)
+        public static string GetSelectedClassCode(this IPlayer player)
         {
             string classCode = player.Entity.WatchedAttributes.GetString("characterClass", (string)null);
             if (String.IsNullOrEmpty(classCode))
