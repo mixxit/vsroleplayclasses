@@ -39,5 +39,12 @@ namespace vsroleplayclasses.src.Extensions
             double percenttolevel = Math.Floor((currentxpprogress / totalxpneeded) * 100);
             return (int)percenttolevel;
         }
+
+        internal static int GetPercent(double xp, double maxXp)
+        {
+            double percenttolevel = Math.Floor((xp / maxXp) * 100);
+            return (int)percenttolevel;
+        }
+
     }
 }

@@ -61,7 +61,6 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerClassChanged(IServerPlayer player)
         {
             player.Entity.ResetMana();
-            player.Entity.ResetStatisticState();
         }
     }
 }

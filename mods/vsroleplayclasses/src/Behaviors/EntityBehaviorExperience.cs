@@ -84,6 +84,7 @@ namespace vsroleplayclasses.src.Behaviors
             }
             entity.ResetMaxMana();
             entity.ResetMaxHealth();
+            entity.ResetMaxSkills();
         }
     }
 }

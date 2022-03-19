@@ -73,6 +73,8 @@ namespace vsroleplayclasses.src.Extensions
             if (player.GetCharClassOrDefault() == null)
                 return;
 
+            player.SetPendingExperience(0);
+
             foreach (AdventureClass adventuringClass in Enum.GetValues(typeof(AdventureClass)))
             {
                 if (adventuringClass == AdventureClass.None)
@@ -80,7 +82,6 @@ namespace vsroleplayclasses.src.Extensions
 
                 player.SetExperience(adventuringClass, 0);
             }
-            
         }
 
         public static void TryUpdateLevel(this IServerPlayer player, AdventureClass adventureClass)

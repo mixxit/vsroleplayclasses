@@ -7,6 +7,7 @@ namespace vsroleplayclasses.src
     {
         public static int MAX_LEVEL = 30;
         public static int MAX_STATISTIC = 255;
+        public static int MAX_SKILL_LEVEL = 255;
 
         public static int MaxActiveEffectSlots = 16;
         public static double MAX_PENDING_EXPERIENCE = 255;

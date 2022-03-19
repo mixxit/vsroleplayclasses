@@ -16,7 +16,7 @@ namespace vsroleplayclasses.src
             {
                 type = (AdventureClass)Enum.Parse(typeof(AdventureClass), adventureClassNameCaseInsensitive, true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 type = AdventureClass.None;
             }

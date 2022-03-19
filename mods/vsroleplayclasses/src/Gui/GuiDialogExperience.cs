@@ -36,7 +36,6 @@ namespace vsroleplayclasses.src.Gui
 
             // Auto-sized dialog at the center of the screen
             ElementBounds dialogBounds = ElementStdBounds.AutosizedMainDialog.WithAlignment(EnumDialogArea.CenterMiddle);
-            float num = 260f;
             double unscaledSlotPadding = GuiElementItemSlotGridBase.unscaledSlotPadding;
             ElementBounds information = ElementBounds.Fixed(0, 30, 280, 20);
             ElementBounds line = ElementBounds.Fixed(0, 0, 280, -10);

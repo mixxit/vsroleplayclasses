@@ -35,6 +35,7 @@ namespace vsroleplayclasses.src.Behaviors
 
             RegisterEntityStatisticsChangedListener(entity);
             entity.ResetStatisticState();
+            entity.ResetMaxSkills();
         }
 
         private void RegisterEntityStatisticsChangedListener(Entity entity)
@@ -56,6 +57,7 @@ namespace vsroleplayclasses.src.Behaviors
 
             RegisterEntityStatisticsChangedListener(entity);
             entity.ResetStatisticState();
+            entity.ResetMaxSkills();
         }
 
         private void OnEntityStatisticsChanged(Entity entity, StatType type)

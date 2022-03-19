@@ -80,6 +80,7 @@
     <Compile Include="src\AdventureClass.cs" />
     <Compile Include="src\AdventureClassTools.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorCasting.cs" />
+    <Compile Include="src\Behaviors\EntityBehaviorSkillable.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorInteruptable.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellEffects.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="src\Entities\EntityMagicProjectile.cs" />
     <Compile Include="src\ExtendedEnumDamageType.cs" />
     <Compile Include="src\Extensions\IWorldAccessorExt.cs" />
+    <Compile Include="src\Gui\GuiDialogSkills.cs" />
     <Compile Include="src\Gui\GuiDialogExperience.cs" />
     <Compile Include="src\Gui\GuiDialogCompass.cs" />
     <Compile Include="src\Gui\HudActiveEffects.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
     <Compile Include="src\Packets\SpendPendingExperiencePacket.cs" />
     <Compile Include="src\Packets\UpdateActiveEffectsHudPacket.cs" />
+    <Compile Include="src\SkillType.cs" />
+    <Compile Include="src\Systems\SystemSkills.cs" />
     <Compile Include="src\Systems\SystemCompassInventory.cs" />
     <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />
     <Compile Include="src\Gui\GuiDialogMemoriseAbility.cs" />
@@ -433,6 +437,7 @@
     <Content Include="assets\game\patches\entity-add-spelleffects-behavior.json" />
     <Content Include="assets\game\patches\entity-add-statistics-behavior.json" />
     <Content Include="assets\game\patches\entity-add-interuptable-behavior.json" />
+    <Content Include="assets\game\patches\entity-add-skillable-behavior.json" />
     <None Include="assets\game\patches\survival-blocktypes-wood-pan.json" />
     <None Include="assets\vsroleplayclasses\entities\air\magicprojectile.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquillempty.json" />
