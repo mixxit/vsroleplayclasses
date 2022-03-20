@@ -45,22 +45,7 @@ namespace vsroleplayclasses.src.Behaviors
             if (damageSource.Source == EnumDamageSource.Player && damageSource.SourceEntity != null && damageSource.SourceEntity is EntityPlayer && damageSource.SourceEntity.Alive)
             {
                 if (GetMeleeDamageSourceTypes().Contains((ExtendedEnumDamageType)damageSource.Type))
-                {
-                    switch ((ExtendedEnumDamageType)damageSource.Type)
-                    {
-                        case ExtendedEnumDamageType.SlashingAttack:
-                            damageSource.SourceEntity.TryIncreaseSkill(SkillType.Slashing, 1);
-                            break;
-                        case ExtendedEnumDamageType.BluntAttack:
-                            damageSource.SourceEntity.TryIncreaseSkill(SkillType.Crushing, 1);
-                            break;
-                        case ExtendedEnumDamageType.PiercingAttack:
-                            damageSource.SourceEntity.TryIncreaseSkill(SkillType.Piercing, 1);
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                    damageSource.SourceEntity.TryIncreaseSkill(SkillUtils.GetSkillTypeFromDamageType((ExtendedEnumDamageType)damageSource.Type,false), 1);
             }
 
             // Allow receiving skill xp for players attacking and source is an entity like an arrow
@@ -68,17 +53,8 @@ namespace vsroleplayclasses.src.Behaviors
             {
                 if (GetRangedDamageSourceTypes().Contains((ExtendedEnumDamageType)damageSource.Type))
                 {
-                    switch ((ExtendedEnumDamageType)damageSource.Type)
-                    {
-                        case ExtendedEnumDamageType.BluntAttack:
-                            damageSource.SourceEntity.TryIncreaseSkill(SkillType.Throwing, 1);
-                            break;
-                        case ExtendedEnumDamageType.PiercingAttack:
-                            damageSource.SourceEntity.TryIncreaseSkill(SkillType.Archery, 1);
-                            break;
-                        default:
-                            break;
-                    }
+                    if (GetMeleeDamageSourceTypes().Contains((ExtendedEnumDamageType)damageSource.Type))
+                        damageSource.SourceEntity.TryIncreaseSkill(SkillUtils.GetSkillTypeFromDamageType((ExtendedEnumDamageType)damageSource.Type, true), 1);
                 }
             }
         }

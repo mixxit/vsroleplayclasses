@@ -9,6 +9,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
+using vsroleplayclasses.src.Behaviors;
 
 namespace vsroleplayclasses.src.Systems
 {
@@ -126,6 +127,7 @@ namespace vsroleplayclasses.src.Systems
 
                 var damageType = EnumDamageType.BluntAttack;
 
+
                 if (slot.Itemstack?.Item != null && slot.Itemstack.Item is ItemAxe)
                     damageType = EnumDamageType.SlashingAttack;
                 // animation appears to go downwards
@@ -150,6 +152,12 @@ namespace vsroleplayclasses.src.Systems
                 };
 
                 // Our harmony patch ends here
+
+                EntityBehaviorWeapon ebt = byEntity.GetBehavior("EntityBehaviorWeapon") as EntityBehaviorWeapon;
+                if (ebt != null)
+                {
+                    damage = (float)ebt.CalculateWeaponDamage(damageType, (int)damage, __instance);
+                }
 
                 if (__instance.ReceiveDamage(dmgSource, damage))
                 {

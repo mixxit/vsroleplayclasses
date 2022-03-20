@@ -28,6 +28,340 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
+        public static int GetHighestWarriorClassLevel(this Entity me)
+        {
+            var highest = 0;
+
+            foreach (AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+            {
+                var level = me.GetLevel(adventureClass);
+                if (level > highest)
+                    highest = level;
+            }
+            return highest;
+        }
+
+        public static int GetMitigationAC(this Entity me)
+        {
+            return me.ACSum();
+        }
+
+        public static int ACSum(this Entity me)
+        {
+            double ac = 0;
+            // nm everything gets it
+            // players and core pets get AC from Items they are wearing
+            //if (this.isPlayer() || IsCorePet())
+            
+            //ac += getTotalItemAC();
+
+            double shield_ac = 0;
+
+            int highestLevel = me.GetHighestLevel();
+
+            // EQ math
+            ac = (ac * 4) / 3;
+            // anti-twink
+            if (me.IsIServerPlayer() && highestLevel < 50)
+                ac = Math.Min(ac, 25 + 6 * highestLevel);
+
+            //ac = Math.Max(0, ac + getClassRaceACBonus());
+
+            if (!me.IsIServerPlayer())
+            {
+
+                ac += 10;
+                //ac += getDefaultNpcAC();
+
+                // TODO Pet avoidance
+                ac += me.GetSkill(SkillType.Defense) / 5;
+
+                double spell_aa_ac = 0;
+                // TODO AC AA and Spell bonuses
+
+                //spell_aa_ac += getSpellBonuses(SpellEffectType.ArmorClass);
+
+                //spell_aa_ac += getAABonuses(SpellEffectType.ArmorClass);
+
+                // enchanter lesser ac bonus here
+                // ac += spell_aa_ac / 3;
+                ac += spell_aa_ac / 4;
+
+            }
+            else
+            {
+                double spell_aa_ac = 0;
+                // TODO AC AA and Spell bonuses
+                //spell_aa_ac += getSpellBonuses(SpellEffectType.ArmorClass);
+
+                //spell_aa_ac += getAABonuses(SpellEffectType.ArmorClass);
+
+                // enchanter lesser ac bonus here
+                //ac += getSkill(SkillType.Defense) / 2 + spell_aa_ac / 3;
+                ac += me.GetSkill(SkillType.Defense) / 3 + spell_aa_ac / 4;
+            }
+
+            if (me.GetStatistic(StatType.Agility) > 70)
+                ac += me.GetStatistic(StatType.Agility) / 20;
+            if (ac < 0)
+                ac = 0;
+
+            if (me.IsIServerPlayer())
+            {
+                double softcap = me.GetHighestACSoftcap();
+                double returns = me.GetHighestSoftcapReturns();
+
+                // TODO itembonuses
+
+                int total_aclimitmod = 0;
+
+                //total_aclimitmod += getSpellBonuses(SpellEffectType.CombatStability);
+
+                //total_aclimitmod += getAABonuses(SpellEffectType.CombatStability);
+
+                if (total_aclimitmod > 0)
+                    softcap = (softcap * (100 + total_aclimitmod)) / 100;
+                softcap += shield_ac;
+
+                if (ac > softcap)
+                {
+                    double over_cap = ac - softcap;
+                    ac = softcap + (over_cap * returns);
+                }
+            }
+
+            return (int)ac;
+        }
+
+        public static int GetSkillDmgTaken(this Entity me, SkillType skillType)
+        {
+            int skilldmg_mod = 0;
+
+            if (skilldmg_mod < -100)
+                skilldmg_mod = -100;
+
+            return skilldmg_mod;
+        }
+
+        public static int GetFcDamageAmtIncoming(this Entity me, int spell_id, bool use_skill, SkillType skillType)
+        {
+            // Used to check focus derived from SE_FcDamageAmtIncoming which adds direct
+            // damage to Spells or Skill based attacks.
+            int dmg = 0;
+            return dmg;
+        }
+
+        private static double GetHighestSoftcapReturns(this Entity me)
+        {
+            double highest = 0;
+            foreach (AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+            {
+                var softCap = me.GetSoftcapReturns(adventureClass);
+                if (softCap > highest)
+                    highest = softCap;
+            }
+
+            return highest;
+        }
+
+        private static double GetSoftcapReturns(this Entity me, AdventureClass adventureClass)
+        {
+            if (adventureClass == AdventureClass.None)
+                return 0.3;
+
+            switch (adventureClass)
+            {
+                case AdventureClass.Warrior:
+                    return 0.35;
+                case AdventureClass.Cleric:
+                case AdventureClass.Bard:
+                case AdventureClass.Monk:
+                    return 0.3;
+                case AdventureClass.Paladin:
+                case AdventureClass.Shadowknight:
+                    return 0.33;
+                case AdventureClass.Ranger:
+                    return 0.315;
+                case AdventureClass.Druid:
+                    return 0.265;
+                case AdventureClass.Rogue:
+                case AdventureClass.Shaman:
+                case AdventureClass.Beastlord:
+                case AdventureClass.Berserker:
+                    return 0.28;
+                case AdventureClass.Necromancer:
+                case AdventureClass.Wizard:
+                case AdventureClass.Magician:
+                case AdventureClass.Enchanter:
+                    return 0.25;
+                default:
+                    return 0.3;
+            }
+        }
+
+        private static int GetHighestACSoftcap(this Entity me)
+        {
+            int highest = 0;
+            foreach(AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+            {
+                var acSoftCap = me.GetACSoftcap(adventureClass);
+                if (acSoftCap > highest)
+                    highest = acSoftCap;
+            }
+
+            return highest;
+        }
+
+        private static int GetACSoftcap(this Entity me, AdventureClass adventureClass)
+        {
+            if (adventureClass == AdventureClass.None)
+                return 350;
+
+            int[] war_softcaps = { 312, 314, 316, 318, 320, 322, 324, 326, 328, 330, 332, 334, 336, 338, 340, 342, 344, 346,
+                348, 350, 352, 354, 356, 358, 360, 362, 364, 366, 368, 370, 372, 374, 376, 378, 380, 382, 384, 386, 388,
+                390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 428, 430,
+                432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472,
+                474, 476, 478, 480, 482, 484, 486, 488, 490, 492, 494, 496, 498, 500, 502, 504, 506, 508, 510, 512, 514,
+                516, 518, 520 };
+
+            int[] clrbrdmnk_softcaps = { 274, 276, 278, 278, 280, 282, 284, 286, 288, 290, 292, 292, 294, 296, 298, 300,
+                302, 304, 306, 308, 308, 310, 312, 314, 316, 318, 320, 322, 322, 324, 326, 328, 330, 332, 334, 336, 336,
+                338, 340, 342, 344, 346, 348, 350, 352, 352, 354, 356, 358, 360, 362, 364, 366, 366, 368, 370, 372, 374,
+                376, 378, 380, 380, 382, 384, 386, 388, 390, 392, 394, 396, 396, 398, 400, 402, 404, 406, 408, 410, 410,
+                412, 414, 416, 418, 420, 422, 424, 424, 426, 428, 430, 432, 434, 436, 438, 440, 440, 442, 444, 446, 448,
+                450, 452, 454, 454, 456 };
+
+            int[] palshd_softcaps = { 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
+                332, 334, 336, 336, 338, 340, 342, 344, 346, 348, 350, 352, 354, 356, 358, 360, 362, 364, 366, 368, 370,
+                372, 374, 376, 378, 380, 382, 384, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410,
+                412, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450,
+                452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 478, 480, 480, 482, 484, 486, 488, 490,
+                492, 494, 496, 498 };
+
+            int[] rng_softcaps = { 286, 288, 290, 292, 294, 296, 298, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318,
+                320, 322, 322, 324, 326, 328, 330, 332, 334, 336, 338, 340, 342, 344, 344, 346, 348, 350, 352, 354, 356,
+                358, 360, 362, 364, 366, 368, 368, 370, 372, 374, 376, 378, 380, 382, 384, 386, 388, 390, 390, 392, 394,
+                396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 434,
+                436, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 460, 462, 464, 466, 468, 470, 472,
+                474, 476, 478 };
+
+            int[] dru_softcaps = { 254, 256, 258, 260, 262, 264, 264, 266, 268, 270, 272, 272, 274, 276, 278, 280, 282, 282,
+                284, 286, 288, 290, 290, 292, 294, 296, 298, 300, 300, 302, 304, 306, 308, 308, 310, 312, 314, 316, 318,
+                318, 320, 322, 324, 326, 328, 328, 330, 332, 334, 336, 336, 338, 340, 342, 344, 346, 346, 348, 350, 352,
+                354, 354, 356, 358, 360, 362, 364, 364, 366, 368, 370, 372, 372, 374, 376, 378, 380, 382, 382, 384, 386,
+                388, 390, 390, 392, 394, 396, 398, 400, 400, 402, 404, 406, 408, 410, 410, 412, 414, 416, 418, 418, 420,
+                422, 424, 426 };
+
+            int[] rogshmbstber_softcaps = { 264, 266, 268, 270, 272, 272, 274, 276, 278, 280, 282, 282, 284, 286, 288, 290,
+                292, 294, 294, 296, 298, 300, 302, 304, 306, 306, 308, 310, 312, 314, 316, 316, 318, 320, 322, 324, 326,
+                328, 328, 330, 332, 334, 336, 338, 340, 340, 342, 344, 346, 348, 350, 350, 352, 354, 356, 358, 360, 362,
+                362, 364, 366, 368, 370, 372, 374, 374, 376, 378, 380, 382, 384, 384, 386, 388, 390, 392, 394, 396, 396,
+                398, 400, 402, 404, 406, 408, 408, 410, 412, 414, 416, 418, 418, 420, 422, 424, 426, 428, 430, 430, 432,
+                434, 436, 438, 440, 442 };
+
+            int[] necwizmagenc_softcaps = { 248, 250, 252, 254, 256, 256, 258, 260, 262, 264, 264, 266, 268, 270, 272, 272,
+                274, 276, 278, 280, 280, 282, 284, 286, 288, 288, 290, 292, 294, 296, 296, 298, 300, 302, 304, 304, 306,
+                308, 310, 312, 312, 314, 316, 318, 320, 320, 322, 324, 326, 328, 328, 330, 332, 334, 336, 336, 338, 340,
+                342, 344, 344, 346, 348, 350, 352, 352, 354, 356, 358, 360, 360, 362, 364, 366, 368, 368, 370, 372, 374,
+                376, 376, 378, 380, 382, 384, 384, 386, 388, 390, 392, 392, 394, 396, 398, 400, 400, 402, 404, 406, 408,
+                408, 410, 412, 414, 416 };
+
+            int level = Math.Min(105, me.GetLevel(adventureClass)) - 1;
+
+            switch (adventureClass)
+            {
+                case AdventureClass.Warrior:
+                    return war_softcaps[level];
+                case AdventureClass.Cleric:
+                case AdventureClass.Bard:
+                case AdventureClass.Monk:
+                    return clrbrdmnk_softcaps[level];
+                case AdventureClass.Paladin:
+                case AdventureClass.Shadowknight:
+                    return palshd_softcaps[level];
+                case AdventureClass.Ranger:
+                    return rng_softcaps[level];
+                case AdventureClass.Druid:
+                    return dru_softcaps[level];
+                case AdventureClass.Rogue:
+                case AdventureClass.Shaman:
+                case AdventureClass.Beastlord:
+                case AdventureClass.Berserker:
+                    return rogshmbstber_softcaps[level];
+                case AdventureClass.Necromancer:
+                case AdventureClass.Wizard:
+                case AdventureClass.Magician:
+                case AdventureClass.Enchanter:
+                    return necwizmagenc_softcaps[level];
+                default:
+                    return 350;
+            }
+        }
+
+        public static DamageHitInfo MeleeMitigation(this Entity me, Entity attacker, DamageHitInfo hit)
+        {
+            if (hit.damage_done < 0 || hit.base_damage == 0)
+                return hit;
+
+            int mitigation = me.GetMitigationAC();
+
+            if (me.IsIServerPlayer() && attacker.IsIServerPlayer())
+            {
+                mitigation = mitigation * 80 / 100; // PvP
+            }
+
+            int roll = (int)me.RollD20(hit.offense, mitigation);
+
+            // +0.5 for rounding, min to 1 dmg
+            hit.damage_done = Math.Max((int)(roll * (double)(hit.base_damage) + 0.5), 1);
+            return hit;
+        }
+
+        public static double RollD20(this Entity me, int offense, int mitigation)
+        {
+            var mods = new double[] { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
+                2.0 };
+
+            // always meditating, ignore this
+            // if (isPlayer() && isMeditating())
+            // return mods[19];
+
+            if (offense < 1)
+                offense = 1;
+
+            if (mitigation < 1)
+                mitigation = 1;
+
+            int atk_roll = MathUtils.RandomBetween(0, offense + 5);
+            int def_roll = MathUtils.RandomBetween(0, mitigation + 5);
+
+            int avg = (offense + mitigation + 10) / 2;
+            int index = Math.Max(0, (atk_roll - def_roll) + (avg / 2));
+
+            index = (int)MathUtils.Clamp((index * 20) / avg, 0, 19);
+
+            return mods[index];
+        }
+
+        public static bool CheckHitChance(this Entity me, DamageHitInfo hit)
+        {
+            int avoidance = me.GetTotalDefense();
+            int accuracy = hit.tohit;
+
+            Random rand = new Random();
+
+            double hitRoll = MathUtils.RandomBetween(0, (int)Math.Floor((decimal)accuracy));
+            double avoidRoll = MathUtils.RandomBetween(0, (int)Math.Floor((decimal)avoidance));
+
+            // tie breaker? Don't want to be biased any one way
+            return hitRoll > avoidRoll;
+        }
+
+        public static int GetTotalDefense(this Entity me)
+        {
+            return me.GetSkill(SkillType.Defense);
+        }
+
         public static void TryFinishCast(this Entity me, bool forceSelf = false)
         {
             if (me.Api.Side != EnumAppSide.Server)
@@ -527,6 +861,14 @@ namespace vsroleplayclasses.src.Extensions
             }
 
             return 0;
+        }
+
+        public static int GetHighestLevel(this Entity me)
+        {
+            List<AdventureClass> adventureClasses = new List<AdventureClass>();
+            foreach (AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+                adventureClasses.Add(adventureClass);
+            return me.GetHighestLevel(adventureClasses);
         }
 
         public static int CalculateMaxSkillOffenseBasedOnLevel(this Entity me)

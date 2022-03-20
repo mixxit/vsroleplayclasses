@@ -86,6 +86,7 @@
     <Compile Include="src\Behaviors\EntityBehaviorSpellEffects.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorSpellTargetable.cs" />
     <Compile Include="src\Behaviors\EntityBehaviorStatistics.cs" />
+    <Compile Include="src\DamageHitInfo.cs" />
     <Compile Include="src\DamageTypeClass.cs" />
     <Compile Include="src\EffectCombo.cs" />
     <Compile Include="src\Entities\EntityMagicProjectile.cs" />
@@ -99,12 +100,15 @@
     <Compile Include="src\InventoryCompass.cs" />
     <Compile Include="src\ItemSlotCompass.cs" />
     <Compile Include="src\ItemSlotScroll.cs" />
+    <Compile Include="src\MathUtils.cs" />
     <Compile Include="src\Packets\ClearCastingPacket.cs" />
     <Compile Include="src\Packets\ClientRequestFinishCastingPacket.cs" />
     <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
     <Compile Include="src\Packets\SpendPendingExperiencePacket.cs" />
     <Compile Include="src\Packets\UpdateActiveEffectsHudPacket.cs" />
+    <Compile Include="src\Randomise.cs" />
     <Compile Include="src\SkillType.cs" />
+    <Compile Include="src\SkillUtils.cs" />
     <Compile Include="src\Systems\EntityAgentOnDamageReplacerMod.cs" />
     <Compile Include="src\Systems\SystemSkills.cs" />
     <Compile Include="src\Systems\SystemCompassInventory.cs" />
