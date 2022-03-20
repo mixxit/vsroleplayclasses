@@ -11,7 +11,7 @@ using vsroleplayclasses.src.Gui;
 
 namespace vsroleplayclasses.src.Systems
 {
-    public class SystemSkills : ModSystem
+    public sealed class SystemSkills : ModSystem
     {
         ICoreServerAPI serverApi;
         GuiDialogSkills skillsDialog;
@@ -34,7 +34,7 @@ namespace vsroleplayclasses.src.Systems
             base.StartServerSide(api);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlaying);
             api.RegisterEntityBehaviorClass("EntityBehaviorSkillable", typeof(EntityBehaviorSkillable));
-
+            api.RegisterEntityBehaviorClass("EntityBehaviorWeapon", typeof(EntityBehaviorWeapon));
         }
 
         public override void StartClientSide(ICoreClientAPI api)

@@ -1,0 +1,11 @@
+﻿[
+    {
+        "op": "add",
+        "path": "/server/behaviors/-",
+        "value": {
+            "code": "EntityBehaviorWeapon"
+        },
+        "file": "entities/humanoid/player.json",
+        "side": "Server"
+    }
+]
