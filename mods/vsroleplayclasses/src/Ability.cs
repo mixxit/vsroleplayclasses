@@ -256,7 +256,7 @@ namespace vsroleplayclasses.src
             var effectCombo = GetEffectCombo();
             if (effectCombo == null || effectCombo.Effect == null)
             {
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your ability is inert", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "Your ability is inert", EnumChatType.CommandSuccess);
                 return;
             }
 
@@ -425,7 +425,7 @@ namespace vsroleplayclasses.src
                 if (result == false)
                 {
                     if (source.IsIServerPlayer())
-                        source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "That entity has a maximum amount of effects on them already", EnumChatType.CommandError);
+                        source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "That entity has a maximum amount of effects on them already", EnumChatType.CommandError);
                     return;
                 }
 

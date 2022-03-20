@@ -235,24 +235,24 @@ namespace vsroleplayclasses.src.Systems
             var ability = castingPlayer.GetAbilityInMemoryPosition(networkMessage.Position);
             if (ability == null)
             {
-                castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Ability not found", EnumChatType.CommandError);
+                castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Ability not found", EnumChatType.CommandError);
                 return;
             }
 
             if (!castingPlayer.HasLevel(ability.GetMinAdventureClassLevel()))
             {
-                castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient level to cast this spell", EnumChatType.CommandError);
+                castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Insufficient level to cast this spell", EnumChatType.CommandError);
                 return;
             }
 
 
             if (castingPlayer.Entity.GetMana() < ability.GetManaCost())
             {
-                castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Insufficient Mana", EnumChatType.CommandError);
+                castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Insufficient Mana", EnumChatType.CommandError);
                 return;
             }
 
-            castingPlayer.SendMessage(GlobalConstants.CurrentChatGroup, $"Casting {ability.Name}", EnumChatType.CommandSuccess);
+            castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Casting {ability.Name}", EnumChatType.CommandSuccess);
             ability.StartCast(castingPlayer.Entity);
             
         }

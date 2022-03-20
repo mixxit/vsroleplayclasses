@@ -63,7 +63,7 @@ namespace vsroleplayclasses.src.Extensions
             me.ClearCasting();
 
             if (me.IsIServerPlayer())
-                me.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup,"You have been interupted", EnumChatType.CommandSuccess);
+                me.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup,"You have been interupted", EnumChatType.CommandSuccess);
         }
 
         private static bool IsDoingSomethingInteruptable(this Entity me)

@@ -23,7 +23,7 @@ namespace vsroleplayclasses.src.Items
 
             if (slot?.Itemstack?.Item == null || (!(slot?.Itemstack?.Item is RunicInkwellAndQuillItem)))
             {
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"Missing items to scribe scroll", EnumChatType.CommandError);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, $"Missing items to scribe scroll", EnumChatType.CommandError);
                 handling = EnumHandHandling.PreventDefault;
                 return;
             }
@@ -33,7 +33,7 @@ namespace vsroleplayclasses.src.Items
                 player.Entity.LeftHandItemSlot == null || player.Entity.LeftHandItemSlot.Itemstack == null
                 )
             {
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"No scroll in offhand", EnumChatType.CommandError);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, $"No scroll in offhand", EnumChatType.CommandError);
                 handling = EnumHandHandling.PreventDefault;
                 return;
             }
@@ -42,7 +42,7 @@ namespace vsroleplayclasses.src.Items
                 !(player.Entity.LeftHandItemSlot.Itemstack.Item is AbilityScrollItem)
                 )
             {
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"No scroll in offhand", EnumChatType.CommandError);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, $"No scroll in offhand", EnumChatType.CommandError);
                 handling = EnumHandHandling.PreventDefault;
                 return;
             }
@@ -63,7 +63,7 @@ namespace vsroleplayclasses.src.Items
                 adventureClass == AdventureClass.None
                 )
             {
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"This runic inkwell and quill seems inert", EnumChatType.CommandError);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, $"This runic inkwell and quill seems inert", EnumChatType.CommandError);
                 handling = EnumHandHandling.PreventDefault;
                 return;
             }
@@ -128,7 +128,7 @@ namespace vsroleplayclasses.src.Items
                 slot.MarkDirty();
                 player.Entity.LeftHandItemSlot.MarkDirty();
 
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"You have created an ability!", EnumChatType.CommandSuccess);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, $"You have created an ability!", EnumChatType.CommandSuccess);
             } else
             {
                 api.World.PlaySoundAt(new AssetLocation("sounds/tool/padlock.ogg"), player, player, false, 12);

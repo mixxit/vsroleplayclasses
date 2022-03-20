@@ -71,7 +71,7 @@ namespace vsroleplayclasses.src.Systems
         private void OnPlayerSkillChanged(IServerPlayer player, SkillType type)
         {
             if (player.Entity.GetSkill(type) > 1)
-                player.SendMessage(GlobalConstants.CurrentChatGroup, $"* Your {type.ToString().ToLower()} skill has increased " + player.Entity.GetSkill(type) + "/" + player.Entity.GetMaxSkill(type) + "!", EnumChatType.OwnMessage);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, $"* Your {type.ToString().ToLower()} skill has increased " + player.Entity.GetSkill(type) + "/" + player.Entity.GetMaxSkill(type) + "!", EnumChatType.OwnMessage);
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)

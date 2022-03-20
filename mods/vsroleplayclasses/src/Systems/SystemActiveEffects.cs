@@ -70,7 +70,7 @@ namespace vsroleplayclasses.src.Systems
                 if (ability == null)
                     continue;
 
-                player.SendMessage(GlobalConstants.CurrentChatGroup, ability.Id + ": " + ability.Name + " Duration Left: " + effect.Value.Duration, EnumChatType.CommandSuccess);
+                player.SendMessage(GlobalConstants.InfoLogChatGroup, ability.Id + ": " + ability.Name + " Duration Left: " + effect.Value.Duration, EnumChatType.CommandSuccess);
             }
         }*/
 

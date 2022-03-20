@@ -62,63 +62,63 @@ namespace vsroleplayclasses.src
         public static bool StatBuffSTR(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} strength", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} strength", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} strength", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} strength", EnumChatType.CommandSuccess);
             return true;
         }
 
         public static bool StatBuffSTA(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} stamina", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} stamina", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} stamin", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} stamin", EnumChatType.CommandSuccess);
             return true;
         }
 
         public static bool StatBuffDEX(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} dexterity", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} dexterity", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} dexterity", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} dexterity", EnumChatType.CommandSuccess);
             return true;
         }
 
         public static bool StatBuffAGI(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} agility", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} agility", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} agility", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} agility", EnumChatType.CommandSuccess);
             return true;
         }
 
         public static bool StatBuffWIS(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} wisdom", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} wisdom", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} wisdom", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} wisdom", EnumChatType.CommandSuccess);
             return true;
         }
 
         public static bool StatBuffINT(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} intelligence", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} intelligence", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} intelligence", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} intelligence", EnumChatType.CommandSuccess);
             return true;
         }
 
         public static bool StatBuffCHA(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
         {
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You reinforced your target with {amount} charisma", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You reinforced your target with {amount} charisma", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer() && firstRun)
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were reinforced by {amount} charisma", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were reinforced by {amount} charisma", EnumChatType.CommandSuccess);
             return true;
         }
 
@@ -126,9 +126,9 @@ namespace vsroleplayclasses.src
         {
             castOn.IncreaseMana((float)amount);
             if (source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You restored your target with {amount} mana", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You restored your target with {amount} mana", EnumChatType.CommandSuccess);
             if (castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were restored by {amount} mana", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were restored by {amount} mana", EnumChatType.CommandSuccess);
             return true;
         }
 
@@ -136,9 +136,9 @@ namespace vsroleplayclasses.src
         {
             var result = castOn.ChangeCurrentHp(source, (float)amount, EnumDamageType.Heal);
             if (result && source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You restored your target with {amount} health", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You restored your target with {amount} health", EnumChatType.CommandSuccess);
             if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were restored by {amount} health", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You were restored by {amount} health", EnumChatType.CommandSuccess);
             return result;
         }
 
@@ -155,9 +155,9 @@ namespace vsroleplayclasses.src
             var result = castOn.ChangeCurrentHp(source, (float)amount, (EnumDamageType)damageType);
 
             if (result && source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You blasted your target with {amount} {(resistType).ToString()} damage", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.DamageLogChatGroup, $"You blasted your target with {amount} {(resistType).ToString()} damage", EnumChatType.CommandSuccess);
             if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"You were blasted by {amount} {(resistType).ToString()} damage", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.DamageLogChatGroup, $"You were blasted by {amount} {(resistType).ToString()} damage", EnumChatType.CommandSuccess);
             return result;
         }
 
@@ -165,9 +165,9 @@ namespace vsroleplayclasses.src
         {
             var result = castOn.BindToLocation();
             if (result && source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You bound your target to their location", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "You bound your target to their location", EnumChatType.CommandSuccess);
             if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You are bound to your location", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "You are bound to your location", EnumChatType.CommandSuccess);
             return result;
         }
 
@@ -175,9 +175,9 @@ namespace vsroleplayclasses.src
         {
             var result = castOn.GateToBind();
             if (result && source.IsIServerPlayer() && firstRun)
-                source.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Your target stepped through a gate", EnumChatType.CommandSuccess);
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "Your target stepped through a gate", EnumChatType.CommandSuccess);
             if (result && castOn.IsIServerPlayer())
-                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "You stepped through a gate", EnumChatType.CommandSuccess);
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "You stepped through a gate", EnumChatType.CommandSuccess);
             return result;
         }
     }

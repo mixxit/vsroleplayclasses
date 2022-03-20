@@ -80,7 +80,7 @@ namespace vsroleplayclasses.src.Behaviors
         {
             if (entity.IsIServerPlayer())
             {
-                entity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, $"Your {type.ToString()} adventure level has changed {entity.GetLevel(type)}!", EnumChatType.CommandSuccess);
+                entity.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"Your {type.ToString()} adventure level has changed {entity.GetLevel(type)}!", EnumChatType.CommandSuccess);
             }
             entity.ResetMaxMana();
             entity.ResetMaxHealth();
