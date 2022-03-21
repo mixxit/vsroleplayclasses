@@ -110,6 +110,7 @@
     <Compile Include="src\SkillType.cs" />
     <Compile Include="src\SkillUtils.cs" />
     <Compile Include="src\Systems\EntityAgentOnDamageReplacerMod.cs" />
+    <Compile Include="src\Systems\SystemWho.cs" />
     <Compile Include="src\Systems\SystemSkills.cs" />
     <Compile Include="src\Systems\SystemCompassInventory.cs" />
     <Compile Include="src\Systems\SystemCharacterMemorisationInventory.cs" />

@@ -283,6 +283,7 @@ namespace vsroleplayclasses.src
             }
 
             source.DecreaseMana(GetManaCost());
+            source.GrantSmallAmountOfPendingExperience();
         }
 
         private float GetRange()

@@ -57,6 +57,15 @@ namespace vsroleplayclasses.src.Behaviors
                         damageSource.SourceEntity.TryIncreaseSkill(SkillUtils.GetSkillTypeFromDamageType((ExtendedEnumDamageType)damageSource.Type, true), 1);
                 }
             }
+
+            if (damageSource?.SourceEntity is EntityPlayer)
+            {
+                damageSource?.SourceEntity.GrantSmallAmountOfPendingExperience();
+            }
+            if (damageSource.Source == EnumDamageSource.Internal && damageSource.Type == EnumDamageType.Heal && entity is EntityPlayer)
+            {
+                entity.GrantSmallAmountOfPendingExperience();
+            }
         }
 
         private List<ExtendedEnumDamageType> GetMeleeDamageSourceTypes()

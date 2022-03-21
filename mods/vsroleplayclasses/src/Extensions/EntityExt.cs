@@ -819,24 +819,57 @@ namespace vsroleplayclasses.src.Extensions
             return me.GetAiMeleeAttackDamage()+1;
         }
 
-        public static int GetHighestLevel(this Entity me, List<AdventureClass> adventureClasses)
+        public static Tuple<AdventureClass,int> GetHighestLevelOrNone(this Entity me, List<AdventureClass> adventureClasses)
         {
             if (adventureClasses == null || adventureClasses.Count() < 1)
-                return 0;
+                return new Tuple<AdventureClass, int>(AdventureClass.None,0);
 
             // temporary work around - based on npc damage
             if (!me.IsIServerPlayer())
-                return me.GetAiMeleeAttackDamage() + 1;
+                return new Tuple<AdventureClass, int>(AdventureClass.None, me.GetAiMeleeAttackDamage() + 1);
 
             var highestLevel = 0;
+            var highestclass = AdventureClass.None;
             foreach (var adventureClass in adventureClasses)
             {
                 var level = me.GetLevel(adventureClass);
                 if (level > highestLevel)
+                {
+                    highestclass = adventureClass;
                     highestLevel = level;
+                }
             }
 
-            return highestLevel;
+            return new Tuple<AdventureClass, int>(highestclass, highestLevel);
+        }
+
+        public static int GetHighestLevel(this Entity me)
+        {
+            return me.GetHighestLevelOrNone().Item2;
+        }
+
+        public static string GetRaceName(this Entity me)
+        {
+            var raceName = me.WatchedAttributes.GetString("racename");
+            if (!String.IsNullOrEmpty(raceName))
+                return raceName;
+
+            return "Unknown";
+        }
+
+        public static Tuple<AdventureClass, int> GetHighestLevelOrNone(this Entity me)
+        {
+            List<AdventureClass> adventureClasses = new List<AdventureClass>();
+            foreach (AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+                adventureClasses.Add(adventureClass);
+            return me.GetHighestLevelOrNone(adventureClasses);
+        }
+
+
+
+        public static int GetHighestLevel(this Entity me, List<AdventureClass> adventureClasses)
+        {
+            return me.GetHighestLevelOrNone(adventureClasses).Item2;
         }
 
         public static int CalculateMaxSkillBasedOnLevel(this Entity me, SkillType skillType)
@@ -861,14 +894,6 @@ namespace vsroleplayclasses.src.Extensions
             }
 
             return 0;
-        }
-
-        public static int GetHighestLevel(this Entity me)
-        {
-            List<AdventureClass> adventureClasses = new List<AdventureClass>();
-            foreach (AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
-                adventureClasses.Add(adventureClass);
-            return me.GetHighestLevel(adventureClasses);
         }
 
         public static int CalculateMaxSkillOffenseBasedOnLevel(this Entity me)
@@ -1881,6 +1906,14 @@ namespace vsroleplayclasses.src.Extensions
                 return 0D;
 
             return (EntityUtils.GetExperienceRewardAverageForLevel(killed.GetLevel(), killer.GetLevel()));
+        }
+
+        public static void GrantSmallAmountOfPendingExperience(this Entity me)
+        {
+            if (!me.IsIServerPlayer())
+                return;
+
+            me.GetAsIServerPlayer().GrantSmallAmountOfPendingExperience();
         }
     }
 }

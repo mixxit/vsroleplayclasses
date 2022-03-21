@@ -243,12 +243,12 @@ namespace vsroleplayclasses.src.Behaviors
 			base.OnEntityReceiveDamage(damageSource, ref damage);
 
 			// Allow receiving skill xp for defense if being damaged
-			if (this.entity is EntityPlayer)
-				this.entity.GetAsIServerPlayer().SendMessage(GlobalConstants.DamageLogChatGroup, damageSource.SourceEntity.GetName() + " hit " + this.entity.GetName() + " for " + damage + " points of " + damageSource.Type.ToString().ToLower() + " damage", EnumChatType.CommandSuccess);
+			if (this.entity is EntityPlayer && damageSource.SourceEntity is EntityPlayer)
+				this.entity.GetAsIServerPlayer().SendMessage(GlobalConstants.DamageLogChatGroup, damageSource.SourceEntity?.GetName() + " hit " + this.entity.GetName() + " for " + damage + " points of " + damageSource.Type.ToString().ToLower() + " damage", EnumChatType.CommandSuccess);
 
 			// Allow receiving skill xp for players attacking and source is the actual player not a ranged entity
 			if (damageSource.Source == EnumDamageSource.Player && damageSource.SourceEntity != null && damageSource.SourceEntity is EntityPlayer && damageSource.SourceEntity.Alive)
-				damageSource.SourceEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.DamageLogChatGroup, damageSource.SourceEntity.GetName() + " hit " + this.entity.GetName() + " for " + damage + " points of " + damageSource.Type.ToString().ToLower() + " damage", EnumChatType.CommandSuccess);
+				damageSource.SourceEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.DamageLogChatGroup, damageSource.SourceEntity?.GetName() + " hit " + this.entity.GetName() + " for " + damage + " points of " + damageSource.Type.ToString().ToLower() + " damage", EnumChatType.CommandSuccess);
 		}
 
 		private DamageHitInfo TryCriticalHit(Entity defender, DamageHitInfo hit)

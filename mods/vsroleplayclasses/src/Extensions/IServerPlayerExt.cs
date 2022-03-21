@@ -38,6 +38,11 @@ namespace vsroleplayclasses.src.Extensions
             player.GrantExperience(adventureClass, needed);
         }
 
+        public static void GrantSmallAmountOfPendingExperience(this IServerPlayer me)
+        {
+            me.GrantPendingExperience(10);
+        }
+
         public static void SendEmote(this IServerPlayer sourcePlayer, string message, bool prefixNonUserEmote)
         {
             foreach (var player in sourcePlayer.Entity.World.AllOnlinePlayers)
