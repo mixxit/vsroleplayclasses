@@ -51,7 +51,7 @@ namespace vsroleplayclasses.src.Systems
             foreach (var onlinePlayer in player.Entity.World.AllOnlinePlayers)
             {
                 var classes = onlinePlayer.Entity.GetHighestLevelOrNone();
-                player.SendMessage(groupId, $"{onlinePlayer.PlayerName} ({AddOrdinal(classes.Item2)} Season {PlayerNameUtils.FirstCharToUpper(player.Entity.GetRaceName())} {classes.Item1}) Overall: {onlinePlayer.Entity.GetLevel()}", EnumChatType.CommandError);
+                player.SendMessage(groupId, $"{onlinePlayer.PlayerName} - {onlinePlayer.Entity.GetBehavior<EntityBehaviorNameTag>().DisplayName} ({AddOrdinal(classes.Item2)} Season {PlayerNameUtils.FirstCharToUpper(player.Entity.GetRaceName())} {classes.Item1}) Overall: {onlinePlayer.Entity.GetLevel()}", EnumChatType.CommandError);
             }
         }
 

@@ -75,7 +75,7 @@ namespace vsroleplayclasses.src.Systems
             }
 
             ((IServerPlayer)targetPlayer).GrantPendingExperience(xp);
-            player.SendMessage(groupId, $"Granted additional {xp} pending XP to {targetPlayer.PlayerName}", EnumChatType.OwnMessage);
+            player.SendMessage(groupId, $"Granted additional {xp} pending XP to {targetPlayer.PlayerName}/{targetPlayer.Entity.GetBehavior<EntityBehaviorNameTag>().DisplayName}", EnumChatType.OwnMessage);
         }
 
         private void CmdXp(IServerPlayer player, int groupId, CmdArgs args)
