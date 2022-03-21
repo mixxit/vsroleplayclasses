@@ -606,7 +606,7 @@ namespace vsroleplayclasses.src.Extensions
                 return 75;
 
             if (me.GetAiMeleeAttackDamage() > 0)
-                return me.GetAiMeleeAttackDamage() * 7;
+                return me.GetAiMeleeAttackDamage() * 3;
 
             return 12;
         }
