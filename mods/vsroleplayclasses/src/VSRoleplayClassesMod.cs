@@ -67,26 +67,8 @@ namespace vsroleplayclasses.src
             api.World.RegisterGameTickListener(OnGameTick, 8000);
             api.RegisterCommand("inventorycodes", "dumps your inventory as internal codes", "", CmdInventoryCodes, null);
             api.RegisterCommand("itemattributes", "views attributes of items in hand", "", CmdItemAttributes, "root");
-            api.RegisterCommand("roll", "rolls a dice", "", CmdRoll, null);
             api.RegisterCommand("skillcheck", "performs a skill check", "", CmdSkillCheck, null);
             base.StartServerSide(api);
-        }
-
-        private void CmdRoll(IServerPlayer player, int groupId, CmdArgs args)
-        {
-            int maxnumber = 1;
-            try
-            {
-                maxnumber = int.Parse(args[0]);
-            }
-            catch (Exception)
-            {
-                player.SendMessage(groupId, $"Invalid number ", EnumChatType.CommandError);
-                return;
-            }
-
-            String message = "rolls 1d" + maxnumber + ". It's a " + rand.Next(1,maxnumber+1) + "!";
-            player.SendEmote(message,true);
         }
 
         private void CmdSkillCheck(IServerPlayer player, int groupId, CmdArgs args)
