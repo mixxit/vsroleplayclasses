@@ -673,8 +673,14 @@ namespace vsroleplayclasses.src.Extensions
 
         public static float CalculateMaxHealth(this Entity me)
         {
-            if (!(me is EntityPlayer) && me.GetAiMeleeAttackDamage() < 1)
-                return 5;
+            if (!(me is EntityPlayer))
+            {
+                var meleeDamage = me.GetAiMeleeAttackDamage();
+                if (meleeDamage < 1)
+                    return 5;
+
+                return meleeDamage * 4;
+            }
 
             // Get highest class HP
             float highestStatHp = 1;
@@ -816,7 +822,7 @@ namespace vsroleplayclasses.src.Extensions
                 return me.GetAsIServerPlayer().GetLevel();
 
             // temporary work around - based on npc damage
-            return me.GetAiMeleeAttackDamage()+1;
+            return (me.GetAiMeleeAttackDamage())+1;
         }
 
         public static Tuple<AdventureClass,int> GetHighestLevelOrNone(this Entity me, List<AdventureClass> adventureClasses)

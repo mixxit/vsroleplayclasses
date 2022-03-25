@@ -35,16 +35,6 @@ namespace vsroleplayclasses.src.Systems
             api.Network.RegisterChannel("clearcasting").RegisterMessageType<ClearCastingPacket>();
             api.Network.RegisterChannel("clientrequestfinishcastingpacket").RegisterMessageType<ClientRequestFinishCastingPacket>();
 
-            api.RegisterItemClass("abilitybook", typeof(AbilityBookItem));
-            api.RegisterItemClass("abilityscroll", typeof(AbilityScrollItem));
-            api.RegisterItemClass("runeofpower", typeof(RuneOfPowerItem));
-            api.RegisterItemClass("crushedpower", typeof(CrushedPowerItem));
-            api.RegisterItemClass("inkwell", typeof(InkwellItem));
-            api.RegisterItemClass("inkwellempty", typeof(InkwellEmptyItem));
-            api.RegisterItemClass("inkwellandquill", typeof(InkwellAndQuillItem));
-            api.RegisterItemClass("inkwellandquillempty", typeof(InkwellAndQuillEmptyItem));
-            api.RegisterItemClass("runicinkwellandquill", typeof(RunicInkwellAndQuillItem));
-            api.RegisterItemClass("runicinkwell", typeof(RunicInkwellItem));
             api.RegisterEntity("EntityMagicProjectile", typeof(EntityMagicProjectile));
         }
 
