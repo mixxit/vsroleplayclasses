@@ -103,7 +103,7 @@ namespace vsroleplayclasses.src.Systems
             capi.Event.PlayerJoin += new PlayerEventDelegate(this.OnPlayerJoinedClient);
 
             this.hudMemorisedSpells = new HudMemorisedSpells(capi);
-            capi.Gui.RegisterDialog(new HudAbility(capi));
+            capi.Gui.RegisterDialog(new HudCastingBar(capi));
             capi.Gui.RegisterDialog(this.hudMemorisedSpells);
 
             api.Network.GetChannel("updatememorisedspells").SetMessageHandler<UpdateMemorisedSpellsPacket>(OnUpdateMemorisedSpells);

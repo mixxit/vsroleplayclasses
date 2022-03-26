@@ -231,7 +231,7 @@ namespace vsroleplayclasses.src.Models
             if (ebt == null)
                 return;
 
-            ebt.StartCasting(this.Id,GetCastTimeSeconds());
+            ebt.StartCasting(this.Id,GetCastTimeSeconds(), this.Name);
         }
 
         public EffectCombo GetEffectCombo()

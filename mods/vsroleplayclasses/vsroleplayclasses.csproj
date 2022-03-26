@@ -98,7 +98,7 @@
     <Compile Include="src\Gui\Dialog\GuiDialogCompass.cs" />
     <Compile Include="src\Gui\Hud\HudMemorisedSpells.cs" />
     <Compile Include="src\Gui\Hud\HudActiveEffects.cs" />
-    <Compile Include="src\Gui\Hud\HudAbility.cs" />
+    <Compile Include="src\Gui\Hud\HudCastingBar.cs" />
     <Compile Include="src\Inventories\InventoryCompass.cs" />
     <Compile Include="src\ItemSlots\ItemSlotCompass.cs" />
     <Compile Include="src\ItemSlots\ItemSlotScroll.cs" />

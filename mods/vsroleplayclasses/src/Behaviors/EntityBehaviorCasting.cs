@@ -16,6 +16,7 @@ namespace vsroleplayclasses.src.Behaviors
     public class EntityBehaviorCasting : EntityBehavior
     {
         protected long abilityId;
+        protected string abilityName;
 
         ICoreServerAPI sapi;
 
@@ -80,19 +81,23 @@ namespace vsroleplayclasses.src.Behaviors
             ability.FinishCast(this.entity, forceSelf);
         }
 
-        internal void StartCasting(long abilityId, long duration)
+        internal void StartCasting(long abilityId, long duration, string abilityName)
         {
             this.abilityId = abilityId;
+            this.abilityName = abilityName;
             entity.World.PlaySoundAt(new AssetLocation("vsroleplayclasses","sounds/effect/spelcast"), entity, null, false, 14);
             entity.WatchedAttributes.SetLong("startCastingUnixTime", DateTimeOffset.Now.ToUnixTimeMilliseconds());
             entity.WatchedAttributes.SetLong("finishCastingUnixTime", DateTimeOffset.Now.ToUnixTimeMilliseconds() + (duration * 1000));
+            entity.WatchedAttributes.SetString("startCastingAbilityName", abilityName);
         }
 
         internal void ClearCasting()
         {
             entity.WatchedAttributes.SetLong("startCastingUnixTime", 0);
             entity.WatchedAttributes.SetLong("finishCastingUnixTime", 0);
+            entity.WatchedAttributes.SetString("startCastingAbilityName", "");
             this.abilityId = 0;
+            this.abilityName = "";
         }
     }
 }
