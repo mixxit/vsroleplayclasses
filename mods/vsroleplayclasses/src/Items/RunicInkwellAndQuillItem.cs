@@ -4,6 +4,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
+using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Items
