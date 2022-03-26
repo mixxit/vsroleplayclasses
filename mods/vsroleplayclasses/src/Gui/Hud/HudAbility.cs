@@ -6,7 +6,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using vsroleplayclasses.src.Behaviors;
 
-namespace vsroleplayclasses.src.Gui
+namespace vsroleplayclasses.src.Gui.Hud
 {
     public class HudAbility : HudElement
     {

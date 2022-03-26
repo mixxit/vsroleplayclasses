@@ -4,6 +4,7 @@ using Vintagestory.API.Server;
 using Vintagestory.API.Client;
 using vsroleplayclasses.src.Gui;
 using System;
+using vsroleplayclasses.src.Gui.Hud;
 
 namespace vsroleplayclasses.src.Systems
 {

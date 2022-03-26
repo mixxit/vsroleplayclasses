@@ -10,7 +10,7 @@ using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 
-namespace vsroleplayclasses.src.Gui
+namespace vsroleplayclasses.src.Gui.Hud
 {
     public class HudActiveEffects : HudElement
     {

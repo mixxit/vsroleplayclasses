@@ -11,7 +11,7 @@ using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 
-namespace vsroleplayclasses.src.Gui
+namespace vsroleplayclasses.src.Gui.Dialog
 {
     public class GuiDialogSkills : GuiDialog
     {

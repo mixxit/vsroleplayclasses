@@ -11,6 +11,7 @@ using Vintagestory.API.Config;
 using vsroleplayclasses.src.Packets;
 using System.Collections.Concurrent;
 using vsroleplayclasses.src.Models;
+using vsroleplayclasses.src.Gui.Hud;
 
 namespace vsroleplayclasses.src.Systems
 {

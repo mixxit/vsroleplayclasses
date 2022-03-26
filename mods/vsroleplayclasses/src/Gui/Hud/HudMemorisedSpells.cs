@@ -11,7 +11,7 @@ using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 using vsroleplayclasses.src.Systems;
 
-namespace vsroleplayclasses.src.Gui
+namespace vsroleplayclasses.src.Gui.Hud
 {
     public class HudMemorisedSpells : HudElement
     {

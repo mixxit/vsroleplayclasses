@@ -12,6 +12,8 @@ using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Entities;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Gui;
+using vsroleplayclasses.src.Gui.Dialog;
+using vsroleplayclasses.src.Gui.Hud;
 using vsroleplayclasses.src.Items;
 using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;

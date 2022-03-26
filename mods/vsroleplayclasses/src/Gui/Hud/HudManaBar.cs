@@ -5,7 +5,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 
-namespace vsroleplayclasses.src.Gui
+namespace vsroleplayclasses.src.Gui.Hud
 {
     public class HudManaBar : HudElement
     {

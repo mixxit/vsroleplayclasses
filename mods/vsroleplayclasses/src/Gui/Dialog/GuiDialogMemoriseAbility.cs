@@ -7,7 +7,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using vsroleplayclasses.src.Systems;
 
-namespace vsroleplayclasses.src.Gui
+namespace vsroleplayclasses.src.Gui.Dialog
 {
     public class GuiDialogMemoriseAbility : GuiDialog
     {
