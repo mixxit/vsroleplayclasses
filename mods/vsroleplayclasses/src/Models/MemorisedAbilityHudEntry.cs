@@ -9,7 +9,7 @@ using Vintagestory.API.Server;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Items;
 
-namespace vsroleplayclasses.src
+namespace vsroleplayclasses.src.Models
 {
     public class MemorisedAbilityHudEntry
     {

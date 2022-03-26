@@ -9,6 +9,7 @@ using Vintagestory.Client.NoObf;
 using Vintagestory.Common;
 using Vintagestory.GameContent;
 using Vintagestory.Server;
+using vsroleplayclasses.src.Inventories;
 
 namespace vsroleplayclasses.src.Systems
 {

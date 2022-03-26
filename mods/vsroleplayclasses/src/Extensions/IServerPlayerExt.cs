@@ -13,6 +13,7 @@ using Vintagestory.GameContent;
 using vsroleplayclasses.src;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Items;
+using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Extensions

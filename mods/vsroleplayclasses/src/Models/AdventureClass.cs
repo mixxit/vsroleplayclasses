@@ -1,4 +1,4 @@
-﻿namespace vsroleplayclasses.src
+﻿namespace vsroleplayclasses.src.Models
 {
     public enum AdventureClass
     {

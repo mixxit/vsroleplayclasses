@@ -14,7 +14,7 @@ using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Entities;
 using vsroleplayclasses.src.Extensions;
 
-namespace vsroleplayclasses.src
+namespace vsroleplayclasses.src.Models
 {
     [JsonObject]
     [ProtoContract(ImplicitFields = ImplicitFields.AllPublic)]

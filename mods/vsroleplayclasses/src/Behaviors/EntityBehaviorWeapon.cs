@@ -10,6 +10,7 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Behaviors

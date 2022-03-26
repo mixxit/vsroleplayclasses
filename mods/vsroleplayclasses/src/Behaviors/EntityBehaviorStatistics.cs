@@ -8,6 +8,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Models;
 
 namespace vsroleplayclasses.src.Behaviors
 {

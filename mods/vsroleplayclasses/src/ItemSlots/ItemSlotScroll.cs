@@ -1,6 +1,6 @@
 ﻿using Vintagestory.API.Common;
 
-namespace vsroleplayclasses.src
+namespace vsroleplayclasses.src.ItemSlots
 {
     public class ItemSlotScroll : ItemSlot
     {

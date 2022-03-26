@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using vsroleplayclasses.src.ItemSlots;
 
-namespace vsroleplayclasses.src
+namespace vsroleplayclasses.src.Inventories
 {
-    public class InventoryPlayerMemorisation : InventoryBasePlayer
+    public class InventoryPlayerCompass : InventoryBasePlayer
     {
         private ItemSlot[] slots;
 
-        public InventoryPlayerMemorisation(string className, string playerUID, ICoreAPI api)
+        public InventoryPlayerCompass(string className, string playerUID, ICoreAPI api)
           : base(className, playerUID, api)
         {
-            this.slots = this.GenEmptySlots(8);
+            this.slots = this.GenEmptySlots(1);
             this.baseWeight = 2.5f;
         }
 
-        public InventoryPlayerMemorisation(string inventoryId, ICoreAPI api)
+        public InventoryPlayerCompass(string inventoryId, ICoreAPI api)
           : base(inventoryId, api)
         {
-            this.slots = this.GenEmptySlots(8);
+            this.slots = this.GenEmptySlots(1);
             this.baseWeight = 2.5f;
         }
 
@@ -42,13 +43,13 @@ namespace vsroleplayclasses.src
         public override void FromTreeAttributes(ITreeAttribute tree)
         {
             this.slots = this.SlotsFromTreeAttributes(tree);
-            if (this.slots.Length != 8)
+            if (this.slots.Length != 1)
                 return;
 
-            if (this.slots.Length == 8)
+            if (this.slots.Length == 1)
             {
                 ItemSlot[] slots = this.slots;
-                this.slots = this.GenEmptySlots(8);
+                this.slots = this.GenEmptySlots(1);
                 for (int index = 0; index < slots.Length; ++index)
                     this.slots[index] = slots[index];
             }
@@ -62,7 +63,7 @@ namespace vsroleplayclasses.src
 
         protected override ItemSlot NewSlot(int slotId)
         {
-            return (ItemSlot)new ItemSlotScroll((InventoryBase)this);
+            return (ItemSlot)new ItemSlotCompass((InventoryBase)this);
         }
 
         public override void DiscardAll()

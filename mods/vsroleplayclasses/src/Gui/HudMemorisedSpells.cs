@@ -7,6 +7,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 using vsroleplayclasses.src.Systems;
 

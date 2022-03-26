@@ -9,6 +9,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 using vsroleplayclasses.src.Systems;
 

@@ -8,7 +8,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using vsroleplayclasses.src.Extensions;
 
-namespace vsroleplayclasses.src
+namespace vsroleplayclasses.src.Models
 {
     public class EffectCombo
     {

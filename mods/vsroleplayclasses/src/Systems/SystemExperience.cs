@@ -6,6 +6,7 @@ using Vintagestory.API.Server;
 using vsroleplayclasses.src.Behaviors;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Gui;
+using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 
 namespace vsroleplayclasses.src.Systems

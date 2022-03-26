@@ -1,4 +1,4 @@
-﻿namespace vsroleplayclasses.src.Items
+﻿namespace vsroleplayclasses.src.Models
 {
     public enum MagicPowerSlot
     {

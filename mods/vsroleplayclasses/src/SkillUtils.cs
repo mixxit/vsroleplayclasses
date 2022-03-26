@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Models;
 
 namespace vsroleplayclasses.src
 {

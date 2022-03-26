@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using vsroleplayclasses.src.Items;
+using vsroleplayclasses.src.Models;
 
 namespace vsroleplayclasses.src
 {
