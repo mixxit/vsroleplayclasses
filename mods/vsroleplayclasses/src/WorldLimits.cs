@@ -14,6 +14,8 @@ namespace vsroleplayclasses.src
 
         public static float LocalChatDistance = 700;
 
+        public static int MaxMemorisedSlots = 8;
+
         // Max level - 10
         public static double GetMaxPendingExperience()
         {

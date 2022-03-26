@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using vsroleplayclasses.src.Systems;
 
 namespace vsroleplayclasses.src.Gui
 {
@@ -58,15 +59,29 @@ namespace vsroleplayclasses.src.Gui
                 return;
 
             this.memorisedSlotsInv.Open((IPlayer)this.capi.World.Player);
+            UpdateHud(this.capi.World.Player);
         }
 
         public override void OnGuiClosed()
         {
             if (this.capi.World.Player.InventoryManager.GetOwnInventory("memoriseability") != null)
             {
+                UpdateHud(this.capi.World.Player);
                 this.memorisedSlotsInv.Close((IPlayer)this.capi.World.Player);
                 SingleComposer.GetSlotGrid("spellslots")?.OnGuiClosed(this.capi);
             }
+        }
+
+        private void UpdateHud(IPlayer player)
+        {
+            if (player.Entity.Api.Side != EnumAppSide.Client)
+                return;
+
+            SystemAbilities mod = this.capi.World.Api.ModLoader.GetModSystem<SystemAbilities>();
+            if (mod == null)
+                return;
+
+            mod.SendMemorisedAbilitiesHudUpdatePacketAsClient(player);
         }
 
         private void OnTitleBarCloseClicked()

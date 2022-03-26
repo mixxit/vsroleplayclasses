@@ -20,11 +20,12 @@ namespace vsroleplayclasses.src.Systems
     public class SystemAbilities : ModSystem
     {
         ConcurrentDictionary<long,Ability> abilityList;
-        ICoreServerAPI serverApi;
         GuiDialogMemoriseAbility memorisateAbilityDialog;
         GuiDialogCompass compassDialog;
         ICoreClientAPI capi;
         ICoreAPI api;
+        ICoreServerAPI sapi;
+        private HudMemorisedSpells hudMemorisedSpells;
 
         public override void Start(ICoreAPI api)
         {
@@ -36,15 +37,18 @@ namespace vsroleplayclasses.src.Systems
             api.Network.RegisterChannel("clientrequestfinishcastingpacket").RegisterMessageType<ClientRequestFinishCastingPacket>();
 
             api.RegisterEntity("EntityMagicProjectile", typeof(EntityMagicProjectile));
+            api.Network.RegisterChannel("updatememorisedspells").RegisterMessageType<UpdateMemorisedSpellsPacket>();
+            api.Network.RegisterChannel("clientrequestupdatememorisedspells").RegisterMessageType<ClientRequestUpdateMemorisedSpellsPacket>();
         }
 
         public override bool ShouldLoad(EnumAppSide side)
         {
             return true;
         }
+
         public override void StartServerSide(ICoreServerAPI api)
         {
-            serverApi = api;
+            sapi = api;
             api.Event.SaveGameLoaded += new System.Action(this.OnSaveGameLoaded);
             api.Event.GameWorldSave += new System.Action(this.OnSaveGameSaving);
             api.Event.PlayerNowPlaying += new PlayerDelegate(this.OnPlayerNowPlayingServer);
@@ -63,6 +67,7 @@ namespace vsroleplayclasses.src.Systems
             api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
             api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);
             api.Network.GetChannel("clearcasting").SetMessageHandler<ClearCastingPacket>(OnClearCasting);
+            api.Network.GetChannel("clientrequestupdatememorisedspells").SetMessageHandler<ClientRequestUpdateMemorisedSpellsPacket>(OnClientRequestUpdateMemorisedSpells);
         }
 
         public override void StartClientSide(ICoreClientAPI api)
@@ -92,8 +97,62 @@ namespace vsroleplayclasses.src.Systems
             capi.Input.SetHotKeyHandler("useability7", UseAbilityKey7);
             capi.Input.SetHotKeyHandler("useability8", UseAbilityKey8);
             capi.Input.InWorldAction += OnClientInWorldAction;
+            capi.Event.PlayerJoin += new PlayerEventDelegate(this.OnPlayerJoinedClient);
 
+            this.hudMemorisedSpells = new HudMemorisedSpells(capi);
             capi.Gui.RegisterDialog(new HudAbility(capi));
+            capi.Gui.RegisterDialog(this.hudMemorisedSpells);
+
+            api.Network.GetChannel("updatememorisedspells").SetMessageHandler<UpdateMemorisedSpellsPacket>(OnUpdateMemorisedSpells);
+        }
+
+        private void OnPlayerJoinedClient(IClientPlayer byPlayer)
+        {
+            if (byPlayer == this.capi.World.Player)
+                this?.hudMemorisedSpells.UpdateHud(this.capi.World.Player);
+        }
+
+        private void OnUpdateMemorisedSpells(UpdateMemorisedSpellsPacket networkMessage)
+        {
+            if (hudMemorisedSpells == null)
+                return;
+
+            hudMemorisedSpells.UpdateMemorisedAbilities(networkMessage);
+        }
+
+        internal void SendMemorisedAbilitiesHudUpdatePacketAsClient(IPlayer player)
+        {
+            if (player.Entity.Api.Side != EnumAppSide.Client)
+                return;
+
+            try
+            {
+                capi.Network.GetChannel("clientrequestupdatememorisedspells").SendPacket(new ClientRequestUpdateMemorisedSpellsPacket());
+            }
+            catch (Exception)
+            {
+                // Not registered yet
+            }
+        }
+
+        private void OnClientRequestUpdateMemorisedSpells(IServerPlayer player, ClientRequestUpdateMemorisedSpellsPacket networkMessage)
+        {
+            SendMemorisedAbilitiesHudUpdatePacketAsServer(player);
+        }
+
+        internal void SendMemorisedAbilitiesHudUpdatePacketAsServer(IServerPlayer player)
+        {
+            if (player.Entity.Api.Side == EnumAppSide.Client)
+                return;
+
+            try
+            {
+                sapi.Network.GetChannel("updatememorisedspells").SendPacket(UpdateMemorisedSpellsPacket.From(player), new IServerPlayer[] { player });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public Entity GetEntity(long entityId)
@@ -206,6 +265,9 @@ namespace vsroleplayclasses.src.Systems
 
         internal Ability GetAbilityById(long id)
         {
+            if (this.api.Side == EnumAppSide.Client || abilityList == null)
+                return null;
+
             if (!this.abilityList.ContainsKey(id))
                 return null;
 
@@ -490,6 +552,7 @@ namespace vsroleplayclasses.src.Systems
         {
             RegisterPlayerClassChangedListener(player);
             player?.Entity?.ClearCasting();
+            
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)
@@ -505,7 +568,7 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnSaveGameLoaded()
         {
-            byte[] data = serverApi.WorldManager.SaveGame.GetData("vsroleplayclasses_abilities");
+            byte[] data = sapi.WorldManager.SaveGame.GetData("vsroleplayclasses_abilities");
 
             abilityList = new ConcurrentDictionary<long, Ability>();
             var temporaryAbilityList = data == null || data.Length == 0 ? PreloadSpells() : SerializerUtil.Deserialize<List<Ability>>(data);
@@ -521,7 +584,7 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnSaveGameSaving()
         {
-            serverApi.WorldManager.SaveGame.StoreData("vsroleplayclasses_abilities", SerializerUtil.Serialize(abilityList.Values.ToList()));
+            sapi.WorldManager.SaveGame.StoreData("vsroleplayclasses_abilities", SerializerUtil.Serialize(abilityList.Values.ToList()));
         }
 
 
