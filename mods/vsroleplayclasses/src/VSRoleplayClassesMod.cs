@@ -7,6 +7,7 @@ using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using vsroleplayclasses.src.Extensions;
+using vsroleplayclasses.src.Models;
 
 namespace vsroleplayclasses.src
 {
@@ -90,8 +91,7 @@ namespace vsroleplayclasses.src
                 }
             }
 
-            int bonus = 0;
-            //int bonus = getClassRollBonus(skill, solplayer.getClassObj());
+            int bonus = GetSkillCheckBonus(skill, player.Entity);
 
 
             String message = " makes a skill check for " + skill + ". They roll: " + rand.Next(0, 20+1) + "/20";
@@ -108,6 +108,22 @@ namespace vsroleplayclasses.src
             player.SendEmote(message, true);
         }
 
+        private int GetSkillCheckBonus(string skill, EntityPlayer entityPlayer)
+        {
+            int bonus = 0;
+            foreach(AdventureClass adventureClass in Enum.GetValues(typeof(AdventureClass)))
+            {
+                var level = entityPlayer.GetLevel(adventureClass);
+                if (level < 10)
+                    continue;
+
+                int classBonus = SkillUtils.GetSkillCheckBonus(skill, adventureClass, level);
+                if (classBonus > bonus)
+                    bonus = classBonus;
+            }
+
+            return bonus;
+        }
 
         private void CmdItemAttributes(IServerPlayer player, int groupId, CmdArgs args)
         {
