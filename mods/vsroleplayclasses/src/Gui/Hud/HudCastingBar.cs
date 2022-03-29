@@ -75,6 +75,9 @@ namespace vsroleplayclasses.src.Gui.Hud
                 return;
             }
 
+            if (!this.currentAbilityName.Equals(capi.World.Player.Entity.WatchedAttributes.GetString("startCastingAbilityName", "")))
+                this.currentAbilityName = capi.World.Player.Entity.WatchedAttributes.GetString("startCastingAbilityName", "");
+
             var now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             var totalTime = capi.World.Player.Entity.WatchedAttributes.GetLong("finishCastingUnixTime") - capi.World.Player.Entity.WatchedAttributes.GetLong("startCastingUnixTime");
             var progress = now - capi.World.Player.Entity.WatchedAttributes.GetLong("startCastingUnixTime");
@@ -94,8 +97,6 @@ namespace vsroleplayclasses.src.Gui.Hud
                 return;
             this.castingbar.SetLineInterval(1f);
             this.castingbar.SetValues(percentage, 0.0f, 1.0f);
-            if (!this.currentAbilityName.Equals(capi.World.Player.Entity.WatchedAttributes.GetString("startCastingAbilityName", "")))
-                this.currentAbilityName = capi.World.Player.Entity.WatchedAttributes.GetString("startCastingAbilityName", "");
         }
 
         public override void OnOwnPlayerDataReceived()
