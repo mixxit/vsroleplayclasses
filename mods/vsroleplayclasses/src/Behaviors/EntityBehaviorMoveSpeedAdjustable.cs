@@ -92,36 +92,41 @@ namespace vsroleplayclasses.src.Behaviors
                 if (entity.WatchedAttributes.GetFloat("defaultAiTaskFleeEntitySpeed", 0.0f) > 0.0f)
                 {
                     var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskFleeEntity>();
+                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskFleeEntitySpeed", 0.0f) + calculatedMoveSpeed;
                     if (aiTask != null)
-                        aiTask.SetMoveSpeed(entity.WatchedAttributes.GetFloat("defaultAiTaskFleeEntitySpeed", 0.0f)+calculatedMoveSpeed);
+                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
                 }
 
                 if (entity.WatchedAttributes.GetFloat("defaultAiTaskGotoEntitySpeed", 0.0f) > 0.0f)
                 {
                     var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskGotoEntity>();
+                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskGotoEntitySpeed", 0.0f) + calculatedMoveSpeed;
                     if (aiTask != null)
-                        aiTask.SetMoveSpeed(entity.WatchedAttributes.GetFloat("defaultAiTaskGotoEntitySpeed", 0.0f) + calculatedMoveSpeed);
+                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
                 }
 
                 if (entity.WatchedAttributes.GetFloat("defaultAiTaskSeekEntitySpeed", 0.0f) > 0.0f)
                 {
                     var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskSeekEntity>();
+                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskSeekEntitySpeed", 0.0f) + calculatedMoveSpeed;
                     if (aiTask != null)
-                        aiTask.SetMoveSpeed(entity.WatchedAttributes.GetFloat("defaultAiTaskSeekEntitySpeed", 0.0f) + calculatedMoveSpeed);
+                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
                 }
 
                 if (entity.WatchedAttributes.GetFloat("defaultAiTaskStayCloseToEntitySpeed", 0.0f) > 0.0f)
                 {
                     var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskStayCloseToEntity>();
+                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskStayCloseToEntitySpeed", 0.0f) + calculatedMoveSpeed;
                     if (aiTask != null)
-                        aiTask.SetMoveSpeed(entity.WatchedAttributes.GetFloat("defaultAiTaskStayCloseToEntitySpeed", 0.0f) + calculatedMoveSpeed);
+                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
                 }
 
                 if (entity.WatchedAttributes.GetFloat("defaultAiTaskWanderSpeed", 0.0f) > 0.0f)
                 {
                     var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskWander>();
+                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskWanderSpeed", 0.0f) + calculatedMoveSpeed;
                     if (aiTask != null)
-                        aiTask.SetMoveSpeed(entity.WatchedAttributes.GetFloat("defaultAiTaskWanderSpeed", 0.0f) + calculatedMoveSpeed);
+                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
                 }
             }
 

@@ -255,6 +255,9 @@ namespace vsroleplayclasses.src.Models
             if (this.SpellEffectIndex == SpellEffectIndex.Stat_Buff)
                 return (long)this.PowerLevel * 10;
 
+            if (this.SpellEffectIndex == SpellEffectIndex.Haste_Runspeed)
+                return (long)this.PowerLevel * 8;
+
             // most things are zero
             return 0;
         }
