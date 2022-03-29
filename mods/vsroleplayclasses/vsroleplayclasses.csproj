@@ -80,6 +80,7 @@
     <Compile Include="src\Extensions\AiTaskStayCloseToEntityExt.cs" />
     <Compile Include="src\Extensions\AiTaskWanderExt.cs" />
     <Compile Include="src\Extensions\AiTaskFleeEntityExt.cs" />
+    <Compile Include="src\Extensions\EntityAgentExt.cs" />
     <Compile Include="src\Models\ActiveSpellEffect.cs" />
     <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\Models\MemorisedAbilityHudEntry.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="src\Randomise.cs" />
     <Compile Include="src\Models\SkillType.cs" />
     <Compile Include="src\SkillUtils.cs" />
+    <Compile Include="src\Systems\EntityAgentGetWalkSpeedMultiplierReplacerMod.cs" />
     <Compile Include="src\Systems\EntityAgentOnDamageReplacerMod.cs" />
     <Compile Include="src\Systems\SystemSpellCrafting.cs" />
     <Compile Include="src\Systems\SystemWho.cs" />

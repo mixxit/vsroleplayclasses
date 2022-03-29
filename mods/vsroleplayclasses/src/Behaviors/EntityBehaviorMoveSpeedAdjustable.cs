@@ -25,47 +25,7 @@ namespace vsroleplayclasses.src.Behaviors
         public override string PropertyName() { return "EntityBehaviorMoveSpeedAdjustable"; }
 
         public EntityBehaviorMoveSpeedAdjustable(Entity entity) : base(entity) {
-            if (entity is EntityAgent && !(entity is EntityPlayer))
-            {
-                var behaviorTaskManager = entity.GetBehavior<EntityBehaviorTaskAI>();
-                if (behaviorTaskManager == null)
-                    return;
 
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskFleeEntitySpeed", 0.0f) == 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskFleeEntity>();
-                    if (aiTask != null)
-                        entity.WatchedAttributes.SetFloat("defaultAiTaskFleeEntitySpeed", aiTask.GetMoveSpeed());
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskGotoEntitySpeed", 0.0f) == 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskGotoEntity>();
-                    if (aiTask != null)
-                        entity.WatchedAttributes.SetFloat("defaultAiTaskGotoEntitySpeed", aiTask.GetMoveSpeed());
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskSeekEntitySpeed", 0.0f) == 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskSeekEntity>();
-                    if (aiTask != null)
-                        entity.WatchedAttributes.SetFloat("defaultAiTaskSeekEntitySpeed", aiTask.GetMoveSpeed());
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskStayCloseToEntitySpeed", 0.0f) == 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskStayCloseToEntity>();
-                    if (aiTask != null)
-                        entity.WatchedAttributes.SetFloat("defaultAiTaskStayCloseToEntitySpeed", aiTask.GetMoveSpeed());
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskWanderSpeed", 0.0f) == 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskWander>();
-                    if (aiTask != null)
-                        entity.WatchedAttributes.SetFloat("defaultAiTaskWanderSpeed", aiTask.GetMoveSpeed());
-                }
-            }
         }
 
         public override void Initialize(EntityProperties properties, JsonObject attributes)
@@ -76,61 +36,34 @@ namespace vsroleplayclasses.src.Behaviors
             base.Initialize(properties, attributes);
         }
 
+        public override void OnEntityLoaded()
+        {
+            base.OnEntityLoaded();
+            if (entity is EntityItem)
+                return;
+
+            entity.ResetHasteRunspeedState();
+        }
+
+        public override void OnEntitySpawn()
+        {
+            base.OnEntitySpawn();
+            if (entity is EntityItem)
+                return;
+
+            entity.ResetHasteRunspeedState();
+        }
+
+
         internal void ResetHasteRunspeedState()
         {
             if (!(entity is EntityAgent))
                 return;
 
-            var calculatedMoveSpeed = CalculateMoveSpeedBonus();
+            var walkSpeedBonus = CalculateMoveSpeedBonus();
 
-            if (entity is EntityAgent && !(entity is EntityPlayer))
-            {
-                var behaviorTaskManager = entity.GetBehavior<EntityBehaviorTaskAI>();
-                if (behaviorTaskManager == null)
-                    return;
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskFleeEntitySpeed", 0.0f) > 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskFleeEntity>();
-                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskFleeEntitySpeed", 0.0f) + calculatedMoveSpeed;
-                    if (aiTask != null)
-                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskGotoEntitySpeed", 0.0f) > 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskGotoEntity>();
-                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskGotoEntitySpeed", 0.0f) + calculatedMoveSpeed;
-                    if (aiTask != null)
-                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskSeekEntitySpeed", 0.0f) > 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskSeekEntity>();
-                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskSeekEntitySpeed", 0.0f) + calculatedMoveSpeed;
-                    if (aiTask != null)
-                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskStayCloseToEntitySpeed", 0.0f) > 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskStayCloseToEntity>();
-                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskStayCloseToEntitySpeed", 0.0f) + calculatedMoveSpeed;
-                    if (aiTask != null)
-                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
-                }
-
-                if (entity.WatchedAttributes.GetFloat("defaultAiTaskWanderSpeed", 0.0f) > 0.0f)
-                {
-                    var aiTask = behaviorTaskManager.TaskManager.GetTask<AiTaskWander>();
-                    var newTotal = entity.WatchedAttributes.GetFloat("defaultAiTaskWanderSpeed", 0.0f) + calculatedMoveSpeed;
-                    if (aiTask != null)
-                        aiTask.SetMoveSpeed(newTotal < 0 ? 0 : newTotal);
-                }
-            }
-
-            //((EntityAgent)entity).ServerControls.MovespeedMultiplier = calculatedMoveSpeed;
+            if (entity is EntityAgent)
+                entity.WatchedAttributes.SetFloat("currentWalkSpeedBonus", walkSpeedBonus);
         }
 
         private float CalculateMoveSpeedBonus()
@@ -155,7 +88,7 @@ namespace vsroleplayclasses.src.Behaviors
                 return 0.0f;
 
             // Negative runspeed
-            return (ability.GetAmount() / 100) * -1;
+            return (ability.GetAmount() / 10) * -1;
         }
 
         private float RootEffectModifier()
@@ -194,7 +127,7 @@ namespace vsroleplayclasses.src.Behaviors
             if (ability == null)
                 return 0.0f;
 
-            return ability.GetAmount() / 100;
+            return ability.GetAmount() / 10;
         }
 
         public override void OnGameTick(float dt)

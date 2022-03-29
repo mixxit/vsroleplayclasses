@@ -49,7 +49,7 @@ namespace vsroleplayclasses.src.Systems
 
     // Implements proper damage type handling based on weapon
     [HarmonyPatch(typeof(EntityAgent), "OnInteract")]
-    public class CharacterSystemPatch_OnInteract
+    public class EntityAgent_OnInteract
     {
         [HarmonyPrefix]
         public static bool Prefix(EntityAgent __instance, EntityAgent byEntity, ItemSlot slot, Vec3d hitPosition, EnumInteractMode mode)
