@@ -102,6 +102,14 @@ namespace vsroleplayclasses.src.Models
             if (SpellEffect == SpellEffectType.Gate && SpellEffectIndex == SpellEffectIndex.Vanish)
                 return 31;
 
+            if (SpellEffect == SpellEffectType.MovementSpeed && SpellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return 4;
+            if (SpellEffect == SpellEffectType.MovementSpeed && SpellEffectIndex == SpellEffectIndex.Haste_Runspeed)
+                return 5;
+            if (SpellEffect == SpellEffectType.Root && SpellEffectIndex == SpellEffectIndex.Haste_Runspeed)
+                return 117;
+
+
             return 251;
         }
 
@@ -401,6 +409,21 @@ namespace vsroleplayclasses.src.Models
         private bool IsManaRegen()
         {
             return SpellEffect == SpellEffectType.CurrentMana && SpellEffectIndex == SpellEffectIndex.Mana_Regen_Resist_Song;
+        }
+
+        private bool IsRoot()
+        {
+            return SpellEffect == SpellEffectType.Root && SpellEffectIndex == SpellEffectIndex.Haste_Runspeed;
+        }
+
+        private bool IsSnare()
+        {
+            return SpellEffect == SpellEffectType.MovementSpeed && SpellEffectIndex == SpellEffectIndex.Haste_Runspeed;
+        }
+
+        private bool IsRunspeed()
+        {
+            return SpellEffect == SpellEffectType.MovementSpeed && SpellEffectIndex == SpellEffectIndex.Stat_Buff;
         }
 
         private bool IsDD()

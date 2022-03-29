@@ -29,6 +29,13 @@ namespace vsroleplayclasses.src.Extensions
             return true;
         }
 
+        public static void ResetHasteRunspeedState(this Entity me)
+        {
+            EntityBehaviorMoveSpeedAdjustable ebs = me.GetBehavior("EntityBehaviorMoveSpeedAdjustable") as EntityBehaviorMoveSpeedAdjustable;
+            if (ebs != null)
+                ebs.ResetHasteRunspeedState();
+        }
+
         public static int GetHighestWarriorClassLevel(this Entity me)
         {
             var highest = 0;

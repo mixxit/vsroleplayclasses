@@ -68,7 +68,7 @@ namespace vsroleplayclasses.src.Systems
 
         private void OnGameTick(float tick)
         {
-
+            
         }
     }
 }

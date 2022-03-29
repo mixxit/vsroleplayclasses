@@ -30,7 +30,7 @@ namespace vsroleplayclasses.src.Behaviors
 
             base.Initialize(properties, attributes);
         }
-
+        
         public override void OnEntityReceiveDamage(DamageSource damageSource, ref float damage)
         {
             base.OnEntityReceiveDamage(damageSource, ref damage);

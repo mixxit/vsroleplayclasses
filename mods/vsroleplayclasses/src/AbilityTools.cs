@@ -117,7 +117,7 @@ namespace vsroleplayclasses.src
                 case TargetType.None:
                     return 1;
                 case TargetType.Self:
-                    return 6;
+                    return 7;
                 case TargetType.Target:
                     return 6;
                 case TargetType.Group:

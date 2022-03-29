@@ -66,6 +66,11 @@ namespace vsroleplayclasses.src.Behaviors
             entity.WatchedAttributes.RegisterModifiedListener("spelleffects", (System.Action)(() => OnEntityEffectsServerSideChanged()));
         }
 
+        public bool HasEffectOfType(SpellEffectIndex index, SpellEffectType type)
+        {
+            return GetActiveEffectOfType(index, type) != null;
+        }
+
         private void OnEntityEffectsServerSideChanged()
         {
             if (!(entity is EntityPlayer))
@@ -196,6 +201,9 @@ namespace vsroleplayclasses.src.Behaviors
 
             if (ability.SpellEffectIndex == SpellEffectIndex.Stat_Buff)
                 entity.ResetStatisticState();
+
+            if (ability.SpellEffect == SpellEffectType.Root || ability.SpellEffect == SpellEffectType.MovementSpeed)
+                entity.ResetHasteRunspeedState();
         }
 
         private string GetActiveEffectsAsString()
@@ -210,6 +218,9 @@ namespace vsroleplayclasses.src.Behaviors
 
             if (ability.SpellEffectIndex == SpellEffectIndex.Stat_Buff)
                 entity.ResetStatisticState();
+
+            if (ability.SpellEffect == SpellEffectType.Root || ability.SpellEffect == SpellEffectType.MovementSpeed)
+                entity.ResetHasteRunspeedState();
         }
     }
 }

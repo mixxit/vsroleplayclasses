@@ -66,6 +66,7 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterEntityBehaviorClass("EntityBehaviorCasting", typeof(EntityBehaviorCasting));
             api.RegisterEntityBehaviorClass("EntityBehaviorSpellTargetable", typeof(EntityBehaviorSpellTargetable));
             api.RegisterEntityBehaviorClass("EntityBehaviorInteruptable", typeof(EntityBehaviorInteruptable));
+            api.RegisterEntityBehaviorClass("EntityBehaviorMoveSpeedAdjustable", typeof(EntityBehaviorMoveSpeedAdjustable));
 
             api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
             api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);

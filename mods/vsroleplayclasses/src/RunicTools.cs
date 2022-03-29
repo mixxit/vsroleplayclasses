@@ -111,6 +111,8 @@ namespace vsroleplayclasses.src
                     return MagicWord.Aral;
                 case SpellEffectIndex.Stat_Buff:
                     return MagicWord.Scor;
+                case SpellEffectIndex.Haste_Runspeed:
+                    return MagicWord.Aer;
                 default:
                     return MagicWord.Nul;
             }
@@ -131,7 +133,10 @@ namespace vsroleplayclasses.src
                     return MagicWord.Sang;
                 case SpellEffectType.CurrentMana:
                     return MagicWord.Aty;
-
+                case SpellEffectType.MovementSpeed:
+                    return MagicWord.Wena;
+                case SpellEffectType.Root:
+                    return MagicWord.Kor;
                 case SpellEffectType.STR:
                     return MagicWord.Bala;
                 case SpellEffectType.DEX:

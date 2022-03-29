@@ -41,6 +41,15 @@ namespace vsroleplayclasses.src.Models
             if (spellEffectType == SpellEffectType.CurrentHP && spellEffectIndex == SpellEffectIndex.Direct_Damage)
                 return new EffectCombo() { Name = "Blast", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = DD, Duration = duration };
 
+            if (spellEffectType == SpellEffectType.Root && spellEffectIndex == SpellEffectIndex.Haste_Runspeed)
+                return new EffectCombo() { Name = "Root", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Root, Duration = duration };
+
+            if (spellEffectType == SpellEffectType.MovementSpeed && spellEffectIndex == SpellEffectIndex.Haste_Runspeed)
+                return new EffectCombo() { Name = "Snare", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Snare, Duration = duration };
+
+            if (spellEffectType == SpellEffectType.MovementSpeed && spellEffectIndex == SpellEffectIndex.Stat_Buff)
+                return new EffectCombo() { Name = "Speed", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Speed, Duration = duration };
+
             if (spellEffectType == SpellEffectType.CurrentMana && spellEffectIndex == SpellEffectIndex.Mana_Regen_Resist_Song)
                 return new EffectCombo() { Name = "Clarity", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = HealMana, Duration = duration };
 
@@ -57,6 +66,33 @@ namespace vsroleplayclasses.src.Models
                 return new EffectCombo() { Name = "Return Home", SpellEffectIndex = spellEffectIndex, SpellEffectType = spellEffectType, Effect = Gate, Duration = duration };
 
             return null;
+        }
+
+        public static bool Root(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You rooted your target", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You are rooted!", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool Snare(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You snared your target", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You are snared!", EnumChatType.CommandSuccess);
+            return true;
+        }
+
+        public static bool Speed(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
+        {
+            if (source.IsIServerPlayer() && firstRun)
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"You increased the speet of your target", EnumChatType.CommandSuccess);
+            if (castOn.IsIServerPlayer() && firstRun)
+                castOn.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"Your speed has been increased", EnumChatType.CommandSuccess);
+            return true;
         }
 
         public static bool StatBuffSTR(Entity source, Entity castOn, ExtendedEnumDamageType? damageType = ExtendedEnumDamageType.Heal, float? amount = null, ResistType resistType = ResistType.None, bool firstRun = true)
