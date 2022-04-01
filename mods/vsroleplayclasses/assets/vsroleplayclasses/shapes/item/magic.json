@@ -6,7 +6,7 @@
     "textureWidth": 16,
     "textureHeight": 16,
     "textures": {
-        "material": "block/stone/rock/granite1"
+        "material": "game:block/stone/rock/granite1"
     },
     "elements": [
         {

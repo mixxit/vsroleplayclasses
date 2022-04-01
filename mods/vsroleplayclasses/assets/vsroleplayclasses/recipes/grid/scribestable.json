@@ -1,0 +1,21 @@
+[
+    {
+        "ingredientPattern": "S,W",
+        "ingredients": {
+            "W": {
+                "type": "block",
+                "code": "game:table-normal"
+            },
+            "S": {
+                "type": "item",
+                "code": "abilityscroll"
+            }
+        },
+        "width": 1,
+        "height": 2,
+        "output": {
+            "type": "block",
+            "code": "scribestable-normal"
+        }
+    }
+]

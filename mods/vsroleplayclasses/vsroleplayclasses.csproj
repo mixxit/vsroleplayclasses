@@ -161,6 +161,18 @@
     <Content Include="assets\vsroleplayclasses\sounds\effect\spell4.ogg" />
     <Content Include="assets\vsroleplayclasses\sounds\effect\spell5.ogg" />
     <Content Include="assets\vsroleplayclasses\sounds\effect\spelltrav.ogg" />
+    <None Include="assets\vsroleplayclasses\recipes\grid\scribestable.json" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\aged\bottom.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\aged\legs.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\aged\sides.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\aged\top.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\bottom.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\legs.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\sides-greenmarble.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\sides-redmarble.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\sides-whitemarble.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\sides.png" />
+    <None Include="assets\vsroleplayclasses\textures\block\wood\scribestable\normal\top.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\alumhoney.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\runicinkportion.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\inkportion.png" />
@@ -462,6 +474,7 @@
     <Content Include="assets\game\patches\entity-add-weapon-behavior.json" />
     <Content Include="assets\game\patches\entity-add-movespeedadjustable-behavior.json" />
     <None Include="assets\game\patches\survival-blocktypes-wood-pan.json" />
+    <None Include="assets\vsroleplayclasses\blocktypes\scribestable.json" />
     <None Include="assets\vsroleplayclasses\entities\air\magicprojectile.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellandquillempty.json" />
     <None Include="assets\vsroleplayclasses\itemtypes\inkwellempty.json" />
@@ -486,6 +499,7 @@
     <None Include="assets\vsroleplayclasses\recipes\grid\inkwellandquillempty.json" />
     <None Include="assets\vsroleplayclasses\recipes\grid\abilityscroll.json" />
     <None Include="assets\vsroleplayclasses\recipes\grid\paper-parchment.json" />
+    <None Include="assets\vsroleplayclasses\shapes\block\wood\scribestable.json" />
     <None Include="assets\vsroleplayclasses\shapes\item\magic.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

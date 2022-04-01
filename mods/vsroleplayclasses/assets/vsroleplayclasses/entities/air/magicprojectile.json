@@ -13,7 +13,7 @@
     "client": {
         "renderer": "Shape",
         "textures": {
-            "material": { "base": "block/stone/rock/{rock}1" }
+            "material": { "base": "survival:block/stone/rock/{rock}1" }
         },
         "shape": { "base": "item/magic" },
         "size": 1,
