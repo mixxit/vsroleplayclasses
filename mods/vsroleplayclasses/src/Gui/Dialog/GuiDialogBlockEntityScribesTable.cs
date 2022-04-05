@@ -14,6 +14,8 @@ namespace vsroleplayclasses.src.Gui.Dialog
     public class GuiDialogBlockEntityScribesTable : GuiDialogBlockEntity
     {
         long lastRedrawMs;
+        float inputScribeTime;
+        float maxScribeTime;
 
         protected override double FloatyDialogPosition => 0.75;
 
@@ -110,14 +112,13 @@ namespace vsroleplayclasses.src.Gui.Dialog
             }
         }
 
-        float inputGrindTime;
-        float maxGrindTime;
-        public void Update(float inputGrindTime, float maxGrindTime)
+        public void Update(float inputScribeTime, float maxScribeTime)
         {
-            this.inputGrindTime = inputGrindTime;
-            this.maxGrindTime = maxGrindTime;
+            this.inputScribeTime = inputScribeTime;
+            this.maxScribeTime = maxScribeTime;
 
-            if (!IsOpened()) return;
+            if (!IsOpened()) 
+                return;
 
             if (capi.ElapsedMilliseconds - lastRedrawMs > 500)
             {
@@ -140,7 +141,7 @@ namespace vsroleplayclasses.src.Gui.Dialog
             ctx.Matrix = m;
             capi.Gui.Icons.DrawArrowRight(ctx, 2);
 
-            double dx = inputGrindTime / maxGrindTime;
+            double dx = inputScribeTime / maxScribeTime;
 
 
             ctx.Rectangle(GuiElement.scaled(5), 0, GuiElement.scaled(125 * dx), GuiElement.scaled(100));

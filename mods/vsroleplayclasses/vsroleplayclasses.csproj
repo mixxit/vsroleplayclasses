@@ -89,6 +89,8 @@
     <Compile Include="src\Extensions\EntityAgentExt.cs" />
     <Compile Include="src\Gui\Dialog\GuiDialogBlockEntityScribesTable.cs" />
     <Compile Include="src\Inventories\InventoryScribesTable.cs" />
+    <Compile Include="src\Inventories\ItemSlotScribesTable.cs" />
+    <Compile Include="src\Inventories\ItemSlotScribesTableTypeEnum.cs" />
     <Compile Include="src\Models\ActiveSpellEffect.cs" />
     <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\Models\MemorisedAbilityHudEntry.cs" />

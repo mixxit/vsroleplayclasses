@@ -17,6 +17,7 @@ namespace vsroleplayclasses.src.BlockEntities
 {
     public class BlockEntityScribesTable : BlockEntityOpenableContainer
     {
+        public float inputScribeTime;
         static BlockEntityScribesTable()
         {
         }
@@ -66,13 +67,51 @@ namespace vsroleplayclasses.src.BlockEntities
         {
             base.Initialize(api);
 
+            RegisterGameTickListener(Every100ms, 100);
             inventory.LateInitialize("scribestable-" + Pos.X + "/" + Pos.Y + "/" + Pos.Z, api);
+        }
+
+        public float ScribeSpeed = 1.0f;
+
+        private void Every100ms(float dt)
+        {
+            float scribeSpeed = ScribeSpeed;
+
+            // Only tick on the server and merely sync to client
+
+            // Use up fuel
+            if (CanScribe() && scribeSpeed > 0)
+            {
+                inputScribeTime += dt * scribeSpeed;
+
+                if (inputScribeTime >= maxScribeingTime())
+                {
+                    FinishScribe();
+                    inputScribeTime = 0;
+                }
+
+                MarkDirty();
+            }
+        }
+
+        private void FinishScribe()
+        {
+
+        }
+
+        public bool CanScribe()
+        {
+            return true;
         }
 
         private void OnSlotModifid(int slotid)
         {
+            if (Api is ICoreClientAPI)
+            {
+                clientDialog.Update(inputScribeTime, maxScribeingTime());
+            }
 
-            if (slotid == 0)
+            if (slotid != 7)
             {
                 MarkDirty();
 
@@ -81,6 +120,11 @@ namespace vsroleplayclasses.src.BlockEntities
                     clientDialog.SingleComposer.ReCompose();
                 }
             }
+        }
+
+        public virtual float maxScribeingTime()
+        {
+            return 4;
         }
 
         #region Events
@@ -113,6 +157,11 @@ namespace vsroleplayclasses.src.BlockEntities
             if (Api != null)
             {
                 Inventory.AfterBlocksLoaded(Api.World);
+            }
+
+            if (Api?.Side == EnumAppSide.Client && clientDialog != null)
+            {
+                clientDialog.Update(inputScribeTime, maxScribeingTime());
             }
         }
 
@@ -149,6 +198,8 @@ namespace vsroleplayclasses.src.BlockEntities
                 clientDialog = new GuiDialogBlockEntityScribesTable(DialogTitle, Inventory, Pos, Api as ICoreClientAPI);
                 clientDialog.TryOpen();
                 clientDialog.OnClosed += () => clientDialog = null;
+
+                clientDialog.Update(inputScribeTime, maxScribeingTime());
             }
 
             if (packetid == (int)EnumBlockEntityPacketId.Close)
