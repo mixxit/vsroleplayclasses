@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -23,16 +22,16 @@ namespace vsroleplayclasses.src.Extensions
             return (BlockPos)fieldInfo.GetValue(me);
         }
 
-        public static Block GetInsideBlock(this EntityAgent me)
+        public static Vintagestory.API.Common.Block GetInsideBlock(this EntityAgent me)
         {
             FieldInfo fieldInfo = typeof(EntityAgent).GetField("insideBlock", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Block)fieldInfo.GetValue(me);
+            return (Vintagestory.API.Common.Block)fieldInfo.GetValue(me);
         }
 
-        public static void SetInsideBlock(this EntityAgent me, Block block)
+        public static void SetInsideBlock(this EntityAgent me, Vintagestory.API.Common.Block block)
         {
             FieldInfo fieldInfo = typeof(EntityAgent).GetField("insideBlock", BindingFlags.NonPublic | BindingFlags.Instance);
-            fieldInfo.SetValue(me, (Block)block);
+            fieldInfo.SetValue(me, (Vintagestory.API.Common.Block)block);
         }
     }
 }

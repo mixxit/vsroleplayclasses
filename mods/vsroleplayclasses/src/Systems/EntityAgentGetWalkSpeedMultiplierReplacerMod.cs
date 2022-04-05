@@ -59,7 +59,7 @@ namespace vsroleplayclasses.src.Systems
             int y1 = (int)(__instance.SidedPos.Y - 0.05f);
             int y2 = (int)(__instance.SidedPos.Y + 0.01f);
 
-            Block belowBlock = __instance.World.BlockAccessor.GetBlock((int)__instance.SidedPos.X, y1, (int)__instance.SidedPos.Z);
+            Vintagestory.API.Common.Block belowBlock = __instance.World.BlockAccessor.GetBlock((int)__instance.SidedPos.X, y1, (int)__instance.SidedPos.Z);
 
             __instance.GetInsidePos().Set((int)__instance.SidedPos.X, y2, (int)__instance.SidedPos.Z);
             __instance.SetInsideBlock(__instance.World.BlockAccessor.GetBlock(__instance.GetInsidePos()));

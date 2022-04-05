@@ -1,9 +1,73 @@
 {
 	"code": "runeofpower",
 	"class": "runeofpower",
-	"texture": { "base": "item/runeofpower" },
-	"attributes": {
-		"rackable": false
+	"texturesByType": {
+		"@.*-(init|adus|mas|myth|demi|eth|cela|deva|avul|thul|vul|zul|ra|prima|sul|omni)": {
+			"normal1": {
+				"base": "item/runeofpower",
+				"overlays": [ "item/overlay/runeofpower-blue" ]
+			}
+		},
+		"@.*-(sie|tar|swe|expa|ghu|krup)": {
+			"normal1": {
+				"base": "item/runeofpower",
+				"overlays": [ "item/overlay/runeofpower-green" ]
+			}
+		},
+		"@.*-(nul|mana|fyr|isti|xon|xul|duo|poly|karr|mal)": {
+			"normal1": {
+				"base": "item/runeofpower",
+				"overlays": [ "item/overlay/runeofpower-orange" ]
+			}
+		},
+		"@.*-(tor|deus|val|cara|rew|nato|sek|lum|tri|mys|jar|flam|ex|azul|reg|hek)": {
+			"normal1": {
+				"base": "item/runeofpower",
+				"overlays": [ "item/overlay/runeofpower-pink" ]
+			}
+		},
+		"@.*-(cal|meth|pal|avok|aral|scor|set|nifl|el|aer|klaj|fri|myr|heet|veda)": {
+			"normal1": {
+				"base": "item/runeofpower",
+				"overlays": [ "item/overlay/runeofpower-yellow" ]
+			}
+		},
+		"@.*-(sang|ayas|wena|avi|tal|saha|gno|esot|adan|rabi|kela|aty|phar|delo|dom|phob|sig|maw|xen|leo|zal|gen|xul|xon|cul|cita)": {
+			"normal1": {
+				"base": "item/runeofpower",
+				"overlays": [ "item/overlay/runeofpower-red" ]
+			}
+		},
+		"*": {
+			"normal1": {
+				"base": "item/runeofpower"
+
+			}
+		}
+
+	},
+	"attributesByType": {
+		"@.*-(init|adus|mas|myth|demi|eth|cela|deva|avul|thul|vul|zul|ra|prima|sul|omni)": {
+			"runetype": "powerlevel"
+		},
+		"@.*-(sie|tar|swe|expa|ghu|krup)": {
+			"runetype": "targettype"
+		},
+		"@.*-(nul|mana|fyr|isti|xon|xul|duo|poly|karr|mal)": {
+			"runetype": "resisttype"
+		},
+		"@.*-(tor|deus|val|cara|rew|nato|sek|lum|tri|mys|jar|flam|ex|azul|reg|hek)": {
+			"runetype": "adventureclass"
+		},
+		"@.*-(cal|meth|pal|avok|aral|scor|set|nifl|el|aer|klaj|fri|myr|heet|veda)": {
+			"runetype": "spelleffectindex"
+		},
+		"@.*-(sang|ayas|wena|avi|tal|saha|gno|esot|adan|rabi|kela|aty|phar|delo|dom|phob|sig|maw|xen|leo|zal|gen|xul|xon|cul|cita)": {
+			"runetype": "spelleffect"
+		},
+		"*": {
+			"rackable": false
+		}
 	},
 	"variantgroups": [
 		{

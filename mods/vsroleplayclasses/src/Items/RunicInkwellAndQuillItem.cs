@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -188,6 +189,42 @@ namespace vsroleplayclasses.src.Items
                 return true;
             }
             return false;
+        }
+
+        public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+        {
+            base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+
+            if (inSlot?.Itemstack?.Item != null && inSlot.Itemstack.ItemAttributes.KeyExists("runetype"))
+            {
+                var runeTypeText = "Unknown";
+
+                switch (inSlot.Itemstack.ItemAttributes["runetype"].ToString())
+                {
+                    case "powerlevel":
+                        runeTypeText = "Rune of Rank";
+                        break;
+                    case "targettype":
+                        runeTypeText = "Rune of Seeking";
+                        break;
+                    case "resisttype":
+                        runeTypeText = "Rune of Elements";
+                        break;
+                    case "adventureclass":
+                        runeTypeText = "Rune of Adventure";
+                        break;
+                    case "spelleffectindex":
+                        runeTypeText = "Rune of Modification";
+                        break;
+                    case "spelleffect":
+                        runeTypeText = "Rune of Effect";
+                        break;
+                    default:
+                        break;
+                }
+
+                dsc.AppendLine(Lang.Get("Rune Type: {0}", runeTypeText));
+            }
         }
     }
 }

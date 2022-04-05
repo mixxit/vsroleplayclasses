@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\Lib\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="cairo-sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\Lib\cairo-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Users\mike\AppData\Roaming\Vintagestory\Lib\protobuf-net.dll</HintPath>
@@ -75,12 +79,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Behaviors\EntityBehaviorMoveSpeedAdjustable.cs" />
+    <Compile Include="src\BlockEntities\BlockEntityScribesTable.cs" />
+    <Compile Include="src\Block\BlockScribesTable.cs" />
     <Compile Include="src\Extensions\AiTaskSeekEntityExt.cs" />
     <Compile Include="src\Extensions\AiTaskGotoEntityExt.cs" />
     <Compile Include="src\Extensions\AiTaskStayCloseToEntityExt.cs" />
     <Compile Include="src\Extensions\AiTaskWanderExt.cs" />
     <Compile Include="src\Extensions\AiTaskFleeEntityExt.cs" />
     <Compile Include="src\Extensions\EntityAgentExt.cs" />
+    <Compile Include="src\Gui\Dialog\GuiDialogBlockEntityScribesTable.cs" />
+    <Compile Include="src\Inventories\InventoryScribesTable.cs" />
     <Compile Include="src\Models\ActiveSpellEffect.cs" />
     <Compile Include="src\AbilityTools.cs" />
     <Compile Include="src\Models\MemorisedAbilityHudEntry.cs" />
@@ -176,6 +184,7 @@
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\alumhoney.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\runicinkportion.png" />
     <Content Include="assets\vsroleplayclasses\textures\block\liquid\inkportion.png" />
+    <Content Include="assets\vsroleplayclasses\textures\gui\feather.png" />
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\-1.png" />
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\0.png" />
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\1.png" />
@@ -431,6 +440,25 @@
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\99.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\inkwellandquillempty.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\inkwellempty.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-blue.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-green.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-orange.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-pink.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-red.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-yellow.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runeofpower-blue.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runeofpower-green.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runeofpower-orange.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runeofpower-pink.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runeofpower-red.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runeofpower-yellow.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-blue.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-green.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-orange.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-pink.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-purple.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-red.png" />
+    <Content Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-yellow.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\runicinkwellandquill.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\inkwellandquill.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\abilitybook.png" />
@@ -457,6 +485,8 @@
     <Compile Include="src\Extensions\IServerPlayerExt.cs" />
     <Compile Include="src\Extensions\ItemStackExt.cs" />
     <Compile Include="src\Foundation\Extensions\ApiExtensions.cs" />
+    <None Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-template.pdn" />
+    <None Include="assets\vsroleplayclasses\textures\item\overlay\runicinkwellandquill-template.pdn" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\vsroleplayclasses\config\characterclassesitems.json" />

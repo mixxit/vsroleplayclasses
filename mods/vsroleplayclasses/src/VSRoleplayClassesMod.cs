@@ -6,6 +6,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
+using vsroleplayclasses.src.BlockEntities;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Models;
 
@@ -40,6 +41,8 @@ namespace vsroleplayclasses.src
             skillChecks.Add("intimidation");
             skillChecks.Add("performance");
             skillChecks.Add("persuasion");
+
+            api.RegisterBlockEntityClass("ScribesTable", typeof(BlockEntityScribesTable));
 
         }
 
