@@ -174,6 +174,8 @@ namespace vsroleplayclasses.src.Gui.Dialog
         {
             base.OnGuiOpened();
             Inventory.SlotModified += OnInventorySlotModified;
+
+            
         }
 
         public override void OnGuiClosed()

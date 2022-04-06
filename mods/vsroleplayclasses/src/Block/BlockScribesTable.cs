@@ -9,11 +9,12 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Util;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
+using vsroleplayclasses.src.BlockEntities;
 
 namespace vsroleplayclasses.src.Block
 {
     public class BlockScribesTable : Vintagestory.API.Common.Block
     {
-
+        
     }
 }

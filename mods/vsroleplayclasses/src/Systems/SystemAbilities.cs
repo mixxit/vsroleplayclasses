@@ -9,6 +9,7 @@ using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Block;
 using vsroleplayclasses.src.Entities;
 using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Gui;
@@ -39,6 +40,7 @@ namespace vsroleplayclasses.src.Systems
             api.Network.RegisterChannel("clearcasting").RegisterMessageType<ClearCastingPacket>();
             api.Network.RegisterChannel("clientrequestfinishcastingpacket").RegisterMessageType<ClientRequestFinishCastingPacket>();
 
+            api.RegisterBlockClass("BlockScribesTable", typeof(BlockScribesTable));
             api.RegisterEntity("EntityMagicProjectile", typeof(EntityMagicProjectile));
             api.Network.RegisterChannel("updatememorisedspells").RegisterMessageType<UpdateMemorisedSpellsPacket>();
             api.Network.RegisterChannel("clientrequestupdatememorisedspells").RegisterMessageType<ClientRequestUpdateMemorisedSpellsPacket>();
