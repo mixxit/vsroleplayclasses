@@ -11,9 +11,12 @@ namespace vsroleplayclasses.src
 {
     public static class RunicTools
     {
-        public static T GetWordOfPowerFromQuillItem<T>(RunicInkwellAndQuillItem item) where T : Enum
+        public static T GetWordOfPowerFromItemStackItemAttributes<T>(ItemStack itemStack) where T : Enum
         {
-            var magicaString = item.Code.ToString().Replace("vsroleplayclasses", "").Replace(":", "").Replace(item.Class, "").Replace("-", "");
+            if (itemStack?.ItemAttributes == null || (!itemStack.ItemAttributes.KeyExists("runecode")))
+                return default(T);
+
+            var magicaString = itemStack.ItemAttributes["runecode"].ToString();
             if (String.IsNullOrEmpty(magicaString))
                 return default(T);
 

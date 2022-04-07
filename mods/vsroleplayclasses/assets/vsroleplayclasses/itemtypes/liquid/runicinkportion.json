@@ -290,6 +290,41 @@
             }
         }
     },
+    "attributesByType": {
+        "@.*-(init|adus|mas|myth|demi|eth|cela|deva|avul|thul|vul|zul|ra|prima|sul|omni)": {
+            "runetype": "powerlevel",
+            "runecode": "{type}",
+            "rackable": false
+        },
+        "@.*-(sie|tar|swe|expa|ghu|krup)": {
+            "runetype": "targettype",
+            "runecode": "{type}",
+            "rackable": false
+        },
+        "@.*-(nul|mana|fyr|isti|xon|xul|duo|poly|karr|mal)": {
+            "runetype": "resisttype",
+            "runecode": "{type}",
+            "rackable": false
+        },
+        "@.*-(tor|deus|val|cara|rew|nato|sek|lum|tri|mys|jar|flam|ex|azul|reg|hek)": {
+            "runetype": "adventureclass",
+            "runecode": "{type}",
+            "rackable": false
+        },
+        "@.*-(cal|meth|pal|avok|aral|scor|set|nifl|el|aer|klaj|fri|myr|heet|veda)": {
+            "runetype": "spelleffectindex",
+            "runecode": "{type}",
+            "rackable": false
+        },
+        "@.*-(sang|ayas|wena|avi|tal|saha|gno|esot|adan|rabi|kela|aty|phar|delo|dom|phob|sig|maw|xen|leo|zal|gen|xul|xon|cul|cita)": {
+            "runetype": "spelleffect",
+            "runecode": "{type}",
+            "rackable": false
+        },
+        "*": {
+            "rackable": false
+        }
+    },
     "shape": { "base": "game:item/liquid" },
     "texture": { "base": "block/liquid/runicinkportion" },
     "creativeinventory": {

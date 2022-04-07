@@ -143,12 +143,12 @@ namespace vsroleplayclasses.src.BlockEntities
             if (inventory == null || inventory[0]?.Itemstack == null || inventory[7]?.Itemstack != null)
                 return;
 
-            var resistType = RunicTools.GetWordOfPowerFromQuillItem<ResistType>((RunicInkwellAndQuillItem)inventory[1].Itemstack.Item);
-            var spellEffectType = RunicTools.GetWordOfPowerFromQuillItem<SpellEffectType>((RunicInkwellAndQuillItem)inventory[2].Itemstack.Item);
-            var spellEffectIndex = RunicTools.GetWordOfPowerFromQuillItem<SpellEffectIndex>((RunicInkwellAndQuillItem)inventory[3].Itemstack.Item);
-            var targetType = RunicTools.GetWordOfPowerFromQuillItem<TargetType>((RunicInkwellAndQuillItem)inventory[4].Itemstack.Item);
-            var powerLevel = RunicTools.GetWordOfPowerFromQuillItem<PowerLevel>((RunicInkwellAndQuillItem)inventory[5].Itemstack.Item);
-            var adventureClass = RunicTools.GetWordOfPowerFromQuillItem<AdventureClass>((RunicInkwellAndQuillItem)inventory[6].Itemstack.Item);
+            var resistType = RunicTools.GetWordOfPowerFromItemStackItemAttributes<ResistType>(inventory[1].Itemstack);
+            var spellEffectType = RunicTools.GetWordOfPowerFromItemStackItemAttributes<SpellEffectType>(inventory[2].Itemstack);
+            var spellEffectIndex = RunicTools.GetWordOfPowerFromItemStackItemAttributes<SpellEffectIndex>(inventory[3].Itemstack);
+            var targetType = RunicTools.GetWordOfPowerFromItemStackItemAttributes<TargetType>(inventory[4].Itemstack);
+            var powerLevel = RunicTools.GetWordOfPowerFromItemStackItemAttributes<PowerLevel>(inventory[5].Itemstack);
+            var adventureClass = RunicTools.GetWordOfPowerFromItemStackItemAttributes<AdventureClass>(inventory[6].Itemstack);
 
             if (resistType == ResistType.None)
                 return;
@@ -273,37 +273,43 @@ namespace vsroleplayclasses.src.BlockEntities
             if (!(inventory[0]?.Itemstack?.Item is AbilityScrollItem && ((AbilityScrollItem)inventory[0]?.Itemstack.Item).GetScribedAbilityId(inventory[0]?.Itemstack) < 1))
                 return false;
 
-            if (!(inventory[1]?.Itemstack?.Item is RunicInkwellAndQuillItem && 
+            if (!(inventory[1]?.Itemstack?.Item is RunicInkwellAndQuillItem &&
+                inventory[1].Itemstack?.ItemAttributes != null &&
                 inventory[1].Itemstack.ItemAttributes.KeyExists("runetype") &&
                 inventory[1].Itemstack.ItemAttributes["runetype"].ToString().Equals("resisttype")
                 )
                )
                 return false;
-            if (!(inventory[2]?.Itemstack?.Item is RunicInkwellAndQuillItem && 
+            if (!(inventory[2]?.Itemstack?.Item is RunicInkwellAndQuillItem &&
+                inventory[2].Itemstack?.ItemAttributes != null &&
                 inventory[2].Itemstack.ItemAttributes.KeyExists("runetype") &&
                 inventory[2].Itemstack.ItemAttributes["runetype"].ToString().Equals("spelleffect")
                 )
                )
                 return false;
-            if (!(inventory[3]?.Itemstack?.Item is RunicInkwellAndQuillItem && 
+            if (!(inventory[3]?.Itemstack?.Item is RunicInkwellAndQuillItem &&
+                inventory[3].Itemstack?.ItemAttributes != null &&
                 inventory[3].Itemstack.ItemAttributes.KeyExists("runetype") &&
                 inventory[3].Itemstack.ItemAttributes["runetype"].ToString().Equals("spelleffectindex")
                 )
                )
                 return false;
-            if (!(inventory[4]?.Itemstack?.Item is RunicInkwellAndQuillItem && 
+            if (!(inventory[4]?.Itemstack?.Item is RunicInkwellAndQuillItem &&
+                inventory[4].Itemstack?.ItemAttributes != null &&
                 inventory[4].Itemstack.ItemAttributes.KeyExists("runetype") &&
                 inventory[4].Itemstack.ItemAttributes["runetype"].ToString().Equals("targettype")
                 )
                )
                 return false;
-            if (!(inventory[5]?.Itemstack?.Item is RunicInkwellAndQuillItem && 
+            if (!(inventory[5]?.Itemstack?.Item is RunicInkwellAndQuillItem &&
+                inventory[5].Itemstack?.ItemAttributes != null &&
                 inventory[5].Itemstack.ItemAttributes.KeyExists("runetype") &&
                 inventory[5].Itemstack.ItemAttributes["runetype"].ToString().Equals("powerlevel")
                 )
                )
                 return false;
-            if (!(inventory[6]?.Itemstack?.Item is RunicInkwellAndQuillItem && 
+            if (!(inventory[6]?.Itemstack?.Item is RunicInkwellAndQuillItem &&
+                inventory[6].Itemstack?.ItemAttributes != null &&
                 inventory[6].Itemstack.ItemAttributes.KeyExists("runetype") &&
                 inventory[6].Itemstack.ItemAttributes["runetype"].ToString().Equals("adventureclass")
                 )

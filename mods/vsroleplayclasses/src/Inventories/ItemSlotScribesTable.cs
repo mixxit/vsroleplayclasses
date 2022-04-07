@@ -24,27 +24,27 @@ namespace vsroleplayclasses.src.Inventories
             if (itemstackFromSourceSlot?.Itemstack?.Item is AbilityScrollItem && ((AbilityScrollItem)itemstackFromSourceSlot?.Itemstack.Item).GetScribedAbilityId(itemstackFromSourceSlot?.Itemstack) < 0 && slotType.Equals(ItemSlotScribesTableTypeEnum.InputScroll))
                 return true;
 
-            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot?.Itemstack?.ItemAttributes != null && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 itemstackFromSourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("resisttype") && slotType.Equals(ItemSlotScribesTableTypeEnum.ResistType))
                 return true;
 
-            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot?.Itemstack?.ItemAttributes != null && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 itemstackFromSourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("spelleffect") && slotType.Equals(ItemSlotScribesTableTypeEnum.SpellEffect))
                 return true;
 
-            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot?.Itemstack?.ItemAttributes != null && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 itemstackFromSourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("spelleffectindex") && slotType.Equals(ItemSlotScribesTableTypeEnum.SpellEffectIndex))
                 return true;
 
-            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot?.Itemstack?.ItemAttributes != null && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 itemstackFromSourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("targettype") && slotType.Equals(ItemSlotScribesTableTypeEnum.TargetType))
                 return true;
 
-            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot?.Itemstack?.ItemAttributes != null && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 itemstackFromSourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("powerlevel") && slotType.Equals(ItemSlotScribesTableTypeEnum.PowerLevel))
                 return true;
 
-            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (itemstackFromSourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && itemstackFromSourceSlot?.Itemstack?.ItemAttributes != null && itemstackFromSourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 itemstackFromSourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("adventureclass") && slotType.Equals(ItemSlotScribesTableTypeEnum.AdventureClass))
                 return true;
 

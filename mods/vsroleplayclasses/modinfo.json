@@ -6,7 +6,7 @@
     "description": "Vintage Story Mod to add new roleplaying classes",
     "requiredOnClient": "true",
     "requiredOnServer": "true",
-    "version": "1.16.4-rc.39",
+    "version": "1.16.4-rc.40",
     "dependency": {
         "game": "1.16.4",
         "survival": "1.16.4",

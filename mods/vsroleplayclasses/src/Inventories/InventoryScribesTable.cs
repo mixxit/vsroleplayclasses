@@ -131,22 +131,22 @@ namespace vsroleplayclasses.src.Inventories
             if (targetSlot == slots[0] && sourceSlot?.Itemstack?.Item is AbilityScrollItem && ((AbilityScrollItem)sourceSlot?.Itemstack.Item).GetScribedAbilityId(sourceSlot?.Itemstack) > 0)
                 return 4f;
 
-            if (targetSlot == slots[1] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (targetSlot == slots[1] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot?.Itemstack?.ItemAttributes != null && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 sourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("resisttype")) 
                 return 4f;
-            if (targetSlot == slots[2] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (targetSlot == slots[2] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot?.Itemstack?.ItemAttributes != null && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 sourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("spelleffect"))
                 return 4f;
-            if (targetSlot == slots[3] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (targetSlot == slots[3] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot?.Itemstack?.ItemAttributes != null && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 sourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("spelleffectindex"))
                 return 4f;
-            if (targetSlot == slots[4] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (targetSlot == slots[4] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot?.Itemstack?.ItemAttributes != null && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 sourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("targettype"))
                 return 4f;
-            if (targetSlot == slots[5] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (targetSlot == slots[5] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot?.Itemstack?.ItemAttributes != null && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 sourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("powerlevel"))
                 return 4f;
-            if (targetSlot == slots[6] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
+            if (targetSlot == slots[6] && sourceSlot?.Itemstack?.Item is RunicInkwellAndQuillItem && sourceSlot?.Itemstack?.ItemAttributes != null && sourceSlot.Itemstack.ItemAttributes.KeyExists("runetype") &&
                 sourceSlot.Itemstack.ItemAttributes["runetype"].ToString().Equals("adventureclass"))
                 return 4f;
             if (targetSlot == slots[7] && sourceSlot?.Itemstack?.Item is AbilityScrollItem && ((AbilityScrollItem)sourceSlot?.Itemstack.Item).GetScribedAbilityId(sourceSlot?.Itemstack) > 0)
