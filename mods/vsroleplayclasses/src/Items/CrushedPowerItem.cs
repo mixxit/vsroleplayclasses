@@ -4,6 +4,8 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Util;
+using Vintagestory.GameContent;
+using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Models;
 
 namespace vsroleplayclasses.src.Items
@@ -14,6 +16,80 @@ namespace vsroleplayclasses.src.Items
         {
             if (api.Side != EnumAppSide.Client)
                 return;
+        }
+
+        public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
+        {
+            // We set this up server side and let the attributes sync
+            if (byEntity.Api.Side == EnumAppSide.Client)
+            {
+                handling = EnumHandHandling.PreventDefault;
+                return;
+            }
+
+
+            var entity = byEntity.Api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
+            if (!(entity is BlockEntityAnvil))
+            {
+                handling = EnumHandHandling.PreventDefault;
+                return;
+            }
+
+            if (!slot.Itemstack.ItemAttributes.KeyExists("runecode"))
+            {
+                handling = EnumHandHandling.PreventDefault;
+                return;
+            }
+
+            var runeCode = slot.Itemstack.ItemAttributes["runecode"].ToString();
+
+            // apply to workitemstack
+            if (((BlockEntityAnvil)entity).WorkItemStack != null)
+            {
+                if (!((BlockEntityAnvil)entity).WorkItemStack.Attributes.HasAttribute("rune1"))
+                {
+                    ((BlockEntityAnvil)entity).WorkItemStack.Attributes.SetString("rune1", runeCode);
+                    if (byEntity is EntityPlayer)
+                        byEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Rune applied successfully", EnumChatType.CommandSuccess);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+                else if (!((BlockEntityAnvil)entity).WorkItemStack.Attributes.HasAttribute("rune2"))
+                {
+                    ((BlockEntityAnvil)entity).WorkItemStack.Attributes.SetString("rune2", runeCode);
+                    if (byEntity is EntityPlayer)
+                        byEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Rune applied successfully", EnumChatType.CommandSuccess);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+                else if (!((BlockEntityAnvil)entity).WorkItemStack.Attributes.HasAttribute("rune3"))
+                {
+                    ((BlockEntityAnvil)entity).WorkItemStack.Attributes.SetString("rune3", runeCode);
+                    if (byEntity is EntityPlayer)
+                        byEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Rune applied successfully", EnumChatType.CommandSuccess);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+                else if (!((BlockEntityAnvil)entity).WorkItemStack.Attributes.HasAttribute("rune4"))
+                {
+                    ((BlockEntityAnvil)entity).WorkItemStack.Attributes.SetString("rune4", runeCode);
+                    if (byEntity is EntityPlayer)
+                        byEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "Rune applied successfully", EnumChatType.CommandSuccess);
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+                else
+                {
+                    if (byEntity is EntityPlayer)
+                        byEntity.GetAsIServerPlayer().SendMessage(GlobalConstants.CurrentChatGroup, "There are no available rune slots left on this item", EnumChatType.CommandError);
+
+                    handling = EnumHandHandling.PreventDefault;
+                    return;
+                }
+            }
+
+            handling = EnumHandHandling.PreventDefault;
+            return;
         }
 
         public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)

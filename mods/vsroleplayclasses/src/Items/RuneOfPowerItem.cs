@@ -16,6 +16,18 @@ namespace vsroleplayclasses.src.Items
                 return;
         }
 
+        public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
+        {
+            // We set this up server side and let the attributes sync
+            if (byEntity.Api.Side == EnumAppSide.Client)
+            {
+                handling = EnumHandHandling.PreventDefault;
+                return;
+            }
+
+            base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
+        }
+
         public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
         {
             base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
