@@ -14,6 +14,10 @@ using vsroleplayclasses.src.Behaviors;
 namespace vsroleplayclasses.src.Systems
 {
     [HarmonyPatch]
+    // original of this after VS updates is at:
+    // https://github.com/anegostudios/vsapi/blob/master/Common/Entity/EntityAgent.cs
+    // last updated by tyron on 3rd of march 2022
+    // the point of this is variable damage for stat items and buffs
     public sealed class EntityAgentOnDamageReplacerMod : ModSystem
     {
         private readonly Harmony harmony;

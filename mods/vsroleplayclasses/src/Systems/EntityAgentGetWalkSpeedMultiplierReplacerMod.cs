@@ -16,6 +16,10 @@ using vsroleplayclasses.src.Extensions;
 namespace vsroleplayclasses.src.Systems
 {
     [HarmonyPatch]
+    // original of this after VS updates is at:
+    // https://github.com/anegostudios/vsapi/blob/master/Common/Entity/EntityAgent.cs
+    // last updated by tyron on 3rd of march 2022
+    // the point of this is variable runspeed for snare, sow etc
     public sealed class EntityAgentGetWalkSpeedMultiplierReplacerMod : ModSystem
     {
         private readonly Harmony harmony;
