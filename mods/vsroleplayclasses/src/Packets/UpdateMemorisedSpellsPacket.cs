@@ -33,7 +33,7 @@ namespace vsroleplayclasses.src.Packets
                     continue;
                 }
 
-                updateMemorisedSpellsPacket.memorisedAbilities[i - 1] = new Tuple<int, string>(ability.GetIcon(), ability.Name);
+                updateMemorisedSpellsPacket.memorisedAbilities[i - 1] = new Tuple<int, string>(ability.GetIcon(), ability.Id + "^" + ability.Name);
             }
 
             return updateMemorisedSpellsPacket;

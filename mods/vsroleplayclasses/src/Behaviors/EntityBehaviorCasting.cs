@@ -32,36 +32,9 @@ namespace vsroleplayclasses.src.Behaviors
             base.Initialize(properties, attributes);
         }
 
-        public bool IsWaitingToReleaseCastCast()
-        {
-            if (entity.WatchedAttributes.GetLong("finishCastingUnixTime") < 1)
-                return false;
-
-            if ((entity.WatchedAttributes.GetLong("finishCastingUnixTime") <= DateTimeOffset.Now.ToUnixTimeMilliseconds()))
-                return true;
-
-            return false;
-        }
-
-        public bool IsUnfinishedCasting()
-        {
-            if (entity.WatchedAttributes.GetLong("finishCastingUnixTime") <= 0)
-                return false;
-
-            if (DateTimeOffset.Now.ToUnixTimeMilliseconds() <= entity.WatchedAttributes.GetLong("finishCastingUnixTime"))
-                return true;
-            else
-                return false;
-        }
-
         public void TryFinishCast(bool forceSelf = false)
         {
-            if (!IsWaitingToReleaseCastCast())
-                return;
-
-            var tempAbilityId = this.abilityId;
-            ClearCasting();
-            OnFinishCasting(tempAbilityId, forceSelf);
+            OnFinishCasting(this.abilityId, forceSelf);
         }
 
         public override void OnGameTick(float dt)
@@ -81,21 +54,23 @@ namespace vsroleplayclasses.src.Behaviors
             ability.FinishCast(this.entity, forceSelf);
         }
 
-        internal void StartCasting(long abilityId, long duration, string abilityName)
+        internal void ChangeSpell(long abilityId, long duration, string abilityName)
         {
             this.abilityId = abilityId;
             this.abilityName = abilityName;
-            entity.World.PlaySoundAt(new AssetLocation("vsroleplayclasses","sounds/effect/spelcast"), entity, null, false, 14);
-            entity.WatchedAttributes.SetLong("startCastingUnixTime", DateTimeOffset.Now.ToUnixTimeMilliseconds());
-            entity.WatchedAttributes.SetLong("finishCastingUnixTime", DateTimeOffset.Now.ToUnixTimeMilliseconds() + (duration * 1000));
-            entity.WatchedAttributes.SetString("startCastingAbilityName", abilityName);
+            entity.WatchedAttributes.SetString("currentAbilityName", abilityName);
+            entity.WatchedAttributes.SetLong("currentAbilityId", abilityId);
+        }
+
+        public bool HasCastingSpellReady()
+        {
+            return (int)entity.WatchedAttributes.GetLong("currentAbilityId") > 0;
         }
 
         internal void ClearCasting()
         {
-            entity.WatchedAttributes.SetLong("startCastingUnixTime", 0);
-            entity.WatchedAttributes.SetLong("finishCastingUnixTime", 0);
-            entity.WatchedAttributes.SetString("startCastingAbilityName", "");
+            entity.WatchedAttributes.SetString("currentAbilityName", "");
+            entity.WatchedAttributes.SetLong("currentAbilityId", 0);
             this.abilityId = 0;
             this.abilityName = "";
         }

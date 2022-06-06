@@ -98,7 +98,7 @@ namespace vsroleplayclasses.src.Gui.Dialog
                     .AddItemSlotGrid(Inventory, SendInvPacket, 1, new int[] { 6 }, inputSlotBounds = inputSlotBounds.BelowCopy(0, 25), "inputSlot6")
                     .AddItemSlotGrid(Inventory, SendInvPacket, 1, new int[] { 7 }, outputSlotBounds, "outputslot")
                     .AddStaticText("Output:", CairoFont.WhiteDetailText(), outputLine.WithFixedWidth(50))
-                    .AddStaticText("The first scribe to discover a new ability will have the ability named after them. Abilities can be shared amongst players and can be memorised in the Memorisation Panel (L) and used with ALT-1 through ALT-8. Rune stones can be found via panning and on creatures", CairoFont.WhiteDetailText(), helpbottom.WithFixedWidth(150))
+                    .AddStaticText("The first scribe to discover a new ability will have the ability named after them. Abilities can be shared amongst players and can be memorised in the Memorisation Panel (L) selected with ALT1-8 and cast with right click. Rune stones can be found via panning and on creatures", CairoFont.WhiteDetailText(), helpbottom.WithFixedWidth(150))
                     .AddDynamicCustomDraw(scribestableBounds, OnBgDraw, "symbolDrawer")
                 .EndChildElements()
                 .Compose()

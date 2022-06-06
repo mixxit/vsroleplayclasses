@@ -115,14 +115,13 @@
     <Compile Include="src\Gui\Dialog\GuiDialogCompass.cs" />
     <Compile Include="src\Gui\Hud\HudMemorisedSpells.cs" />
     <Compile Include="src\Gui\Hud\HudActiveEffects.cs" />
-    <Compile Include="src\Gui\Hud\HudCastingBar.cs" />
     <Compile Include="src\Inventories\InventoryCompass.cs" />
     <Compile Include="src\ItemSlots\ItemSlotCompass.cs" />
     <Compile Include="src\ItemSlots\ItemSlotScroll.cs" />
     <Compile Include="src\MathUtils.cs" />
     <Compile Include="src\Packets\ClearCastingPacket.cs" />
     <Compile Include="src\Packets\ClientRequestFinishCastingPacket.cs" />
-    <Compile Include="src\Packets\CastAbilityInMemoryPositionPacket.cs" />
+    <Compile Include="src\Packets\ChangeAbilityInMemoryPositionPacket.cs" />
     <Compile Include="src\Packets\SpendPendingExperiencePacket.cs" />
     <Compile Include="src\Packets\ClientRequestUpdateMemorisedSpellsPacket.cs" />
     <Compile Include="src\Packets\UpdateMemorisedSpellsPacket.cs" />
@@ -440,6 +439,7 @@
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\97.png" />
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\98.png" />
     <Content Include="assets\vsroleplayclasses\textures\gui\spells\99.png" />
+    <Content Include="assets\vsroleplayclasses\textures\gui\spells\none.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\inkwellandquillempty.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\inkwellempty.png" />
     <Content Include="assets\vsroleplayclasses\textures\item\overlay\crushedpower-blue.png" />

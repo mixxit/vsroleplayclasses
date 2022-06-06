@@ -410,13 +410,17 @@ namespace vsroleplayclasses.src.Extensions
 
         private static bool IsDoingSomethingInteruptable(this Entity me)
         {
-            if (me.IsUnfinishedCasting())
-                return true;
-
-            if (me.IsWaitingToReleaseCast())
-                return true;
-
             return false;
+        }
+
+        public static bool HasCastingSpellReady(this Entity me)
+        {
+            return me.CurrentAbilityId() > 0;
+        }
+
+        public static long CurrentAbilityId(this Entity me)
+        {
+            return (long)me.WatchedAttributes.GetLong("currentAbilityId");
         }
 
         public static int GetLevel(this Entity me, AdventureClass adventureClass)
@@ -425,43 +429,6 @@ namespace vsroleplayclasses.src.Extensions
                 return 1;
 
             return me.WatchedAttributes.GetInt(adventureClass.ToString().ToLower() + "level", 1);
-        }
-
-        public static bool IsUnfinishedCasting(this Entity me)
-        {
-            if (me.Api.Side == EnumAppSide.Client)
-            {
-                if (me.WatchedAttributes.GetLong("finishCastingUnixTime") <= 0)
-                    return false;
-
-                if (DateTimeOffset.Now.ToUnixTimeMilliseconds() <= me.WatchedAttributes.GetLong("finishCastingUnixTime"))
-                    return true;
-                else
-                    return false;
-            }
-
-            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
-            if (ebt == null)
-                return false;
-
-            return ebt.IsUnfinishedCasting();
-        }
-
-        public static bool IsWaitingToReleaseCast(this Entity me)
-        {
-            if (me.Api.Side == EnumAppSide.Client)
-            {
-                if (me.WatchedAttributes.GetLong("finishCastingUnixTime") <= DateTimeOffset.Now.ToUnixTimeMilliseconds())
-                    return true;
-                else
-                    return false;
-            }
-
-            EntityBehaviorCasting ebt = me.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
-            if (ebt == null)
-                return false;
-
-            return ebt.IsWaitingToReleaseCastCast();
         }
 
         public static bool IsInvulerable(this Entity me)

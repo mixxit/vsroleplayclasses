@@ -13,6 +13,7 @@ namespace vsroleplayclasses.src.Models
 {
     public class MemorisedAbilityHudEntry
     {
+        public long Id { get; set; }
         public int Icon { get; set; }
         public string Name { get; set; }
 
@@ -21,9 +22,9 @@ namespace vsroleplayclasses.src.Models
             var ability = player.GetAbilityInMemoryPosition(slot);
 
             if (ability == null)
-                return new MemorisedAbilityHudEntry() { Icon = -1, Name = null };
+                return new MemorisedAbilityHudEntry() { Id = -1, Icon = -1, Name = null };
 
-            return new MemorisedAbilityHudEntry() { Icon = ability.GetIcon(), Name = ability.Name };
+            return new MemorisedAbilityHudEntry() { Id = ability.Id, Icon = ability.GetIcon(), Name = ability.Name };
         }
     }
 }

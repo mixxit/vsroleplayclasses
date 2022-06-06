@@ -7,6 +7,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using vsroleplayclasses.src.Behaviors;
+using vsroleplayclasses.src.Extensions;
 using vsroleplayclasses.src.Models;
 using vsroleplayclasses.src.Packets;
 using vsroleplayclasses.src.Systems;
@@ -16,7 +17,7 @@ namespace vsroleplayclasses.src.Gui.Hud
     public class HudMemorisedSpells : HudElement
     {
         private ConcurrentDictionary<int, MemorisedAbilityHudEntry> memorisedAbilities = new ConcurrentDictionary<int, MemorisedAbilityHudEntry>();
-
+        private long currentAbilityId = 0;
         //private GuiElementStatbar castingbar;
 
         public override double InputOrder => 1.0;
@@ -38,11 +39,22 @@ namespace vsroleplayclasses.src.Gui.Hud
             if (player?.Entity?.Api?.Side != EnumAppSide.Client)
                 return;
 
+            UpdateCurrentAbility(player);
+
             SystemAbilities mod = this.capi.World.Api.ModLoader.GetModSystem<SystemAbilities>();
             if (mod == null)
                 return;
 
             mod.SendMemorisedAbilitiesHudUpdatePacketAsClient(player);
+        }
+
+        public void UpdateCurrentAbility(IPlayer player)
+        {
+            if (player?.Entity?.Api?.Side != EnumAppSide.Client)
+                return;
+
+            currentAbilityId = (long)player?.Entity?.CurrentAbilityId();
+            this.ComposeGuis();
         }
 
         public ElementBounds GetSpellEffectIconImageBounds(int slotNumber)
@@ -63,14 +75,14 @@ namespace vsroleplayclasses.src.Gui.Hud
 
         public void ComposeGuis()
         {
-            float num = 360f;
+            float num = 380f;
             ElementBounds bounds1 = new ElementBounds()
             {
                 Alignment = EnumDialogArea.LeftTop,
                 BothSizing = ElementSizing.Fixed,
                 fixedWidth = 85.0,
                 fixedHeight = ((double)num)
-            }.WithFixedAlignmentOffset(-5.0, 5.0);
+            }.WithFixedAlignmentOffset(-5.0, 25.0);
 
             var effect1 = GetMemorisedHudAbility(1);
             var effect2 = GetMemorisedHudAbility(2);
@@ -87,25 +99,58 @@ namespace vsroleplayclasses.src.Gui.Hud
             this.Composers["memorisedabilities"] = 
                 this.capi.Gui.CreateCompo("memorisedabilities", bounds1.FlatCopy().FixedGrow(0.0, 20.0)).
                 BeginChildElements(bounds1).
-                AddIf(effect1 != null).AddImage(GetSpellEffectIconImageBounds(1), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect1?.Icon}.png")).AddStaticText("ALT-1", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(1)).AddTranspHoverText(effect1?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(1)).EndIf().
-                AddIf(effect2 != null).AddImage(GetSpellEffectIconImageBounds(2), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect2?.Icon}.png")).AddStaticText("ALT-2", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(2)).AddTranspHoverText(effect2?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(2)).EndIf().
-                AddIf(effect3 != null).AddImage(GetSpellEffectIconImageBounds(3), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect3?.Icon}.png")).AddStaticText("ALT-3", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(3)).AddTranspHoverText(effect3?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(3)).EndIf().
-                AddIf(effect4 != null).AddImage(GetSpellEffectIconImageBounds(4), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect4?.Icon}.png")).AddStaticText("ALT-4", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(4)).AddTranspHoverText(effect4?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(4)).EndIf().
-                AddIf(effect5 != null).AddImage(GetSpellEffectIconImageBounds(5), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect5?.Icon}.png")).AddStaticText("ALT-5", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(5)).AddTranspHoverText(effect5?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(5)).EndIf().
-                AddIf(effect6 != null).AddImage(GetSpellEffectIconImageBounds(6), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect6?.Icon}.png")).AddStaticText("ALT-6", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(6)).AddTranspHoverText(effect6?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(6)).EndIf().
-                AddIf(effect7 != null).AddImage(GetSpellEffectIconImageBounds(7), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect7?.Icon}.png")).AddStaticText("ALT-7", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(7)).AddTranspHoverText(effect7?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(7)).EndIf().
-                AddIf(effect8 != null).AddImage(GetSpellEffectIconImageBounds(8), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect8?.Icon}.png")).AddStaticText("ALT-8", CairoFont.WhiteDetailText(), GetSpellEffectIconImageBounds(8)).AddTranspHoverText(effect8?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(8)).EndIf().
-                // AddStatbar(bounds3, new double[] { 0, 1, 0, 1 }, "castingstatbar").EndIf().
+                AddImage(GetSpellEffectIconImageBounds(0), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/none.png")).AddStaticText("CTRLC", GetCancelledAltColor(), GetSpellEffectIconImageBounds(0)).AddTranspHoverText("Cancel", CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(0)).
+                AddIf(effect1 != null).AddImage(GetSpellEffectIconImageBounds(1), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect1?.Icon}.png")).AddStaticText("ALT-1", GetAbilityAltColor(effect1?.Id), GetSpellEffectIconImageBounds(1)).AddTranspHoverText(effect1?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(1)).EndIf().
+                AddIf(effect2 != null).AddImage(GetSpellEffectIconImageBounds(2), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect2?.Icon}.png")).AddStaticText("ALT-2", GetAbilityAltColor(effect2?.Id), GetSpellEffectIconImageBounds(2)).AddTranspHoverText(effect2?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(2)).EndIf().
+                AddIf(effect3 != null).AddImage(GetSpellEffectIconImageBounds(3), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect3?.Icon}.png")).AddStaticText("ALT-3", GetAbilityAltColor(effect3?.Id), GetSpellEffectIconImageBounds(3)).AddTranspHoverText(effect3?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(3)).EndIf().
+                AddIf(effect4 != null).AddImage(GetSpellEffectIconImageBounds(4), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect4?.Icon}.png")).AddStaticText("ALT-4", GetAbilityAltColor(effect4?.Id), GetSpellEffectIconImageBounds(4)).AddTranspHoverText(effect4?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(4)).EndIf().
+                AddIf(effect5 != null).AddImage(GetSpellEffectIconImageBounds(5), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect5?.Icon}.png")).AddStaticText("ALT-5", GetAbilityAltColor(effect5?.Id), GetSpellEffectIconImageBounds(5)).AddTranspHoverText(effect5?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(5)).EndIf().
+                AddIf(effect6 != null).AddImage(GetSpellEffectIconImageBounds(6), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect6?.Icon}.png")).AddStaticText("ALT-6", GetAbilityAltColor(effect6?.Id), GetSpellEffectIconImageBounds(6)).AddTranspHoverText(effect6?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(6)).EndIf().
+                AddIf(effect7 != null).AddImage(GetSpellEffectIconImageBounds(7), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect7?.Icon}.png")).AddStaticText("ALT-7", GetAbilityAltColor(effect7?.Id), GetSpellEffectIconImageBounds(7)).AddTranspHoverText(effect7?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(7)).EndIf().
+                AddIf(effect8 != null).AddImage(GetSpellEffectIconImageBounds(8), new AssetLocation("vsroleplayclasses", $"textures/gui/spells/{effect8?.Icon}.png")).AddStaticText("ALT-8", GetAbilityAltColor(effect8?.Id), GetSpellEffectIconImageBounds(8)).AddTranspHoverText(effect8?.Name, CairoFont.WhiteDetailText(), 400, GetSpellEffectIconImageBounds(8)).EndIf().
                 EndChildElements().Compose();
-            //this.castingbar = this.Composers["castingbar"].GetStatbar("castingstatbar");
             this.TryOpen();
+        }
+
+        private CairoFont GetCancelledAltColor()
+        {
+            if (currentAbilityId > 0)
+                return CairoFont.WhiteDetailText();
+
+            return new CairoFont()
+            {
+                Color = new double[] { 1, 0, 0, 0.9 },
+                Fontname = GuiStyle.StandardFontName,
+                UnscaledFontsize = GuiStyle.DetailFontSize
+            };
+
+        }
+
+        private CairoFont GetAbilityAltColor(long? abilityId)
+        {
+            if (currentAbilityId < 1)
+                return CairoFont.WhiteDetailText();
+
+            if (abilityId == null)
+                return CairoFont.WhiteDetailText();
+
+            if (abilityId != currentAbilityId)
+                return CairoFont.WhiteDetailText();
+
+            return new CairoFont()
+            {
+                Color = new double[] { 1, 0, 0, 0.9 },
+                Fontname = GuiStyle.StandardFontName,
+                UnscaledFontsize = GuiStyle.DetailFontSize
+            };
+
         }
 
         internal void UpdateMemorisedAbilities(UpdateMemorisedSpellsPacket updateMemorisedSpellsPacket)
         {
             foreach (var dictionaryEntry in updateMemorisedSpellsPacket.memorisedAbilities)
             {
-                this.memorisedAbilities[dictionaryEntry.Key] = new MemorisedAbilityHudEntry() { Icon = dictionaryEntry.Value.Item1, Name = dictionaryEntry.Value.Item2 };
+                this.memorisedAbilities[dictionaryEntry.Key] = new MemorisedAbilityHudEntry() { Id = Convert.ToInt64(dictionaryEntry.Value.Item2?.Split('^')[0]), Icon = dictionaryEntry.Value.Item1, Name = dictionaryEntry.Value.Item2?.Split('^')[1] };
             }
             this.ComposeGuis();
         }

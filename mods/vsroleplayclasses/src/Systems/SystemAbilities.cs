@@ -36,7 +36,7 @@ namespace vsroleplayclasses.src.Systems
             this.api = api;
             base.Start(api);
 
-            api.Network.RegisterChannel("castabilityinmemoryposition").RegisterMessageType<CastAbilityInMemoryPositionPacket>();
+            api.Network.RegisterChannel("changeabilityinmemoryposition").RegisterMessageType<ChangeAbilityInMemoryPositionPacket>();
             api.Network.RegisterChannel("clearcasting").RegisterMessageType<ClearCastingPacket>();
             api.Network.RegisterChannel("clientrequestfinishcastingpacket").RegisterMessageType<ClientRequestFinishCastingPacket>();
 
@@ -70,7 +70,7 @@ namespace vsroleplayclasses.src.Systems
             api.RegisterEntityBehaviorClass("EntityBehaviorInteruptable", typeof(EntityBehaviorInteruptable));
             api.RegisterEntityBehaviorClass("EntityBehaviorMoveSpeedAdjustable", typeof(EntityBehaviorMoveSpeedAdjustable));
 
-            api.Network.GetChannel("castabilityinmemoryposition").SetMessageHandler<CastAbilityInMemoryPositionPacket>(OnCastAbilityInMemoryPosition);
+            api.Network.GetChannel("changeabilityinmemoryposition").SetMessageHandler<ChangeAbilityInMemoryPositionPacket>(OnChangeAbilityInMemoryPosition);
             api.Network.GetChannel("clientrequestfinishcastingpacket").SetMessageHandler<ClientRequestFinishCastingPacket>(OnClientRequestFinishCasting);
             api.Network.GetChannel("clearcasting").SetMessageHandler<ClearCastingPacket>(OnClearCasting);
             api.Network.GetChannel("clientrequestupdatememorisedspells").SetMessageHandler<ClientRequestUpdateMemorisedSpellsPacket>(OnClientRequestUpdateMemorisedSpells);
@@ -106,7 +106,6 @@ namespace vsroleplayclasses.src.Systems
             capi.Event.PlayerJoin += new PlayerEventDelegate(this.OnPlayerJoinedClient);
 
             this.hudMemorisedSpells = new HudMemorisedSpells(capi);
-            capi.Gui.RegisterDialog(new HudCastingBar(capi));
             capi.Gui.RegisterDialog(this.hudMemorisedSpells);
 
             api.Network.GetChannel("updatememorisedspells").SetMessageHandler<UpdateMemorisedSpellsPacket>(OnUpdateMemorisedSpells);
@@ -116,6 +115,9 @@ namespace vsroleplayclasses.src.Systems
         {
             if (byPlayer == this.capi.World.Player)
                 this?.hudMemorisedSpells.UpdateHud(this.capi.World.Player);
+
+            if (byPlayer == this.capi.World.Player)
+                this?.RegisterPlayerCurrentAbilityChangedListener(byPlayer);
         }
 
         private void OnUpdateMemorisedSpells(UpdateMemorisedSpellsPacket networkMessage)
@@ -179,7 +181,10 @@ namespace vsroleplayclasses.src.Systems
             if (action != EnumEntityAction.RightMouseDown)
                 return;
 
-            if (!((Entity)capi.World.Player.Entity).IsWaitingToReleaseCast())
+            if (!on)
+                return;
+
+            if (!((Entity)capi.World.Player.Entity).HasCastingSpellReady())
                 return;
 
             capi.Network.GetChannel("clientrequestfinishcastingpacket").SendPacket(new ClientRequestFinishCastingPacket()
@@ -196,7 +201,7 @@ namespace vsroleplayclasses.src.Systems
 
         private bool UseAbility(int position)
         {
-            capi.Network.GetChannel("castabilityinmemoryposition").SendPacket(new CastAbilityInMemoryPositionPacket()
+            capi.Network.GetChannel("changeabilityinmemoryposition").SendPacket(new ChangeAbilityInMemoryPositionPacket()
             {
                 Position = position
             });
@@ -288,7 +293,7 @@ namespace vsroleplayclasses.src.Systems
             ebt.ClearCasting();
         }
 
-        private void OnCastAbilityInMemoryPosition(IServerPlayer castingPlayer, CastAbilityInMemoryPositionPacket networkMessage)
+        private void OnChangeAbilityInMemoryPosition(IServerPlayer castingPlayer, ChangeAbilityInMemoryPositionPacket networkMessage)
         {
             var ability = castingPlayer.GetAbilityInMemoryPosition(networkMessage.Position);
             if (ability == null)
@@ -299,19 +304,12 @@ namespace vsroleplayclasses.src.Systems
 
             if (!castingPlayer.HasLevel(ability.GetMinAdventureClassLevel()))
             {
-                castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Insufficient level to cast this spell", EnumChatType.CommandError);
+                castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Insufficient level to set this spell as your current ability", EnumChatType.CommandError);
                 return;
             }
 
-
-            if (castingPlayer.Entity.GetMana() < ability.GetManaCost())
-            {
-                castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Insufficient Mana", EnumChatType.CommandError);
-                return;
-            }
-
-            castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Casting {ability.Name}", EnumChatType.CommandSuccess);
-            ability.StartCast(castingPlayer.Entity);
+            castingPlayer.SendMessage(GlobalConstants.InfoLogChatGroup, $"Setting Ability as Current: {ability.Name}", EnumChatType.CommandSuccess);
+            ability.ChangeSpell(castingPlayer.Entity);
             
         }
 
@@ -336,7 +334,7 @@ namespace vsroleplayclasses.src.Systems
                 return;
             }
 
-            ability.StartCast(player.Entity);
+            ability.ChangeSpell(player.Entity);
         }
 
         private void CmdAbilities(IServerPlayer player, int groupId, CmdArgs args)
@@ -559,6 +557,17 @@ namespace vsroleplayclasses.src.Systems
             RegisterPlayerClassChangedListener(player);
             player?.Entity?.ClearCasting();
             
+        }
+
+        private void RegisterPlayerCurrentAbilityChangedListener(IClientPlayer player)
+        {
+            player.Entity.WatchedAttributes.RegisterModifiedListener("currentAbilityId", (System.Action)(() => OnPlayerCurrentAbilityChanged(player)));
+
+        }
+
+        private void OnPlayerCurrentAbilityChanged(IClientPlayer player)
+        {
+            this?.hudMemorisedSpells.UpdateCurrentAbility(player);
         }
 
         private void RegisterPlayerClassChangedListener(IServerPlayer player)

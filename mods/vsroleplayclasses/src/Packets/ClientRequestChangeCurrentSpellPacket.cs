@@ -1,9 +1,10 @@
-﻿using ProtoBuf;
+﻿
+using ProtoBuf;
 
 namespace vsroleplayclasses.src.Packets
 {
     [ProtoContract(ImplicitFields = ImplicitFields.AllPublic)]
-    public class CastAbilityInMemoryPositionPacket
+    public class ClientRequestChangeCurrentSpellPacket
     {
         public int Position;
     }

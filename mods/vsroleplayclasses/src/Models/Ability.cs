@@ -233,13 +233,13 @@ namespace vsroleplayclasses.src.Models
             }
         }
 
-        internal void StartCast(Entity source)
+        internal void ChangeSpell(Entity source)
         {
             EntityBehaviorCasting ebt = source.GetBehavior("EntityBehaviorCasting") as EntityBehaviorCasting;
             if (ebt == null)
                 return;
 
-            ebt.StartCasting(this.Id,GetCastTimeSeconds(), this.Name);
+            ebt.ChangeSpell(this.Id,GetCastTimeSeconds(), this.Name);
         }
 
         public EffectCombo GetEffectCombo()
@@ -264,6 +264,13 @@ namespace vsroleplayclasses.src.Models
 
         internal void FinishCast(Entity source, bool forceSelf = false)
         {
+            source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, $"Casting: {Name}", EnumChatType.CommandSuccess);
+            if (this.GetManaCost() > source.GetMana())
+            {
+                source.GetAsIServerPlayer().SendMessage(GlobalConstants.InfoLogChatGroup, "You do not have the mana to cast this ability", EnumChatType.CommandSuccess);
+                return;
+            }
+
             var effectCombo = GetEffectCombo();
             if (effectCombo == null || effectCombo.Effect == null)
             {
